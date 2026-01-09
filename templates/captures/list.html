@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>All Capture Sessions</h2>
+
+<table border="1" cellpadding="6">
+    <tr>
+        <th>ID</th>
+        <th>Start Time (UTC)</th>
+        <th>Satellite</th>
+        <th>Operator</th>
+        <th>WAV File</th>
+    </tr>
+    {% for c in captures %}
+    <tr>
+        <td><a href="/captures/{{ c.id }}">{{ c.id }}</a></td>
+        <td>{{ c.start_time_utc }}</td>
+        <td>{{ c.satellite_name }}</td>
+        <td>{{ c.operator_name }}</td>
+        <td>{{ c.wav_path }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

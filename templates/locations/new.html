@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Add New Location</h1>
+  <form method="post">
+    <label>Name:</label>
+    <input type="text" name="name" required><br><br>
+
+    <label>Latitude (°):</label>
+    <input type="number" step="any" name="lat_deg" required><br><br>
+
+    <label>Longitude (°):</label>
+    <input type="number" step="any" name="lon_deg" required><br><br>
+
+    <label>Elevation (m):</label>
+    <input type="number" step="any" name="elev_m" required><br><br>
+
+    <input type="submit" value="Save Location">
+  </form>
+{% endblock %}
+

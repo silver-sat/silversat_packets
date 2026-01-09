@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Locations</h1>
+  <a href="{{ url_for('locations.new') }}">Add New Location</a>
+  <table border="1" cellpadding="6" cellspacing="0" style="margin-top: 1em;">
+    <tr>
+      <th>Name</th>
+      <th>Latitude</th>
+      <th>Longitude</th>
+      <th>Elevation (m)</th>
+      <th>Actions</th>
+    </tr>
+    {% for loc in locations %}
+    <tr>
+      <td>{{ loc.name }}</td>
+      <td>{{ loc.lat_deg }}</td>
+      <td>{{ loc.lon_deg }}</td>
+      <td>{{ loc.elev_m }}</td>
+      <td>
+        <a href="{{ url_for('locations.edit', id=loc.id) }}">Edit</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endblock %}

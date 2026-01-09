@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ 'Edit' if sat else 'Add' }} Satellite</h2>
+
+<form method="POST" action="{{ action_url }}">
+
+    {% if sat %}
+    <input type="hidden" name="id" value="{{ sat.id }}">
+    {% endif %}
+
+    <label>Name:</label>
+    <input type="text" name="name" value="{{ sat.name if sat else '' }}"><br><br>
+
+    <label>Catalog Number:</label>
+    <input type="text" name="catalog_number" value="{{ sat.catalog_number if sat else '' }}"><br><br>
+
+    <label>Nominal Frequency (Hz):</label>
+    <input type="text" name="nominal_freq_hz" value="{{ sat.nominal_freq_hz if sat else '' }}"><br><br>
+
+    <label>Notes:</label><br>
+    <textarea name="notes" rows="3" cols="70">{{ sat.notes if sat else '' }}</textarea><br><br>
+
+    <button type="submit">{{ 'Update' if sat else 'Create' }}</button>
+</form>
+
+{% endblock %}

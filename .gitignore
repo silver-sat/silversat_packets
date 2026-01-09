@@ -1,0 +1,9 @@
+# ignore the virtual environment
+env/
+# ignore the files in captures and recieved_packets
+captures/*.wav
+received_packets/*.bin
+# ignore old photos
+static/*.jpg
+# ignore __pycache__
+__pycache__

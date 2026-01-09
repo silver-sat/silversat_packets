@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Add New Operator</h2>
+
+<form method="POST" action="/operators/create">
+    <label>Name:</label>
+    <input type="text" name="name" required><br><br>
+    <button type="submit">Add Operator</button>
+</form>
+
+{% endblock %}

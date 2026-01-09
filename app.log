@@ -1,0 +1,43 @@
+2026-01-09 10:27:42,409 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-01-09 10:27:42,409 - INFO - [33mPress CTRL+C to quit[0m
+2026-01-09 10:27:42,410 - INFO -  * Restarting with stat
+2026-01-09 10:27:43,252 - WARNING -  * Debugger is active!
+2026-01-09 10:27:43,252 - INFO -  * Debugger PIN: 720-709-699
+2026-01-09 10:28:18,435 - INFO -  * Detected change in '/home/tom/silversat_packets/blueprints/ssdv.py', reloading
+2026-01-09 10:28:18,722 - INFO -  * Restarting with stat
+2026-01-09 10:28:19,568 - WARNING -  * Debugger is active!
+2026-01-09 10:28:19,569 - INFO -  * Debugger PIN: 720-709-699
+2026-01-09 11:11:13,429 - INFO -  * Detected change in '/home/tom/silversat_packets/blueprints/captures.py', reloading
+2026-01-09 11:11:13,693 - INFO -  * Restarting with stat
+2026-01-09 11:11:14,429 - WARNING -  * Debugger is active!
+2026-01-09 11:11:14,430 - INFO -  * Debugger PIN: 600-220-416
+2026-01-09 11:11:37,579 - INFO -  * Detected change in '/home/tom/silversat_packets/blueprints/processing.py', reloading
+2026-01-09 11:11:37,913 - INFO -  * Restarting with stat
+2026-01-09 11:11:38,738 - WARNING -  * Debugger is active!
+2026-01-09 11:11:38,739 - INFO -  * Debugger PIN: 600-220-416
+2026-01-09 11:11:48,131 - INFO - 127.0.0.1 - - [09/Jan/2026 11:11:48] "[35m[1mGET /captures/ HTTP/1.1[0m" 500 -
+2026-01-09 11:11:48,243 - INFO - 127.0.0.1 - - [09/Jan/2026 11:11:48] "GET /captures/?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2026-01-09 11:11:48,248 - INFO - 127.0.0.1 - - [09/Jan/2026 11:11:48] "GET /captures/?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2026-01-09 11:11:48,284 - INFO - 127.0.0.1 - - [09/Jan/2026 11:11:48] "GET /captures/?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2026-01-09 11:11:48,340 - INFO - 127.0.0.1 - - [09/Jan/2026 11:11:48] "GET /captures/?__debugger__=yes&cmd=resource&f=console.png&s=lAe6ZW0ZPBDkWjKZEbLo HTTP/1.1" 200 -
+2026-01-09 11:12:05,684 - INFO - 127.0.0.1 - - [09/Jan/2026 11:12:05] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2026-01-09 11:24:44,472 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-01-09 11:24:44,473 - INFO - [33mPress CTRL+C to quit[0m
+2026-01-09 11:24:44,473 - INFO -  * Restarting with stat
+2026-01-09 11:24:45,172 - WARNING -  * Debugger is active!
+2026-01-09 11:24:45,172 - INFO -  * Debugger PIN: 720-709-699
+2026-01-09 11:25:00,187 - INFO - 127.0.0.1 - - [09/Jan/2026 11:25:00] "GET / HTTP/1.1" 200 -
+2026-01-09 11:25:02,197 - INFO - 127.0.0.1 - - [09/Jan/2026 11:25:02] "GET /captures/ HTTP/1.1" 200 -
+2026-01-09 11:25:03,529 - INFO - 127.0.0.1 - - [09/Jan/2026 11:25:03] "GET /locations/ HTTP/1.1" 200 -
+2026-01-09 11:25:05,553 - INFO - 127.0.0.1 - - [09/Jan/2026 11:25:05] "GET /satellites/ HTTP/1.1" 200 -
+2026-01-09 11:25:07,852 - INFO - 127.0.0.1 - - [09/Jan/2026 11:25:07] "GET /operators/ HTTP/1.1" 200 -
+2026-01-09 11:25:09,318 - INFO - 127.0.0.1 - - [09/Jan/2026 11:25:09] "GET /processing/ HTTP/1.1" 200 -
+2026-01-09 11:25:11,881 - INFO - 127.0.0.1 - - [09/Jan/2026 11:25:11] "GET /locations/ HTTP/1.1" 200 -
+2026-01-09 11:25:17,735 - INFO - 127.0.0.1 - - [09/Jan/2026 11:25:17] "GET /satellites/ HTTP/1.1" 200 -
+2026-01-09 11:25:27,359 - INFO - 127.0.0.1 - - [09/Jan/2026 11:25:27] "GET /satellites/edit/1 HTTP/1.1" 200 -
+2026-01-09 11:25:37,125 - INFO - 127.0.0.1 - - [09/Jan/2026 11:25:37] "GET /processing/ HTTP/1.1" 200 -
+2026-01-09 11:25:47,215 - INFO - 127.0.0.1 - - [09/Jan/2026 11:25:47] "GET /locations/ HTTP/1.1" 200 -
+2026-01-09 11:25:51,400 - INFO - 127.0.0.1 - - [09/Jan/2026 11:25:51] "GET /processing/ HTTP/1.1" 200 -
+2026-01-09 11:25:53,697 - INFO - 127.0.0.1 - - [09/Jan/2026 11:25:53] "GET / HTTP/1.1" 200 -

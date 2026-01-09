@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Processing Runs</h1>
+<a href="{{ url_for('processing.new') }}">Start New Processing Run</a><br><br>
+<table>
+  <tr>
+    <th>ID</th><th>Capture Session ID</th><th>Source File</th><th>Freq Offset</th><th>Store Packets?</th><th>Doppler</th><th>Threshold</th><th>Start Time</th><th>Packets</th><th>Good</th><th>View</th>
+  </tr>
+  {% for run in runs %}
+    <tr>
+      <td>{{ run['id'] }}</td>
+      <td>{{ run['capture_session_id'] }}</td>
+      <td>{{ run['source_file'] }}</td>
+      <td>{{ run['freq_offset_hz'] }}</td>
+      <td>{{ 'Yes' if run['store_packets'] else 'No' }}</td>
+      <td>{{ 'Yes' if run['doppler_enabled'] else 'No' }}</td>
+      <td>{{ run['access_threshold'] }}</td>
+      <td>{{ run['start_time_utc'] }}</td>
+      <td>
+        {{ run['packet_count'] if run['packet_count'] is defined else '?' }}
+      </td>
+      <td>
+        {{ run['good_packets'] if run['good_packets'] is defined else '?' }}
+      </td>
+      <td><a href="{{ url_for('processing.view', id=run['id']) }}">Inspect</a></td>
+    </tr>
+  {% endfor %}
+</table>
+{% endblock %}

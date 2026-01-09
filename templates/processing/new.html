@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>New Processing Run for Capture {{ capture_id }}</h2>
+
+<form method="POST" action="/processing/new">
+    
+    <label>Capture Session ID:</label> 
+    <select name="capture_session_id" required> 
+        {% for session in sessions %} 
+          <option value="{{ session['id'] }}">{{ session['id'] }}</option> 
+          {% endfor %} 
+    </select><br><br>
+
+    <label>Frequency Offset (Hz):</label>
+    <input type="text" name="freq_offset_hz" value="0"><br><br>
+
+    <label>Access Threshold (0-4):</label>
+    <input type="text" name="access_threshold" value="3"><br><br>
+    
+    <label>Output Folder:</label>
+    <input type="text" name="output_path" value="/home/tom/silversat/received_packets/"><br><br>
+    
+    <label>Store Packets?</label>
+    <input type="radio" id="yes" checked=True name="store_packets_choice" value="1">
+    <label for "yes">Yes</label>
+    
+    <input type="radio" id="no" name="store_packets_choice" value="0">
+    <label for "no">No</label><br><br>
+    
+    <label>Enable Doppler?</label>
+    <input type="radio" id="yes" checked=True name="doppler_en_choice" value="1">
+    <label for "yes">Yes</label>
+    
+    <input type="radio" id="no" name="doppler_en_choice" value="0">
+    <label for "no">No</label><br><br>
+    
+    <label>SSDV session?</label>
+    <input type="checkbox" id="ssdv" name="ssdv" value="1"><br><br>
+    
+    <label>Notes:</label><br>
+    <textarea name="notes" rows="3" cols="70"></textarea><br><br>
+    
+    <button type="submit">Start Processing Run</button>
+</form>
+
+{% endblock %}

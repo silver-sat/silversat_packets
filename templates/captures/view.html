@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Capture Session Detail: {{ capture_data.id }} </h2>
+
+<label>Satellite ID:  {{ capture_data.satellite_id }}</label><br><br>
+
+<label>Captures Folder:  {{ capture_data.wav_path }}</label><br><br>
+
+<label>Receiver Location ID:  {{ capture_data.location_id }}</label><br><br>
+
+<label>Capture Center Frequency (Hz):  {{ capture_data.center_freq_hz }}</label><br><br>
+
+<label>Capture Date and Time (UTC):  {{ capture_data.start_time_utc }}</label><br><br>
+
+<label>TLE Line 1:</label><br>{{ capture_data.tle_line1 }}<br><br>
+
+<label>TLE Line 2:</label><br>{{ capture_data.tle_line2 }}<br><br>
+
+<label>Observer Timezone:  {{ capture_data.observer_timezone }}</label><br><br>
+
+<label for="notes">Operator Notes:<br></label>{{ capture_data.notes }}<br><br>
+
+{% endblock %}

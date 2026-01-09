@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>New Capture Session</h1>
+  <form method="post">
+    <label>Satellite:</label>
+    <select name="satellite_id" required>
+      {% for sat in satellites %}
+        <option value="{{ sat.id }}">{{ sat.name }}</option>
+      {% endfor %}
+    </select>
+    <button type="button" onclick="fetchTLE()">Fetch TLE from Space-Track</button>
+    <br><br>
+    
+    <label>Captures Folder:</label>
+    <input type="text" name="output_path" value="/home/tom/captures/" required>
+    <br><br>
+
+    <label>Receiver Location:</label> 
+    <select name="location_id" required> {% for loc in locations %} 
+    <option value="{{ loc.id }}">{{ loc.name }} ({{ loc.lat_deg }}, {{ loc.lon_deg }}, {{ loc.elev_m }}m)</option> 
+    {% endfor %} 
+    </select> <br><br>
+
+    <label>Capture Center Frequency (Hz):</label>
+    <input type="number" step="any" name="center_freq_hz" value=437175000 required><br><br>
+
+    <label>TLE Line 1:</label><br>
+    <textarea name="tle_line1" rows="2" cols="70" required></textarea><br><br>
+
+    <label>TLE Line 2:</label><br>
+    <textarea name="tle_line2" rows="2" cols="70" required></textarea><br><br>
+
+    <label>Observer Timezone:</label>
+    <select name="timezone" onchange="toggleCustomTZ(this)">
+      <option value="UTC">UTC</option>
+      <option value="US/Eastern" selected>US/Eastern</option>
+      <option value="US/Central">US/Central</option>
+      <option value="US/Mountain">US/Mountain</option>
+      <option value="US/Pacific">US/Pacific</option>
+      <option value="Europe/London">Europe/London</option>
+      <option value="Asia/Tokyo">Asia/Tokyo</option>
+      <option value="custom">Other (enter manually)</option>
+    </select>
+    <input type="text" name="timezone_custom" id="timezone_custom" placeholder="e.g. America/New_York" style="display:none;"><br><br>
+    
+    <label for="notes">Operator Notes:</label><br> <textarea name="notes" rows="4" cols="50" placeholder="e.g. Testing new antenna setup..."></textarea> <br><br>
+
+    <button type="button" onclick="previewOrbit()">Preview Orbit</button>
+    <div id="orbit-preview" style="margin-top: 20px;"></div>
+
+    <br><br>
+    <input type="submit" value="Create Capture Session">
+  </form>
+
+  <script>
+    function toggleCustomTZ(select) {
+      const custom = document.getElementById("timezone_custom");
+      custom.style.display = (select.value === "custom") ? "inline" : "none";
+    }
+
+    function fetchTLE() {
+      const satId = document.querySelector('select[name="satellite_id"]').value;
+      fetch(`/captures/fetch_tle/${satId}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.tle_line1 && data.tle_line2) {
+            document.querySelector('textarea[name="tle_line1"]').value = data.tle_line1;
+            document.querySelector('textarea[name="tle_line2"]').value = data.tle_line2;
+          } else {
+            alert("TLE fetch failed: " + (data.error || "Unknown error"));
+          }
+        })
+        .catch(err => alert("Error fetching TLE: " + err));
+    }
+    
+    let countdownInterval;
+
+  function previewOrbit() {
+    clearInterval(countdownInterval);
+    const formData = new FormData(document.querySelector("form"));
+    fetch("/captures/preview_orbit", {
+      method: "POST",
+      body: formData
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.skyplot) {
+        const aos = new Date(data.aos);
+        const los = new Date(data.los);
+        let countdown = data.countdown;
+
+        // Live countdown
+        countdownInterval = setInterval(() => {
+          if (countdown <= 0) {
+            clearInterval(countdownInterval);
+            document.getElementById("countdown").innerText = "Now!";
+          } else {
+            const min = Math.floor(countdown / 60);
+            const sec = countdown % 60;
+            document.getElementById("countdown").innerText = `${min} min ${sec} sec`;
+            countdown--;
+          }
+        }, 1000);
+
+        // Build pass table
+        let table = `<table border="1" cellpadding="4" cellspacing="0"> <tr><th>#</th><th>AOS</th><th>LOS</th><th>Duration</th></tr>`;
+        data.passes.forEach((p, i) => {
+          const aos = new Date(p.aos).toLocaleString();
+          const los = new Date(p.los).toLocaleString();
+          const dur = Math.floor(p.duration / 60) + " min " + (p.duration % 60) + " sec";
+          table += `<tr><td>${i + 1}</td><td>${aos}</td><td>${los}</td><td>${dur}</td></tr>`;
+        });
+        table += "</table>";
+
+        document.getElementById("orbit-preview").innerHTML = ` <h4>Next Pass</h4> <p><strong>AOS:</strong> ${aos.toLocaleString()}<br> <strong>LOS:</strong> ${los.toLocaleString()}<br> <strong>Countdown:</strong> <span id="countdown"></span></p> <img src="data:image/png;base64,${data.skyplot}" width="400"><br><br> <h4>Upcoming Passes</h4> ${table} `;
+      } else {
+        alert("Error: " + data.error);
+      }
+    });
+  }
+  </script>
+{% endblock %}

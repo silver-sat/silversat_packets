@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Packet {{ packet.id }}</h2>
+
+<table border="1" cellpadding="6">
+    <tr><th>Processing Run</th><td>{{ packet.processing_run_id }}</td></tr>
+    <tr><th>Index</th><td>{{ packet.packet_index }}</td></tr>
+    <tr><th>Length</th><td>{{ packet.length_bytes }}</td></tr>
+    <tr><th>CRC OK</th><td>{{ packet.crc_ok }}</td></tr>
+    <tr><th>Scrambler OK</th><td>{{ packet.scrambler_ok }}</td></tr>
+</table>
+
+<h3>Header</h3>
+<pre>{{ packet.header_hex }}</pre>
+
+<h3>Header Parity</h3>
+<pre>{{ packet.header_parity_hex }}</pre>
+
+<h3>Payload</h3>
+<pre>{{ packet.payload_hex }}</pre>
+
+<h3>Payload Parity</h3>
+<pre>{{ packet.payload_parity_hex }}</pre>
+
+<h3>CRC</h3>
+<pre>{{ packet.crc_hex }}</pre>
+
+<p><a href="/processing/{{ packet.processing_run_id }}/packets">Back to Packets</a></p>
+
+{% endblock %}

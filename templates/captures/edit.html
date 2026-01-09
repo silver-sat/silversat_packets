@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Edit Notes for Capture {{ capture['id'] }}</h2>
+  <form method="post">
+    <label for="notes">Notes:</label><br>
+    <textarea name="notes" rows="6" cols="60">{{ capture['notes'] }}</textarea><br><br>
+    <button type="submit">Save</button>
+    <a href="{{ 'home' }}">Cancel</a>
+  </form>
+{% endblock %}

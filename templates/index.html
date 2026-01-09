@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Recent Captures</h2>
+
+
+<ul>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>filename</th>
+        <th>filesize</th>
+        <th>notes</th>
+        <th></th>
+    </tr>
+    {% for c in captures %}
+        <tr>
+            {% set filename = c['start_time_utc'].replace(':', '').replace('-', '').replace('T', '_') + '.wav' %} 
+            {% set full_path = c['output_path'].rstrip('/') + '/' + filename %}
+            <td> {{ c['id'] }}</td>
+            <td> {{ c['filename'] }} </td>
+            <td>{{ c['filesize'] }} </td>
+            <td>{{ c['notes'] }} </td>
+            <td><a href="{{ url_for('captures.edit_capture', id=c['id']) }}">Edit Notes</a> </th>
+        </tr>
+    {% endfor %}
+</table>
+
+</ul>
+
+
+{% endblock %}

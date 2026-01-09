@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Satellites</h2>
+
+<table border="1" cellpadding="6">
+    <tr>
+        <th>Name</th>
+        <th>Catalog Number</th>
+        <th>Nominal Frequency (Hz)</th>
+        <th>Notes</th>
+    </tr>
+
+    {% for s in sats %}
+    <tr>
+        <td>{{ s.name }}</td>
+        <td>{{ s.catalog_number }}</td>
+        <td>{{ s.nominal_freq_hz }}</td>
+        <td>{{ s.notes }}</td>
+    </tr>
+    
+    <td>
+        <a href="/satellites/edit/{{ s.id }}">Edit</a>
+    </td>
+    {% endfor %}
+</table>
+
+{% endblock %}

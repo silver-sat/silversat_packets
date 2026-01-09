@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Satellite Capture System</title>
+    <style>
+    table {
+        border-spacing: 30px;
+    }
+    table, td, th {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    td, th {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+    </style>
+</head>
+<body>
+    <h1>Satellite Capture System</h1>
+    <nav>
+        <a href="/">Home</a> |
+        <a href="/captures/">Captures</a> |
+        <a href="/captures/new">New Capture</a> |
+        <a href="{{ url_for('locations.index') }}">Locations</a> |
+        <a href="/satellites/">Satellites</a> |
+        <a href="/satellites/add">Add Satellite</a> |
+        <a href="/operators/">Operators</a> |
+        <a href="/operators/add">Add Operator</a> |
+        <a href="/processing/">Processing</a> |
+        <a href="/processing/new">New Processing Run</a> |
+    </nav>
+
+    <hr>
+    {% block content %}{% endblock %}
+</body>
+</html>

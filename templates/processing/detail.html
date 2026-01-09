@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Processing Run {{ run.id }}</h2>
+
+<table border="1" cellpadding="6">
+    <tr><th>Capture Session</th><td>{{ run.capture_session_id }}</td></tr>
+    <tr><th>Operator</th><td>{{ run.operator_name }}</td></tr>
+    <tr><th>Start Time</th><td>{{ run.start_time_utc }}</td></tr>
+    <tr><th>End Time</th><td>{{ run.end_time_utc }}</td></tr>
+    <tr><th>Frequency Offset (Hz)</th><td>{{ run.freq_offset_hz }}</td></tr>
+    <tr><th>Output Path</th><td>{{ run.output_path }}</td></tr>
+    <tr><th>Success</th><td>{{ run.success }}</td></tr>
+    <tr><th>Notes</th><td>{{ run.notes }}</td></tr>
+</table>
+
+<h3>Packets</h3>
+<p><a href="/processing/{{ run.id }}/packets">View Packets</a></p>
+
+{% endblock %}

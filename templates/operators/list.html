@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Operators</h2>
+
+<table border="1" cellpadding="6">
+    <tr>
+        <th>Name</th>
+    </tr>
+
+    {% for o in ops %}
+    <tr>
+        <td>{{ o.name }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
