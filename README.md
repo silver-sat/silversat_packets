@@ -19,12 +19,9 @@ In order to install the system you should (after cloning the repo)
 4. clone gr-satnogs and follow install instructions.
 5. clone ssdv from https://github.com/fsphil/ssdv and follow install instructions
 
-I have not tested from scratch, so there may be more.
+I have not tested these steps from scratch, so there may be more depending on
+your current system config.
 
-5. In the silversat_packets create the following folders:
-  /silversat_packets/captures
-  /silversat_packets/received_packets
-  /silversat_packets/static
 6. create a new database:
   sqlite3 observations.db < schema.sql
   -OR-
