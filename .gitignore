@@ -7,3 +7,4 @@ received_packets/*.bin
 static/*.jpg
 # ignore __pycache__
 __pycache__
+app.log

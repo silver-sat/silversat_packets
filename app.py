@@ -1,6 +1,7 @@
 from flask import Flask, render_template, g, session
 from db import get_db, init_db
 import os
+from utils import resolve_storage_path
 
 # Import blueprints
 from blueprints.captures import bp as captures_bp
@@ -55,7 +56,7 @@ def create_app():
         capture_list = [] 
         for row in captures: 
             filename = row["start_time_utc"].replace(":", "").replace("-", "").replace("T", "_") + ".wav" 
-            full_path = os.path.join(row["output_path"], filename)
+            full_path = resolve_storage_path(row["output_path"], filename)
              
             try: 
                 size_bytes = os.path.getsize(full_path) 

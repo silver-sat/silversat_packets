@@ -338,10 +338,10 @@ blocks:
     alias: ''
     comment: ''
     hide: none
-    label: output
+    label: ''
     short_id: ''
     type: str
-    value: '''~/captures/'' + str(datetime.datetime.now().strftime("%Y%m%d_%H%M%S"))
+    value: '''/home/tom/silversat_packets/'' + str(datetime.datetime.now().strftime("%Y%m%d_%H%M%S"))
       +''.wav'''
   states:
     bus_sink: false

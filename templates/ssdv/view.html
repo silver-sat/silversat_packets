@@ -5,9 +5,9 @@
 <form method="post" action="{{ url_for('ssdv.run') }}">
   <input type="hidden" name="processing_run_id" value="{{ run['id'] }}">
   <label>Payload File:</label><br>
-  <input type="text" name="payload_file" value="/home/tom/passdata/il2p_payloads_{{ run['id'] }}.bin" required><br>
+  <input type="text" name="payload_file" value="received_packets/il2p_payloads_{{ run['id'] }}.bin" required><br>
   <label>Output Image:</label><br>
-  <input type="text" name="output_image" value="/home/tom/passdata/output{{ run['id'] }}.jpg" required><br><br>
+  <input type="text" name="output_image" value="static/output{{ run['id'] }}.jpg" required><br><br>
   <button type="submit">Run SSDV</button>
 </form>
 

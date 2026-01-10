@@ -118,7 +118,19 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [616, 12.0]
+    coordinate: [696, 12.0]
+    rotation: 0
+    state: enabled
+- name: project_root
+  id: variable
+  parameters:
+    comment: ''
+    value: os.getcwd()
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [496, 76.0]
     rotation: 0
     state: enabled
 - name: samp_rate
@@ -130,7 +142,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [416, 12.0]
+    coordinate: [496, 12.0]
     rotation: 0
     state: enabled
 - name: samples_per_symbol
@@ -142,7 +154,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [856, 12.0]
+    coordinate: [936, 12.0]
     rotation: 0
     state: enabled
 - name: squelch
@@ -157,7 +169,7 @@ blocks:
     start: '-100'
     step: '1'
     stop: '-20'
-    value: '-46'
+    value: '-60'
     widget: counter
   states:
     bus_sink: false
@@ -175,7 +187,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [512, 12.0]
+    coordinate: [592, 12.0]
     rotation: 0
     state: enabled
 - name: symbol_sample_rate
@@ -187,7 +199,19 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [712, 12.0]
+    coordinate: [792, 12.0]
+    rotation: 0
+    state: enabled
+- name: tle_file
+  id: variable
+  parameters:
+    comment: ''
+    value: os.path.join(project_root, "default.tle")
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [664, 76.0]
     rotation: 0
     state: enabled
 - name: transition
@@ -404,7 +428,7 @@ blocks:
     bus_structure: null
     coordinate: [656, 1284.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_throttle2_0
   id: blocks_throttle2
   parameters:
@@ -583,39 +607,45 @@ blocks:
       which is a table in the database that holds the setup parameters\n\"\"\"\n\n\
       import numpy as np\nimport ephem\nimport datetime\nimport wave\nimport re\n\
       import pmt\nfrom gnuradio import gr\nimport zoneinfo   # Python 3.9+\nimport\
-      \ sqlite3 \n\nDB_PATH = \"/home/tom/silversat_packets/observations.db\"\n\n\
-      C = 299792458.0  # speed of light in m/s\n\nclass blk(gr.sync_block):\n    \"\
-      \"\"\n    Doppler IQ Playback Block (Complex Output)\n\n    This block plays\
-      \ back a stereo WAV file containing IQ samples and computes\n    the Doppler-shifted\
-      \ satellite frequency relative to the SDR center frequency.\n    It publishes\
-      \ the difference in sync with the playback once per second via a \n    message\
-      \ port.\n\n    Output:\n        One complex64 stream (I + jQ)\n        \n  \
-      \  Message Ports:\n        \"freq\" \u2192 publishes center frequency difference\
-      \ (Hz)\n    \"\"\"\n\n    def __init__(self,\n                 wav_file=\"\"\
-      ,\n                 tle_file=\"\",\n                 catalog_number=0,\n   \
-      \              sat_freq_hz=0.0,\n                 center_freq_hz=0.0,\n    \
-      \             lat=\"\", lon=\"\", elev=0,\n                 capture_session_id=0,\n\
-      \                 timezone=\"America/NewYork\",\n                 debug=True\n\
-      \                 ):\n        \"\"\"\n        Initialize the Doppler IQ Playback\
-      \ block.\n\n        Opens the stereo WAV file if provided, sets up the observer\
-      \ location,\n        loads the satellite TLE by catalog number, and parses the\
-      \ start time\n        from the filename (local \u2192 UTC).\n\n        Args:\n\
-      \            wav_file (str): Path to stereo WAV file containing IQ samples.\n\
-      \            tle_file (str): Path to TLE file containing satellite orbital elements.\n\
-      \            catalog_number (int): Satellite catalog number (e.g., 66909).\n\
-      \            sat_freq_hz (float): Satellite nominal frequency in Hz.\n     \
-      \       center_freq_hz (float): SDR spectrum center frequency in Hz.\n     \
-      \       lat (str): Observer latitude.\n            lon (str): Observer longitude.\n\
-      \            elev (float): Observer elevation in meters.\n            timezone\
-      \ (str): Local timezone for filename timestamps.\n            debug (bool):\
-      \ Enable debug prints.\n        \"\"\"\n        gr.sync_block.__init__(\n  \
-      \          self,\n            name='Doppler IQ Playback',\n            in_sig=None,\n\
-      \            out_sig=[np.complex64]  # single complex output stream\n      \
-      \  )\n\n        # Register message output port\n        self.message_port_register_out(pmt.intern(\"\
+      \ sqlite3\nimport sys\nimport os\n\n# Ensure project root is on sys.path so\
+      \ we can import `db.py` located notionally at\n# /home/pi/silversat_packets.\
+      \ Adjust this path if your project is elsewhere.\n_PROJECT_ROOT = os.path.join(os.getcwd(),\
+      \ \"silversat_packets\")\nif _PROJECT_ROOT not in sys.path:\n    sys.path.insert(0,\
+      \ _PROJECT_ROOT)\n\ntry:\n    import db\n    get_db = db.get_db\n    DB_PATH\
+      \ = os.path.join(_PROJECT_ROOT, \"observations.db\")\nexcept Exception:\n  \
+      \  db = None\n    get_db = None\n\n\n\nC = 299792458.0  # speed of light in\
+      \ m/s\n\nclass blk(gr.sync_block):\n    \"\"\"\n    Doppler IQ Playback Block\
+      \ (Complex Output)\n\n    This block plays back a stereo WAV file containing\
+      \ IQ samples and computes\n    the Doppler-shifted satellite frequency relative\
+      \ to the SDR center frequency.\n    It publishes the difference in sync with\
+      \ the playback once per second via a \n    message port.\n\n    Output:\n  \
+      \      One complex64 stream (I + jQ)\n        \n    Message Ports:\n       \
+      \ \"freq\" \u2192 publishes center frequency difference (Hz)\n    \"\"\"\n\n\
+      \    def __init__(self,\n                 wav_file=\"\",\n                 tle_file=\"\
+      \",\n                 catalog_number=0,\n                 sat_freq_hz=0.0,\n\
+      \                 center_freq_hz=0.0,\n                 lat=\"\", lon=\"\",\
+      \ elev=0,\n                 capture_session_id=0,\n                 timezone=\"\
+      America/NewYork\",\n                 debug=True\n                 ):\n     \
+      \   \"\"\"\n        Initialize the Doppler IQ Playback block.\n\n        Opens\
+      \ the stereo WAV file if provided, sets up the observer location,\n        loads\
+      \ the satellite TLE by catalog number, and parses the start time\n        from\
+      \ the filename (local \u2192 UTC).\n\n        Args:\n            wav_file (str):\
+      \ Path to stereo WAV file containing IQ samples.\n            tle_file (str):\
+      \ Path to TLE file containing satellite orbital elements.\n            catalog_number\
+      \ (int): Satellite catalog number (e.g., 66909).\n            sat_freq_hz (float):\
+      \ Satellite nominal frequency in Hz.\n            center_freq_hz (float): SDR\
+      \ spectrum center frequency in Hz.\n            lat (str): Observer latitude.\n\
+      \            lon (str): Observer longitude.\n            elev (float): Observer\
+      \ elevation in meters.\n            timezone (str): Local timezone for filename\
+      \ timestamps.\n            debug (bool): Enable debug prints.\n        \"\"\"\
+      \n        gr.sync_block.__init__(\n            self,\n            name='Doppler\
+      \ IQ Playback',\n            in_sig=None,\n            out_sig=[np.complex64]\
+      \  # single complex output stream\n        )\n        \n\n        # Register\
+      \ message output port\n        self.message_port_register_out(pmt.intern(\"\
       freq\"))\n        \n        self.capture_session_id = capture_session_id\n \
       \       self.start_time_utc = 0\n        \n        if capture_session_id:\n\
-      \            try: \n                conn = sqlite3.connect(DB_PATH) \n     \
-      \           cur = conn.cursor()\n                \n                capture_setup\
+      \            try: \n                db = get_db()\n                conn = sqlite3.connect(DB_PATH)\
+      \ \n                cur = conn.cursor()\n                \n                capture_setup\
       \ = db.execute(\"SELECT * FROM capture_session WHERE id = ?\", (capture_session_id,)).fetchone()\n\
       \                location_info = db.execute(\"SELECT * FROM location WHERE id\
       \ = ?\", (capture_setup[\"location_id\"],)).fetchone()\n                satellite_info\
@@ -751,7 +781,7 @@ blocks:
     minoutbuf: '0'
     sat_freq_hz: freq
     timezone: '''America/NewYork'''
-    tle_file: '"default.tle"'
+    tle_file: tle_file
     wav_file: source_file
   states:
     _io_cache: "('Doppler IQ Playback', 'blk', [('wav_file', \"''\"), ('tle_file',\
@@ -944,19 +974,30 @@ blocks:
 - name: epy_block_4
   id: epy_block
   parameters:
-    _source_code: "import os\nfrom datetime import datetime\n\nimport numpy as np\n\
-      from gnuradio import gr\nimport pmt\nimport reedsolo\nfrom dataclasses import\
-      \ dataclass\n\nimport sqlite3 \n\nDB_PATH = \"~/silversat_packets/observations.db\"\
-      \n\n# this is the generic set of information you would need to construct/deconstruct\
-      \ an IL2P or an AX.25 packet\n@dataclass\nclass Il2pPacket:\n    packet_error_type:\
-      \ list\n    processing_run_id: int = 0\n    header: bytearray = b''\n    header_parity:\
-      \ bytearray = b''  # two bytes\n    header_corrections: int = 0\n    payload:\
-      \ bytearray = b''\n    payload_parity: bytearray = b''  # 16 bytes\n    payload_corrections:\
-      \ int = 0\n    encoded_crc: bytearray = b''  # 4 bytes while encoded\n    header_okay:\
-      \ bool = False\n    payload_okay: bool = False\n    scrambler_okay: bool = False\n\
-      \    crc_success: bool = False  # set true when verified\n    payload_byte_count:\
-      \ int = 0  # zero by default\n    packet_len: int = 0\n    packet_index: int\
-      \ = 0\n\n\ndef list_to_string_str_only(lst, separator=\", \"):\n    if not all(isinstance(item,\
+    _source_code: "import os, sys\nfrom datetime import datetime\nimport numpy as\
+      \ np\nfrom gnuradio import gr\nimport pmt\nimport reedsolo\nfrom dataclasses\
+      \ import dataclass\nimport sqlite3 \n\n\n# Determine a reliable project root\
+      \ even when __file__ is not defined\ndef _here():\n    try:\n        return\
+      \ os.path.dirname(os.path.abspath(__file__))\n    except NameError:\n      \
+      \  try:\n            src = inspect.getsourcefile(sys.modules[__name__]) or inspect.getfile(sys.modules[__name__])\n\
+      \            return os.path.dirname(os.path.abspath(src))\n        except Exception:\n\
+      \            return os.getcwd()\n\nPROJECT_ROOT = os.path.abspath(os.path.join(_here(),\
+      \ '..'))\nif PROJECT_ROOT not in sys.path:\n    sys.path.insert(0, PROJECT_ROOT)\n\
+      \n# Safe import of project utils (utils.get_app_root handles absence of Flask\
+      \ app)\nfrom utils import resolve_storage_path, get_app_root, app_path\n\n#\
+      \ Database path (will use Flask app root when available, otherwise project root)\n\
+      DB_PATH = os.path.join(PROJECT_ROOT, \"observations.db\")\nprint(f\"[packet_logger]\
+      \ DB PATH: {DB_PATH}\") \n\n\n# this is the generic set of information you would\
+      \ need to construct/deconstruct an IL2P or an AX.25 packet\n@dataclass\nclass\
+      \ Il2pPacket:\n    packet_error_type: list\n    processing_run_id: int = 0\n\
+      \    header: bytearray = b''\n    header_parity: bytearray = b''  # two bytes\n\
+      \    header_corrections: int = 0\n    payload: bytearray = b''\n    payload_parity:\
+      \ bytearray = b''  # 16 bytes\n    payload_corrections: int = 0\n    encoded_crc:\
+      \ bytearray = b''  # 4 bytes while encoded\n    header_okay: bool = False\n\
+      \    payload_okay: bool = False\n    scrambler_okay: bool = False\n    crc_success:\
+      \ bool = False  # set true when verified\n    payload_byte_count: int = 0  #\
+      \ zero by default\n    packet_len: int = 0\n    packet_index: int = 0\n\n\n\
+      def list_to_string_str_only(lst, separator=\", \"):\n    if not all(isinstance(item,\
       \ str) for item in lst):\n        raise ValueError(\"All elements must be strings\
       \ for this method.\")\n    return separator.join(lst)\n\n\ndef store_packet(packet):\
       \ \n    try: \n        conn = sqlite3.connect(DB_PATH) \n        cur = conn.cursor()\
@@ -985,12 +1026,16 @@ blocks:
       \        0xa,0x9,0xa,0xa,0x4,0xd,0xa,0xf,\n        0x2,0x1,0x2,0x2,0xc,0x5,0x2,0x7,\n\
       \        0xc,0x9,0x2,0xb,0xc,0xc,0xc,0xf,\n        0x1,0x1,0x2,0x1,0x4,0x1,0x6,0xf,\n\
       \        0x8,0x1,0xa,0xf,0xc,0xf,0xf,0xf\n    ]\n\n    def __init__(self, lfsr_seed=0x1F0,\
-      \ output_dir=\"/home/tom\", processing_run_id=0, store_packets=0):\n       \
-      \ \"\"\"\n        lfsr_seed:   9-bit seed for self-synchronizing descrambler\n\
-      \        output_dir:  directory where payload file will be written\n       \
-      \ \"\"\"\n\n        gr.basic_block.__init__(\n            self,\n          \
-      \  name=\"il2p_rs_and_descramble_crc\",\n            in_sig=[],\n          \
-      \  out_sig=[]\n        )\n\n        # Scrambler state\n        self.lfsr_seed\
+      \ output_dir=\"\", processing_run_id=0, store_packets=0):\n        \"\"\"\n\
+      \        lfsr_seed:   9-bit seed for self-synchronizing descrambler\n      \
+      \  output_dir:  directory where payload file will be written\n        processing_run_id:\
+      \ unique identifier for this processing run\n        store_packets: 1 = store\
+      \ packets to the database, 0 = do not store\n        \"\"\"\n        \n    \
+      \    flowgraph_dir = os.path.join(PROJECT_ROOT, \"gnuradio\")\n        output_dir\
+      \ = os.path.join(PROJECT_ROOT, \"received_packets\")\n\n        DB_PATH = os.path.join(PROJECT_ROOT,\
+      \ \"observations.db\")\n\n        gr.basic_block.__init__(\n            self,\n\
+      \            name=\"il2p_rs_and_descramble_crc\",\n            in_sig=[],\n\
+      \            out_sig=[]\n        )\n\n        # Scrambler state\n        self.lfsr_seed\
       \ = lfsr_seed & 0x1FF\n\n        # RS codecs\n        self.rs_header = reedsolo.RSCodec(2)\n\
       \        self.rs_payload = reedsolo.RSCodec(16)\n\n        # AX.25 header (fixed)\n\
       \        self.ax25_header = bytes([\n            0xAE,0xA0,0x64,0xB0,0x8E,0xAE,0x00,0xAE,\n\
@@ -1005,13 +1050,18 @@ blocks:
       \          print(f\"[IL2P] Writing raw payloads to: {self.output_path}\")\n\
       \        except Exception as e:\n            self.outfile = None\n         \
       \   print(f\"[IL2P] ERROR: could not open output file '{self.output_path}':\
-      \ {e}\")\n\n        # Message ports\n        self.message_port_register_in(pmt.intern(\"\
+      \ {e}\")\n            \n        try:\n            conn = sqlite3.connect(DB_PATH)\
+      \ \n            cur = conn.cursor()\n            cur.execute(\n            \"\
+      UPDATE processing_run SET output_file = ? WHERE id = ?\", (self.output_path,\
+      \ processing_run_id)) \n            conn.commit()\n            conn.close()\n\
+      \        except Exception as e: \n            print(f\"[packet_logger] DB update\
+      \ error on output file: {e}\") \n\n        # Message ports\n        self.message_port_register_in(pmt.intern(\"\
       pdus\"))\n        self.set_msg_handler(pmt.intern(\"pdus\"), self.handle_pdu)\n\
       \        self.message_port_register_out(pmt.intern(\"out\"))\n        \n   \
       \     # variables\n        self.processing_run_id = processing_run_id  # the\
       \ unique id of this processing run\n        self.packet_index = 0  # a incrementing\
       \ counter for this processing run\n        self.store_packets = store_packets\
-      \  # 1 = store packets to the database\n\n    # ------------------------------------------------------------\n\
+      \  # 1 = store packets to the database\n        \n\n    # ------------------------------------------------------------\n\
       \    # Self-synchronizing descrambler\n    # ------------------------------------------------------------\n\
       \    def _descramble_bits(self, scrambled_bytes):\n        state = self.lfsr_seed\n\
       \        out_bytes = bytearray(len(scrambled_bytes))\n\n        for b in range(len(scrambled_bytes)):\n\
@@ -1035,7 +1085,7 @@ blocks:
       \ (state >> 1)\n                state ^= (scr_bit << 8)\n                state\
       \ ^= (scr_bit << 3)\n                state &= 0x1FF\n\n                if scr_bit:\n\
       \                    out_byte |= mask\n\n            if out_byte != scrambled[b]:\n\
-      \                print(f\"[IL2P] SCR mismatch at byte {b}: exp={scrambled_ref[b]:02X},\
+      \                print(f\"[IL2P] SCR mismatch at byte {b}: exp={scrambled[b]:02X},\
       \ got={out_byte:02X}\")\n                return False\n\n        return True\n\
       \n    # ------------------------------------------------------------\n    #\
       \ Decode 10-bit payload length from header\n    # ------------------------------------------------------------\n\
@@ -1130,16 +1180,17 @@ blocks:
     lfsr_seed: '0x1F0'
     maxoutbuf: '0'
     minoutbuf: '0'
-    output_dir: '"~/silversat_packets/received_packets/"'
+    output_dir: os.path.join(project_root, "silversat_packets", "received_packets")
     processing_run_id: processing_run_id
     store_packets: store_packets
   states:
     _io_cache: '(''il2p_rs_and_descramble_crc'', ''il2p_decoder'', [(''lfsr_seed'',
-      ''496''), (''output_dir'', "''/home/tom''"), (''processing_run_id'', ''0''),
-      (''store_packets'', ''0'')], [(''pdus'', ''message'', 1)], [(''out'', ''message'',
-      1)], ''\nlfsr_seed:   9-bit seed for self-synchronizing descrambler\noutput_dir:  directory
-      where payload file will be written\n'', [''lfsr_seed'', ''output_dir'', ''processing_run_id'',
-      ''store_packets''])'
+      ''496''), (''output_dir'', "''''"), (''processing_run_id'', ''0''), (''store_packets'',
+      ''0'')], [(''pdus'', ''message'', 1)], [(''out'', ''message'', 1)], ''\nlfsr_seed:   9-bit
+      seed for self-synchronizing descrambler\noutput_dir:  directory where payload
+      file will be written\nprocessing_run_id: unique identifier for this processing
+      run\nstore_packets: 1 = store packets to the database, 0 = do not store\n'',
+      [''lfsr_seed'', ''output_dir'', ''processing_run_id'', ''store_packets''])'
     bus_sink: false
     bus_source: false
     bus_structure: null
@@ -1156,13 +1207,13 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     samp_delay: '0'
-    taps: firdes.gaussian(1.0, samp_rate/symbol_rate, 0.5, int(4*samp_rate))
+    taps: firdes.gaussian(1.0, samp_rate/symbol_rate, 0.5, 4*samples_per_symbol)
     type: fff
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [512, 924.0]
+    coordinate: [536, 924.0]
     rotation: 0
     state: enabled
 - name: freq_xlating_fir_filter_xxx_0
@@ -1214,7 +1265,7 @@ blocks:
     label: frequency_offset
     short_id: ''
     type: eng_float
-    value: '-1800'
+    value: '0'
   states:
     bus_sink: false
     bus_source: false
@@ -1248,6 +1299,32 @@ blocks:
     coordinate: [296, 12.0]
     rotation: 0
     state: true
+- name: import_0_0_0_0
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: import pathlib
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [368, 12.0]
+    rotation: 0
+    state: true
+- name: import_0_0_0_0_0
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: import os
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [368, 60.0]
+    rotation: 0
+    state: true
 - name: note_0_0
   id: note
   parameters:
@@ -1260,6 +1337,23 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [1128, 404.0]
+    rotation: 0
+    state: enabled
+- name: output_path
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: ''
+    short_id: ''
+    type: str
+    value: received_files/
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1392, 1188.0]
     rotation: 0
     state: enabled
 - name: processing_run_id
@@ -1543,7 +1637,7 @@ blocks:
     width8: '1'
     width9: '1'
     ylabel: Amplitude
-    ymax: '4'
+    ymax: '2'
     ymin: '-2'
     yunit: '""'
   states:
@@ -1608,7 +1702,7 @@ blocks:
     marker9: '-1'
     name: post gaussian filter
     nconnections: '1'
-    size: 256*8*6
+    size: 256*8
     srate: symbol_sample_rate
     stemplot: 'False'
     style1: '1'
@@ -1640,7 +1734,7 @@ blocks:
     width8: '1'
     width9: '1'
     ylabel: Amplitude
-    ymax: '4'
+    ymax: '2'
     ymin: '-2'
     yunit: '""'
   states:
@@ -1911,10 +2005,10 @@ blocks:
     alias: ''
     comment: ''
     hide: none
-    label: source_file
+    label: ''
     short_id: ''
     type: str
-    value: ~/silversat_packets/captures/default.wav
+    value: captures/20260109_195743.076401.wav
   states:
     bus_sink: false
     bus_source: false

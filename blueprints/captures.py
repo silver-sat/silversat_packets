@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, current_app
+from flask import Blueprint, render_template, request, redirect, send_file, url_for, flash, jsonify, current_app
 from werkzeug.exceptions import abort
 from db import get_db
 from tle_plot import generate_orbit_plots
@@ -6,6 +6,7 @@ import requests
 from datetime import datetime
 import subprocess
 import os
+from utils import app_path, resolve_storage_path
 
 bp = Blueprint("captures", __name__, url_prefix="/captures")
 
@@ -48,7 +49,7 @@ def new():
         # After inserting the capture session 
         start_time_utc = datetime.utcnow().isoformat() 
         filename = start_time_utc.replace(":", "").replace("-", "").replace("T", "_") + ".wav" 
-        wav_path = os.path.join(output_path, filename)
+        wav_path = resolve_storage_path(output_path, filename)
         
         db.execute( 
             """INSERT INTO capture_session 
@@ -58,13 +59,15 @@ def new():
 
         db.commit()
         
+        os.getcwd
          
-        # Build command to run your GNU Radio script 
-        cmd = [ "python3", 
-                "~/gnuradio/rtlsdr_iq_capture.py", 
-                "--freq", str(center_freq), 
-                "--outfile", wav_path
-            ] 
+        # Build command to run your GNU Radio script
+        script_path = app_path("gnuradio", "rtlsdr_iq_capture.py")
+        cmd = ["python3",
+               script_path,
+               "--freq", str(center_freq),
+               "--outfile", wav_path
+               ]
         # Launch it in the background 
         subprocess.Popen(cmd)
         
@@ -145,7 +148,7 @@ def serve_capture_file(filename):
     if row is None: 
         abort(404)
         
-    full_path = os.path.join(row["output_path"], filename) 
+    full_path = resolve_storage_path(row["output_path"], filename)
     if not os.path.exists(full_path): 
         abort(404)
          
