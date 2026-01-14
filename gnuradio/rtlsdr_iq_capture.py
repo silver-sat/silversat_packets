@@ -116,9 +116,9 @@ class rtlsdr_iq_capture(gr.top_block, Qt.QWidget):
         self.soapy_rtlsdr_source_0.set_frequency(0, freq)
         self.soapy_rtlsdr_source_0.set_frequency_correction(0, 0)
         self.set_soapy_rtlsdr_source_0_bias(bool(True))
-        self._soapy_rtlsdr_source_0_gain_value = 6
+        self._soapy_rtlsdr_source_0_gain_value = 10
         self.set_soapy_rtlsdr_source_0_gain_mode(0, bool(False))
-        self.set_soapy_rtlsdr_source_0_gain(0, 'TUNER', 6)
+        self.set_soapy_rtlsdr_source_0_gain(0, 'TUNER', 10)
         self.qtgui_waterfall_sink_x_0 = qtgui.waterfall_sink_c(
             1024, #size
             window.WIN_BLACKMAN_hARRIS, #wintype

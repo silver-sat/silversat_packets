@@ -11,12 +11,16 @@ My implementation also includes a UPS to make the system portable.
 
 In order to install the system you should (after cloning the repo)
 1. Create a virtual environment in the /silversat_packets directory
+   
 2. Install using pip:
   pip install pytz matplotlib flask requests ephem reedsolo
+
 3. Install using apt:
    sudo apt update && upgrade
    sudo apt install python3-skyfield sqlite3 gnuradio
-4. clone gr-satnogs and follow install instructions.
+
+4. clone gr-satnogs and follow install instructions
+
 5. clone ssdv from https://github.com/fsphil/ssdv and follow install instructions
 
 I have not tested these steps from scratch, so there may be more depending on
@@ -27,11 +31,15 @@ your current system config.
   -OR-
    use the existing database:
    which right now has a bunch of captures that are not included
+
 7. Get Space-Track login (it's free) and store your username and password as
    environment variables.
    The easiest to make them permanent is to modify .profile and add to the end:
    export SPACETRACK_USER = "Your username"
    export SPACETRACK_PASS = "Your password"
+
+8. Set an environment variable for the root directory, ex:
+   export SILVERSAT_ROOT = "/home/tom/silversat_packets"
 
 start the system
   flask run

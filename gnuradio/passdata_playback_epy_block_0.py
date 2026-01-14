@@ -44,20 +44,19 @@ import sqlite3
 import sys
 import os
 
-# Ensure project root is on sys.path so we can import `db.py` located notionally at
-# /home/pi/silversat_packets. Adjust this path if your project is elsewhere.
-_PROJECT_ROOT = os.path.join(os.getcwd(), "silversat_packets")
-if _PROJECT_ROOT not in sys.path:
-    sys.path.insert(0, _PROJECT_ROOT)
+
+_PROJECT_ROOT = os.getcwd()
+#_PROJECT_ROOT = os.path.abspath(os.path.join(_THIS_DIR, ".."))
+DB_PATH = os.path.join(_PROJECT_ROOT, "observations.db")
 
 try:
-    import db
-    get_db = db.get_db
-    DB_PATH = os.path.join(_PROJECT_ROOT, "observations.db")
-except Exception:
-    db = None
-    get_db = None
-
+    conn = sqlite3.connect(DB_PATH) 
+    conn.row_factory = sqlite3.Row 
+    cur = conn.cursor()
+    
+except Exception as e:
+    cur = None
+    print("[DB] database access error:", e)
 
 
 C = 299792458.0  # speed of light in m/s
@@ -77,188 +76,217 @@ class blk(gr.sync_block):
     Message Ports:
         "freq" → publishes center frequency difference (Hz)
     """
+    try:
+        def __init__(self,
+                     wav_file="",
+                     tle_file="",
+                     catalog_number=0,
+                     sat_freq_hz=0.0,
+                     center_freq_hz=0.0,
+                     lat="", lon="", elev=0,
+                     capture_session_id=0,
+                     timezone="America/NewYork",
+                     debug=True
+                     ):
+            """
+            Initialize the Doppler IQ Playback block.
 
-    def __init__(self,
-                 wav_file="",
-                 tle_file="",
-                 catalog_number=0,
-                 sat_freq_hz=0.0,
-                 center_freq_hz=0.0,
-                 lat="", lon="", elev=0,
-                 capture_session_id=0,
-                 timezone="America/NewYork",
-                 debug=True
-                 ):
-        """
-        Initialize the Doppler IQ Playback block.
+            Opens the stereo WAV file if provided, sets up the observer location,
+            loads the satellite TLE by catalog number, and parses the start time
+            from the filename (local → UTC).
 
-        Opens the stereo WAV file if provided, sets up the observer location,
-        loads the satellite TLE by catalog number, and parses the start time
-        from the filename (local → UTC).
+            Args:
+                wav_file (str): Path to stereo WAV file containing IQ samples.
+                tle_file (str): Path to TLE file containing satellite orbital elements.
+                catalog_number (int): Satellite catalog number (e.g., 66909).
+                sat_freq_hz (float): Satellite nominal frequency in Hz.
+                center_freq_hz (float): SDR spectrum center frequency in Hz.
+                lat (str): Observer latitude.
+                lon (str): Observer longitude.
+                elev (float): Observer elevation in meters.
+                timezone (str): Local timezone for filename timestamps.
+                debug (bool): Enable debug prints.
+            """
+            gr.sync_block.__init__(
+                self,
+                name='Doppler IQ Playback',
+                in_sig=None,
+                out_sig=[np.complex64]  # single complex output stream
+            )
+            
 
-        Args:
-            wav_file (str): Path to stereo WAV file containing IQ samples.
-            tle_file (str): Path to TLE file containing satellite orbital elements.
-            catalog_number (int): Satellite catalog number (e.g., 66909).
-            sat_freq_hz (float): Satellite nominal frequency in Hz.
-            center_freq_hz (float): SDR spectrum center frequency in Hz.
-            lat (str): Observer latitude.
-            lon (str): Observer longitude.
-            elev (float): Observer elevation in meters.
-            timezone (str): Local timezone for filename timestamps.
-            debug (bool): Enable debug prints.
-        """
-        gr.sync_block.__init__(
-            self,
-            name='Doppler IQ Playback',
-            in_sig=None,
-            out_sig=[np.complex64]  # single complex output stream
-        )
-        
-
-        # Register message output port
-        self.message_port_register_out(pmt.intern("freq"))
-        
-        self.capture_session_id = capture_session_id
-        self.start_time_utc = 0
-        
-        if capture_session_id:
-            try: 
-                db = get_db()
-                conn = sqlite3.connect(DB_PATH) 
-                cur = conn.cursor()
-                
-                capture_setup = db.execute("SELECT * FROM capture_session WHERE id = ?", (capture_session_id,)).fetchone()
-                location_info = db.execute("SELECT * FROM location WHERE id = ?", (capture_setup["location_id"],)).fetchone()
-                satellite_info = db.execute("SELECT * FROM satellite WHERE id = ?", (capture_setup["satellite_id"],)).fetchone()
-                self.wav_file = capture_setup["lat_deg"]
-                
-                # i'm not storing tle's in a file, so I can jump ahead to assigning them to variables
-                line1 = capture_setup["tle_line_1"]
-                line2 = capture_setup["tle_line_2"]
-                self.catalog_number = satellite_info["catalog_number"]
-                self.sat_freq_hz = satellite_info["nominal_freq_hz"]
-                self.center_freq_hz = capture_setup["center_freq_hz"]
-                self.lat = location_info["lat_deg"]
-                self.lon = location_info["lon_deg"]
-                self.elev = location_info["elev_m"]
-                self.timezone = capture_setup["observer_timezone"]
-                self.start_time_utc = capture_setup["start_time_utc"]
-                self.debug = debug
-                conn.close()
-                
-                parts = line1.split()
-                if len(parts) > 1:
-                    catnum = parts[1]  # e.g. "66909U"
-                    catnum_digits = ''.join(ch for ch in catnum if ch.isdigit())
-
-                    if catnum_digits == self.catalog_number:
-                        self.sat = ephem.readtle(name, line1, line2)
-                        if self.debug:
-                            print(f"[DEBUG] Loaded satellite {name} with catalog {catnum_digits}")
-                            print("[DEBUG] Line1:", line1)
-                            print("[DEBUG] Line2:", line2)
-
-                if self.sat is None and self.debug:
-                    print(f"[DEBUG] Catalog number {self.catalog_number} not found in file")
-                
-            except Exception as e: 
-                print(f"[doppler] DB error: {e}")
-        else:
-            # Parameters
-            self.wav_file = wav_file
-            self.tle_file = tle_file
-            self.catalog_number = str(catalog_number)
-            self.sat_freq_hz = float(sat_freq_hz)
-            self.center_freq_hz = float(center_freq_hz)
-            self.lat = str(lat)
-            self.lon = str(lon)
-            self.elev = float(elev)
-            self.timezone = timezone
+            # Register message output port
+            self.message_port_register_out(pmt.intern("freq"))
+            
+            
+            self.wav_file=wav_file
+            self.capture_session_id = capture_session_id
+            self.start_time_utc = 0
             self.debug = debug
-
-        # Open WAV (only if provided)
-        self.wav = None
-        self.channels = 1
-        self.sample_rate = 1
-        if self.wav_file:
-            self.wav = wave.open(self.wav_file, 'rb')
-            self.channels = self.wav.getnchannels()
-            self.sample_rate = self.wav.getframerate()
-            print(f'wav file framerate: {self.wav.getframerate()}')
-
-            # Require stereo WAV file
-            if self.channels != 2:
-                raise ValueError(
-                    f"WAV file {self.wav_file} must be stereo (2 channels), "
-                    f"but has {self.channels} channel(s)."
-                )
-
-            if self.debug:
-                print(f"[DEBUG] Opened WAV file: {self.wav_file}, "
-                      f"Channels: {self.channels}, SampleRate: {self.sample_rate}")
-
-        # Observer setup
-        self.observer = ephem.Observer()
-        self.observer.lat = self.lat if self.lat else "0"
-        self.observer.lon = self.lon if self.lon else "0"
-        self.observer.elevation = self.elev
-
-        # Load TLE by catalog number
-        if capture_session_id == 0:
+            self.lat = lat
+            self.lon = lon
+            self.elev = elev
+            self.sat_freq_hz = sat_freq_hz
+            self.center_freq_hz = center_freq_hz
             self.sat = None
-            if self.tle_file:
-                with open(self.tle_file, 'r') as f:
-                    lines = [ln.strip() for ln in f if ln.strip()]
-                total_sats = len(lines) // 3
-                if self.debug:
-                    print(f"[DEBUG] TLE file has {total_sats} satellites")
-
-                for i in range(total_sats):
-                    name  = lines[i*3]
-                    line1 = lines[i*3 + 1]
-                    line2 = lines[i*3 + 2]
-
+            
+            if capture_session_id:
+                try: 
+                    # conn = sqlite3.connect(DB_PATH) 
+                    #cur = conn.cursor()
+                    
+                    capture_info = cur.execute("SELECT * FROM capture_session WHERE id = ?", (capture_session_id,)).fetchone()
+                    location_info = cur.execute("SELECT * FROM location WHERE id = ?", (capture_info["location_id"],)).fetchone()
+                    satellite_info = cur.execute("SELECT * FROM satellite WHERE id = ?", (capture_info["satellite_id"],)).fetchone()
+                    self.wav_file = capture_info["wav_path"]
+                    
+                    # i'm not storing tle's in a file, so I can jump ahead to assigning them to variables
+                    line1 = capture_info["tle_line1"]
+                    line2 = capture_info["tle_line2"]
+                    self.catalog_number = satellite_info["catalog_number"]
+                    self.sat_freq_hz = satellite_info["nominal_freq_hz"]
+                    self.center_freq_hz = capture_info["center_freq_hz"]
+                    self.lat = location_info["lat_deg"]
+                    self.lon = location_info["lon_deg"]
+                    self.elev = location_info["elev_m"]
+                    self.timezone = capture_info["observer_timezone"]
+                    self.start_time_utc = capture_info["start_time_utc"]
+                    
+                    conn.close()
+                    
+                    if self.debug:
+                        print(f'capture session id = {capture_session_id}')
+                        print(f'tle line 1 = {line1}')
+                        print(f'tle line2 = {line2}')
+                        print (f'catalog number = {self.catalog_number}')
+                        print(f'sat_frequency = {self.sat_freq_hz}')
+                        print(f'lat = {self.lat}')
+                        print(f'lon = {self.lon}')
+                        print(f'elev = {self.elev}')
+                        print(f'timezone = {self.timezone}')
+                        print(f'start time = {self.start_time_utc}')
+                    
                     parts = line1.split()
+                    if self.debug: print("parts: ", parts)
                     if len(parts) > 1:
                         catnum = parts[1]  # e.g. "66909U"
-                        catnum_digits = ''.join(ch for ch in catnum if ch.isdigit())
+                        name = catnum
 
-                        if catnum_digits == self.catalog_number:
+                        catnum_digits = ''.join(ch for ch in catnum if ch.isdigit())
+                        if self.debug: 
+                            print("catnum: ", catnum)
+                            print("catnum_digits: ", catnum_digits)
+
+                        if int(catnum_digits) == int(self.catalog_number):
                             self.sat = ephem.readtle(name, line1, line2)
                             if self.debug:
                                 print(f"[DEBUG] Loaded satellite {name} with catalog {catnum_digits}")
                                 print("[DEBUG] Line1:", line1)
                                 print("[DEBUG] Line2:", line2)
-                            break
 
-                if self.sat is None and self.debug:
-                    print(f"[DEBUG] Catalog number {self.catalog_number} not found in file")
+                    if self.sat is None and self.debug:
+                        print(f"[DEBUG] Catalog number {self.catalog_number} not found in file")
+                    
+                except Exception as e: 
+                    print(f"[doppler] DB error: {e}")
+            else:
+                # Parameters
+                self.wav_file = wav_file
+                self.tle_file = tle_file
+                self.catalog_number = str(catalog_number)
+                self.sat_freq_hz = float(sat_freq_hz)
+                self.center_freq_hz = float(center_freq_hz)
+                self.lat = str(lat)
+                self.lon = str(lon)
+                self.elev = float(elev)
+                self.timezone = timezone
+                self.debug = debug
 
-        if self.start_time_utc:
-            self.start_time = self.start_time_utc
-        else:
-            # Parse date/time from filename (local → UTC)
-            self.start_play = datetime.datetime.utcnow()  # fallback
-            match = re.search(r'_(\d{2}-\d{2}-\d{2})_(\d{2}-\d{2}-\d{4})', self.wav_file)
-            if match:
-                timestr, datestr = match.groups()
-                try:
-                    local_dt = datetime.datetime.strptime(
-                        timestr + "_" + datestr, "%H-%M-%S_%d-%m-%Y"
+            # Open WAV (only if provided)
+            self.wav = None
+            self.channels = 1
+            self.sample_rate = 1
+            if self.wav_file:
+                self.wav = wave.open(self.wav_file, 'rb')
+                self.channels = self.wav.getnchannels()
+                self.sample_rate = self.wav.getframerate()
+                print(f'wav file framerate: {self.wav.getframerate()}')
+
+                # Require stereo WAV file
+                if self.channels != 2:
+                    raise ValueError(
+                        f"WAV file {self.wav_file} must be stereo (2 channels), "
+                        f"but has {self.channels} channel(s)."
                     )
-                    local_dt = local_dt.replace(tzinfo=zoneinfo.ZoneInfo(self.timezone))
-                    self.start_play = local_dt.astimezone(zoneinfo.ZoneInfo("UTC"))
-                    if self.debug:
-                        print("[DEBUG] Parsed local time:", local_dt)
-                        print("[DEBUG] Converted to UTC:", self.start_play)
-                except ValueError:
-                    if self.debug:
-                        print("[DEBUG] Failed to parse start time, using UTC fallback")
 
-        # Local variables
-        self.sample_counter = 0
-        self.next_update = 0
+                if self.debug:
+                    print(f"[DEBUG] Opened WAV file: {self.wav_file}, "
+                          f"Channels: {self.channels}, SampleRate: {self.sample_rate}")
+
+            # Observer setup
+            self.observer = ephem.Observer()
+            self.observer.lat = self.lat if self.lat else "0"
+            self.observer.lon = self.lon if self.lon else "0"
+            self.observer.elevation = self.elev
+
+            # Load TLE by catalog number
+            if capture_session_id == 0:
+                self.sat = None
+                if self.tle_file:
+                    with open(self.tle_file, 'r') as f:
+                        lines = [ln.strip() for ln in f if ln.strip()]
+                    total_sats = len(lines) // 3
+                    if self.debug:
+                        print(f"[DEBUG] TLE file has {total_sats} satellites")
+
+                    for i in range(total_sats):
+                        name  = lines[i*3]
+                        line1 = lines[i*3 + 1]
+                        line2 = lines[i*3 + 2]
+
+                        parts = line1.split()
+                        if len(parts) > 1:
+                            catnum = parts[1]  # e.g. "66909U"
+                            catnum_digits = ''.join(ch for ch in catnum if ch.isdigit())
+
+                            if catnum_digits == self.catalog_number:
+                                self.sat = ephem.readtle(name, line1, line2)
+                                if self.debug:
+                                    print(f"[DEBUG] Loaded satellite {name} with catalog {catnum_digits}")
+                                    print("[DEBUG] Line1:", line1)
+                                    print("[DEBUG] Line2:", line2)
+                                break
+
+                    if self.sat is None and self.debug:
+                        print(f"[DEBUG] Catalog number {self.catalog_number} not found in file")
+
+            if self.start_time_utc:
+                self.start_play = datetime.datetime.fromisoformat(self.start_time_utc)
+            else:
+                # Parse date/time from filename (local → UTC)
+                self.start_play = datetime.datetime.utcnow()  # fallback
+                match = re.search(r'_(\d{2}-\d{2}-\d{2})_(\d{2}-\d{2}-\d{4})', self.wav_file)
+                if match:
+                    timestr, datestr = match.groups()
+                    try:
+                        local_dt = datetime.datetime.strptime(
+                            timestr + "_" + datestr, "%H-%M-%S_%d-%m-%Y"
+                        )
+                        local_dt = local_dt.replace(tzinfo=zoneinfo.ZoneInfo(self.timezone))
+                        self.start_play = local_dt.astimezone(zoneinfo.ZoneInfo("UTC"))
+                        if self.debug:
+                            print("[DEBUG] Parsed local time:", local_dt)
+                            print("[DEBUG] Converted to UTC:", self.start_play)
+                    except ValueError:
+                        if self.debug:
+                            print("[DEBUG] Failed to parse start time, using UTC fallback")
+
+            # Local variables
+            self.sample_counter = 0
+            self.next_update = 0
+    except Exception as e:
+        print('[DEBUG] Init Exception:', e)
+        raise
 
     def work(self, input_items, output_items):
         """
@@ -286,14 +314,14 @@ class blk(gr.sync_block):
             if not frames:
                 out[:] = 0.0 + 0.0j
                 return -1
-            data = np.frombuffer(frames, dtype=np.float32) #.astype(np.float32)
+            data = np.frombuffer(frames, dtype=np.int32) #.astype(np.float32)
 
             # Stereo IQ required
             stereo = data.reshape(-1, 2)
-            # i_data = stereo[:, 0] / 2147483648.0
-            # q_data = stereo[:, 1] / 2147483648.0
-            i_data = stereo[:, 0]
-            q_data = stereo[:, 1]
+            i_data = stereo[:, 0] / 2147483648.0
+            q_data = stereo[:, 1] / 2147483648.0
+            #i_data = stereo[:, 0]
+            #q_data = stereo[:, 1]
             
             iq = i_data[:n] + 1j * q_data[:n]
             if len(iq) < n:
@@ -301,6 +329,7 @@ class blk(gr.sync_block):
             out[:] = iq
         else:
             out[:] = 0.0 + 0.0j
+            print("out error")
         
         
         # Advance sample counter

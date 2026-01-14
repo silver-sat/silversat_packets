@@ -1760,3 +1760,627 @@
 2026-01-09 23:12:07,691 - INFO - 127.0.0.1 - - [09/Jan/2026 23:12:07] "GET /processing/1 HTTP/1.1" 200 -
 2026-01-09 23:12:35,697 - INFO - 127.0.0.1 - - [09/Jan/2026 23:12:35] "[32mPOST /ssdv/run HTTP/1.1[0m" 302 -
 2026-01-09 23:12:35,733 - INFO - 127.0.0.1 - - [09/Jan/2026 23:12:35] "GET /processing/ HTTP/1.1" 200 -
+2026-01-09 23:37:08,569 - INFO - 127.0.0.1 - - [09/Jan/2026 23:37:08] "GET /processing/1 HTTP/1.1" 200 -
+2026-01-09 23:37:38,303 - INFO - 127.0.0.1 - - [09/Jan/2026 23:37:38] "GET / HTTP/1.1" 200 -
+2026-01-10 08:41:15,305 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-01-10 08:41:15,305 - INFO - [33mPress CTRL+C to quit[0m
+2026-01-10 08:41:15,306 - INFO -  * Restarting with stat
+2026-01-10 08:41:16,006 - WARNING -  * Debugger is active!
+2026-01-10 08:41:16,007 - INFO -  * Debugger PIN: 720-709-699
+2026-01-10 08:41:24,511 - INFO - 127.0.0.1 - - [10/Jan/2026 08:41:24] "GET / HTTP/1.1" 200 -
+2026-01-10 08:41:24,938 - INFO - 127.0.0.1 - - [10/Jan/2026 08:41:24] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-01-10 08:41:27,229 - INFO - 127.0.0.1 - - [10/Jan/2026 08:41:27] "GET / HTTP/1.1" 200 -
+2026-01-10 08:45:15,797 - INFO - 127.0.0.1 - - [10/Jan/2026 08:45:15] "GET / HTTP/1.1" 200 -
+2026-01-10 08:45:27,372 - INFO - 127.0.0.1 - - [10/Jan/2026 08:45:27] "GET /captures/ HTTP/1.1" 200 -
+2026-01-10 08:45:30,210 - INFO - 127.0.0.1 - - [10/Jan/2026 08:45:30] "GET /processing/ HTTP/1.1" 200 -
+2026-01-10 08:54:25,863 - INFO - 127.0.0.1 - - [10/Jan/2026 08:54:25] "GET /processing/ HTTP/1.1" 200 -
+2026-01-10 08:55:00,031 - INFO - 127.0.0.1 - - [10/Jan/2026 08:55:00] "GET /processing/ HTTP/1.1" 200 -
+2026-01-10 15:17:17,783 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-01-10 15:17:17,784 - INFO - [33mPress CTRL+C to quit[0m
+2026-01-10 15:17:17,784 - INFO -  * Restarting with stat
+2026-01-10 15:17:18,616 - WARNING -  * Debugger is active!
+2026-01-10 15:17:18,616 - INFO -  * Debugger PIN: 239-881-599
+2026-01-10 15:17:22,803 - INFO - 127.0.0.1 - - [10/Jan/2026 15:17:22] "GET / HTTP/1.1" 200 -
+2026-01-10 16:14:37,225 - INFO - 127.0.0.1 - - [10/Jan/2026 16:14:37] "GET /captures/ HTTP/1.1" 200 -
+2026-01-10 16:14:41,201 - INFO - 127.0.0.1 - - [10/Jan/2026 16:14:41] "GET /captures/new HTTP/1.1" 200 -
+2026-01-10 16:14:45,332 - DEBUG - Starting new HTTPS connection (1): www.space-track.org:443
+2026-01-10 16:14:45,333 - INFO - 127.0.0.1 - - [10/Jan/2026 16:14:45] "[35m[1mGET /captures/fetch_tle/1 HTTP/1.1[0m" 500 -
+2026-01-10 16:15:29,382 - INFO - 127.0.0.1 - - [10/Jan/2026 16:15:29] "GET /locations/ HTTP/1.1" 200 -
+2026-01-10 16:15:36,988 - INFO - 127.0.0.1 - - [10/Jan/2026 16:15:36] "GET /satellites/ HTTP/1.1" 200 -
+2026-01-10 16:15:40,095 - INFO - 127.0.0.1 - - [10/Jan/2026 16:15:40] "GET /operators/ HTTP/1.1" 200 -
+2026-01-10 16:15:41,844 - INFO - 127.0.0.1 - - [10/Jan/2026 16:15:41] "GET /processing/ HTTP/1.1" 200 -
+2026-01-10 16:15:50,720 - INFO - 127.0.0.1 - - [10/Jan/2026 16:15:50] "GET /processing/new HTTP/1.1" 200 -
+2026-01-10 16:16:53,221 - INFO - 127.0.0.1 - - [10/Jan/2026 16:16:53] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-10 16:16:53,235 - INFO - 127.0.0.1 - - [10/Jan/2026 16:16:53] "GET /processing/ HTTP/1.1" 200 -
+2026-01-10 16:21:12,191 - INFO - 127.0.0.1 - - [10/Jan/2026 16:21:12] "GET /processing/1 HTTP/1.1" 200 -
+2026-01-12 16:00:19,785 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-01-12 16:00:19,785 - INFO - [33mPress CTRL+C to quit[0m
+2026-01-12 16:00:19,786 - INFO -  * Restarting with stat
+2026-01-12 16:00:20,506 - WARNING -  * Debugger is active!
+2026-01-12 16:00:20,506 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 16:00:31,486 - INFO - 127.0.0.1 - - [12/Jan/2026 16:00:31] "GET / HTTP/1.1" 200 -
+2026-01-12 18:23:20,191 - INFO - 127.0.0.1 - - [12/Jan/2026 18:23:20] "GET /captures/ HTTP/1.1" 200 -
+2026-01-12 18:23:21,931 - INFO - 127.0.0.1 - - [12/Jan/2026 18:23:21] "GET /captures/new HTTP/1.1" 200 -
+2026-01-12 18:23:25,416 - DEBUG - Starting new HTTPS connection (1): www.space-track.org:443
+2026-01-12 18:23:26,522 - DEBUG - https://www.space-track.org:443 "POST /ajaxauth/login HTTP/1.1" 200 None
+2026-01-12 18:23:26,682 - DEBUG - https://www.space-track.org:443 "GET /basicspacedata/query/class/tle_latest/NORAD_CAT_ID/66909/orderby/ORDINAL%20asc/format/tle HTTP/1.1" 404 134
+2026-01-12 18:23:26,684 - INFO - 127.0.0.1 - - [12/Jan/2026 18:23:26] "[35m[1mGET /captures/fetch_tle/1 HTTP/1.1[0m" 500 -
+2026-01-12 18:23:30,152 - DEBUG - Starting new HTTPS connection (1): www.space-track.org:443
+2026-01-12 18:23:31,274 - DEBUG - https://www.space-track.org:443 "POST /ajaxauth/login HTTP/1.1" 200 None
+2026-01-12 18:23:31,422 - DEBUG - https://www.space-track.org:443 "GET /basicspacedata/query/class/tle_latest/NORAD_CAT_ID/66909/orderby/ORDINAL%20asc/format/tle HTTP/1.1" 404 134
+2026-01-12 18:23:31,423 - INFO - 127.0.0.1 - - [12/Jan/2026 18:23:31] "[35m[1mGET /captures/fetch_tle/1 HTTP/1.1[0m" 500 -
+2026-01-12 18:23:37,045 - DEBUG - Starting new HTTPS connection (1): www.space-track.org:443
+2026-01-12 18:23:38,373 - DEBUG - https://www.space-track.org:443 "POST /ajaxauth/login HTTP/1.1" 200 None
+2026-01-12 18:23:38,531 - DEBUG - https://www.space-track.org:443 "GET /basicspacedata/query/class/tle_latest/NORAD_CAT_ID/66909/orderby/ORDINAL%20asc/format/tle HTTP/1.1" 404 134
+2026-01-12 18:23:38,532 - INFO - 127.0.0.1 - - [12/Jan/2026 18:23:38] "[35m[1mGET /captures/fetch_tle/1 HTTP/1.1[0m" 500 -
+2026-01-12 18:24:42,999 - DEBUG - Starting new HTTPS connection (1): www.space-track.org:443
+2026-01-12 18:24:44,612 - DEBUG - https://www.space-track.org:443 "POST /ajaxauth/login HTTP/1.1" 200 None
+2026-01-12 18:24:44,787 - DEBUG - https://www.space-track.org:443 "GET /basicspacedata/query/class/tle_latest/NORAD_CAT_ID/66909/orderby/ORDINAL%20asc/format/tle HTTP/1.1" 404 134
+2026-01-12 18:24:44,788 - INFO - 127.0.0.1 - - [12/Jan/2026 18:24:44] "[35m[1mGET /captures/fetch_tle/1 HTTP/1.1[0m" 500 -
+2026-01-12 18:24:49,190 - INFO - 127.0.0.1 - - [12/Jan/2026 18:24:49] "GET /captures/new HTTP/1.1" 200 -
+2026-01-12 18:24:51,821 - DEBUG - Starting new HTTPS connection (1): www.space-track.org:443
+2026-01-12 18:24:52,753 - DEBUG - Starting new HTTPS connection (1): www.space-track.org:443
+2026-01-12 18:24:53,011 - DEBUG - https://www.space-track.org:443 "POST /ajaxauth/login HTTP/1.1" 200 None
+2026-01-12 18:24:53,200 - DEBUG - https://www.space-track.org:443 "GET /basicspacedata/query/class/tle_latest/NORAD_CAT_ID/66909/orderby/ORDINAL%20asc/format/tle HTTP/1.1" 404 134
+2026-01-12 18:24:53,202 - INFO - 127.0.0.1 - - [12/Jan/2026 18:24:53] "[35m[1mGET /captures/fetch_tle/1 HTTP/1.1[0m" 500 -
+2026-01-12 18:24:54,212 - DEBUG - https://www.space-track.org:443 "POST /ajaxauth/login HTTP/1.1" 200 None
+2026-01-12 18:24:54,426 - DEBUG - https://www.space-track.org:443 "GET /basicspacedata/query/class/tle_latest/NORAD_CAT_ID/66909/orderby/ORDINAL%20asc/format/tle HTTP/1.1" 404 134
+2026-01-12 18:24:54,427 - INFO - 127.0.0.1 - - [12/Jan/2026 18:24:54] "[35m[1mGET /captures/fetch_tle/1 HTTP/1.1[0m" 500 -
+2026-01-12 18:25:01,935 - DEBUG - Starting new HTTPS connection (1): www.space-track.org:443
+2026-01-12 18:25:04,482 - DEBUG - https://www.space-track.org:443 "POST /ajaxauth/login HTTP/1.1" 200 None
+2026-01-12 18:25:04,669 - DEBUG - https://www.space-track.org:443 "GET /basicspacedata/query/class/tle_latest/NORAD_CAT_ID/66909/orderby/ORDINAL%20asc/format/tle HTTP/1.1" 404 134
+2026-01-12 18:25:04,671 - INFO - 127.0.0.1 - - [12/Jan/2026 18:25:04] "[35m[1mGET /captures/fetch_tle/1 HTTP/1.1[0m" 500 -
+2026-01-12 18:25:19,613 - INFO - 127.0.0.1 - - [12/Jan/2026 18:25:19] "GET /captures/ HTTP/1.1" 200 -
+2026-01-12 18:25:21,155 - INFO - 127.0.0.1 - - [12/Jan/2026 18:25:21] "GET /captures/new HTTP/1.1" 200 -
+2026-01-12 18:25:23,185 - DEBUG - Starting new HTTPS connection (1): www.space-track.org:443
+2026-01-12 18:25:24,402 - DEBUG - https://www.space-track.org:443 "POST /ajaxauth/login HTTP/1.1" 200 None
+2026-01-12 18:25:24,586 - DEBUG - https://www.space-track.org:443 "GET /basicspacedata/query/class/tle_latest/NORAD_CAT_ID/66909/orderby/ORDINAL%20asc/format/tle HTTP/1.1" 404 134
+2026-01-12 18:25:24,587 - INFO - 127.0.0.1 - - [12/Jan/2026 18:25:24] "[35m[1mGET /captures/fetch_tle/1 HTTP/1.1[0m" 500 -
+2026-01-12 18:25:33,173 - DEBUG - Starting new HTTPS connection (1): www.space-track.org:443
+2026-01-12 18:25:34,213 - DEBUG - https://www.space-track.org:443 "POST /ajaxauth/login HTTP/1.1" 200 None
+2026-01-12 18:25:34,429 - DEBUG - https://www.space-track.org:443 "GET /basicspacedata/query/class/tle_latest/NORAD_CAT_ID/66909/orderby/ORDINAL%20asc/format/tle HTTP/1.1" 404 134
+2026-01-12 18:25:34,430 - INFO - 127.0.0.1 - - [12/Jan/2026 18:25:34] "[35m[1mGET /captures/fetch_tle/1 HTTP/1.1[0m" 500 -
+2026-01-12 18:25:39,532 - INFO - 127.0.0.1 - - [12/Jan/2026 18:25:39] "[31m[1mPOST /captures/preview_orbit HTTP/1.1[0m" 400 -
+2026-01-12 18:25:43,771 - DEBUG - Starting new HTTPS connection (1): www.space-track.org:443
+2026-01-12 18:25:44,927 - DEBUG - https://www.space-track.org:443 "POST /ajaxauth/login HTTP/1.1" 200 None
+2026-01-12 18:25:45,122 - DEBUG - https://www.space-track.org:443 "GET /basicspacedata/query/class/tle_latest/NORAD_CAT_ID/66909/orderby/ORDINAL%20asc/format/tle HTTP/1.1" 404 134
+2026-01-12 18:25:45,123 - INFO - 127.0.0.1 - - [12/Jan/2026 18:25:45] "[35m[1mGET /captures/fetch_tle/1 HTTP/1.1[0m" 500 -
+2026-01-12 18:25:48,720 - DEBUG - Starting new HTTPS connection (1): www.space-track.org:443
+2026-01-12 18:25:49,894 - DEBUG - https://www.space-track.org:443 "POST /ajaxauth/login HTTP/1.1" 200 None
+2026-01-12 18:25:50,082 - DEBUG - https://www.space-track.org:443 "GET /basicspacedata/query/class/tle_latest/NORAD_CAT_ID/66909/orderby/ORDINAL%20asc/format/tle HTTP/1.1" 404 134
+2026-01-12 18:25:50,083 - INFO - 127.0.0.1 - - [12/Jan/2026 18:25:50] "[35m[1mGET /captures/fetch_tle/1 HTTP/1.1[0m" 500 -
+2026-01-12 18:27:00,685 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-01-12 18:27:00,686 - INFO - [33mPress CTRL+C to quit[0m
+2026-01-12 18:27:00,686 - INFO -  * Restarting with stat
+2026-01-12 18:27:01,403 - WARNING -  * Debugger is active!
+2026-01-12 18:27:01,403 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 18:27:13,257 - INFO - 127.0.0.1 - - [12/Jan/2026 18:27:13] "GET / HTTP/1.1" 200 -
+2026-01-12 18:27:15,809 - INFO - 127.0.0.1 - - [12/Jan/2026 18:27:15] "GET /captures/ HTTP/1.1" 200 -
+2026-01-12 18:27:17,219 - INFO - 127.0.0.1 - - [12/Jan/2026 18:27:17] "GET /captures/new HTTP/1.1" 200 -
+2026-01-12 18:27:18,872 - DEBUG - Starting new HTTPS connection (1): www.space-track.org:443
+2026-01-12 18:27:19,877 - DEBUG - https://www.space-track.org:443 "POST /ajaxauth/login HTTP/1.1" 200 None
+2026-01-12 18:27:20,053 - DEBUG - https://www.space-track.org:443 "GET /basicspacedata/query/class/tle_latest/NORAD_CAT_ID/66909/orderby/ORDINAL%20asc/format/tle HTTP/1.1" 404 134
+2026-01-12 18:27:20,054 - INFO - 127.0.0.1 - - [12/Jan/2026 18:27:20] "[35m[1mGET /captures/fetch_tle/1 HTTP/1.1[0m" 500 -
+2026-01-12 18:27:23,627 - DEBUG - Starting new HTTPS connection (1): www.space-track.org:443
+2026-01-12 18:27:24,634 - DEBUG - https://www.space-track.org:443 "POST /ajaxauth/login HTTP/1.1" 200 None
+2026-01-12 18:27:24,817 - DEBUG - https://www.space-track.org:443 "GET /basicspacedata/query/class/tle_latest/NORAD_CAT_ID/66909/orderby/ORDINAL%20asc/format/tle HTTP/1.1" 404 134
+2026-01-12 18:27:24,817 - INFO - 127.0.0.1 - - [12/Jan/2026 18:27:24] "[35m[1mGET /captures/fetch_tle/1 HTTP/1.1[0m" 500 -
+2026-01-12 18:27:37,192 - DEBUG - Starting new HTTPS connection (1): www.space-track.org:443
+2026-01-12 18:27:38,406 - DEBUG - https://www.space-track.org:443 "POST /ajaxauth/login HTTP/1.1" 200 None
+2026-01-12 18:27:38,593 - DEBUG - https://www.space-track.org:443 "GET /basicspacedata/query/class/tle_latest/NORAD_CAT_ID/66909/orderby/ORDINAL%20asc/format/tle HTTP/1.1" 404 134
+2026-01-12 18:27:38,594 - INFO - 127.0.0.1 - - [12/Jan/2026 18:27:38] "[35m[1mGET /captures/fetch_tle/1 HTTP/1.1[0m" 500 -
+2026-01-12 18:27:43,539 - INFO - 127.0.0.1 - - [12/Jan/2026 18:27:43] "GET /captures/ HTTP/1.1" 200 -
+2026-01-12 18:27:45,515 - INFO - 127.0.0.1 - - [12/Jan/2026 18:27:45] "GET /captures/new HTTP/1.1" 200 -
+2026-01-12 18:27:47,482 - DEBUG - Starting new HTTPS connection (1): www.space-track.org:443
+2026-01-12 18:27:48,966 - DEBUG - https://www.space-track.org:443 "POST /ajaxauth/login HTTP/1.1" 200 None
+2026-01-12 18:27:49,156 - DEBUG - https://www.space-track.org:443 "GET /basicspacedata/query/class/tle_latest/NORAD_CAT_ID/66909/orderby/ORDINAL%20asc/format/tle HTTP/1.1" 404 134
+2026-01-12 18:27:49,159 - INFO - 127.0.0.1 - - [12/Jan/2026 18:27:49] "[35m[1mGET /captures/fetch_tle/1 HTTP/1.1[0m" 500 -
+2026-01-12 18:28:42,224 - DEBUG - Starting new HTTPS connection (1): www.space-track.org:443
+2026-01-12 18:28:44,073 - DEBUG - https://www.space-track.org:443 "POST /ajaxauth/login HTTP/1.1" 200 None
+2026-01-12 18:28:44,347 - DEBUG - https://www.space-track.org:443 "GET /basicspacedata/query/class/tle_latest/NORAD_CAT_ID/66909/orderby/ORDINAL%20asc/format/tle HTTP/1.1" 404 134
+2026-01-12 18:28:44,348 - INFO - 127.0.0.1 - - [12/Jan/2026 18:28:44] "[35m[1mGET /captures/fetch_tle/1 HTTP/1.1[0m" 500 -
+2026-01-12 18:29:10,437 - DEBUG - Starting new HTTPS connection (1): www.space-track.org:443
+2026-01-12 18:29:11,425 - DEBUG - https://www.space-track.org:443 "POST /ajaxauth/login HTTP/1.1" 200 None
+2026-01-12 18:29:11,631 - DEBUG - https://www.space-track.org:443 "GET /basicspacedata/query/class/tle_latest/NORAD_CAT_ID/66909/orderby/ORDINAL%20asc/format/tle HTTP/1.1" 404 134
+2026-01-12 18:29:11,632 - INFO - 127.0.0.1 - - [12/Jan/2026 18:29:11] "[35m[1mGET /captures/fetch_tle/1 HTTP/1.1[0m" 500 -
+2026-01-12 18:31:04,790 - DEBUG - Starting new HTTPS connection (1): www.space-track.org:443
+2026-01-12 18:31:06,706 - DEBUG - https://www.space-track.org:443 "POST /ajaxauth/login HTTP/1.1" 200 None
+2026-01-12 18:31:06,915 - DEBUG - https://www.space-track.org:443 "GET /basicspacedata/query/class/tle_latest/NORAD_CAT_ID/66909/orderby/ORDINAL%20asc/format/tle HTTP/1.1" 404 134
+2026-01-12 18:31:06,918 - INFO - 127.0.0.1 - - [12/Jan/2026 18:31:06] "[35m[1mGET /captures/fetch_tle/1 HTTP/1.1[0m" 500 -
+2026-01-12 18:32:23,654 - DEBUG - Starting new HTTPS connection (1): www.space-track.org:443
+2026-01-12 18:32:25,135 - DEBUG - https://www.space-track.org:443 "POST /ajaxauth/login HTTP/1.1" 200 None
+2026-01-12 18:32:25,340 - DEBUG - https://www.space-track.org:443 "GET /basicspacedata/query/class/tle_latest/NORAD_CAT_ID/66909/orderby/ORDINAL%20asc/format/tle HTTP/1.1" 404 134
+2026-01-12 18:32:25,341 - INFO - 127.0.0.1 - - [12/Jan/2026 18:32:25] "[35m[1mGET /captures/fetch_tle/1 HTTP/1.1[0m" 500 -
+2026-01-12 18:32:29,742 - DEBUG - Starting new HTTPS connection (1): www.space-track.org:443
+2026-01-12 18:32:30,906 - DEBUG - https://www.space-track.org:443 "POST /ajaxauth/login HTTP/1.1" 200 None
+2026-01-12 18:32:31,117 - DEBUG - https://www.space-track.org:443 "GET /basicspacedata/query/class/tle_latest/NORAD_CAT_ID/66909/orderby/ORDINAL%20asc/format/tle HTTP/1.1" 404 134
+2026-01-12 18:32:31,118 - INFO - 127.0.0.1 - - [12/Jan/2026 18:32:31] "[35m[1mGET /captures/fetch_tle/1 HTTP/1.1[0m" 500 -
+2026-01-12 18:34:26,674 - DEBUG - Starting new HTTPS connection (1): www.space-track.org:443
+2026-01-12 18:34:27,741 - DEBUG - https://www.space-track.org:443 "POST /ajaxauth/login HTTP/1.1" 200 None
+2026-01-12 18:34:27,947 - DEBUG - https://www.space-track.org:443 "GET /basicspacedata/query/class/tle_latest/NORAD_CAT_ID/66909/orderby/ORDINAL%20asc/format/tle HTTP/1.1" 404 134
+2026-01-12 18:34:27,948 - INFO - 127.0.0.1 - - [12/Jan/2026 18:34:27] "[35m[1mGET /captures/fetch_tle/1 HTTP/1.1[0m" 500 -
+2026-01-12 18:34:32,331 - DEBUG - Starting new HTTPS connection (1): www.space-track.org:443
+2026-01-12 18:34:34,150 - DEBUG - https://www.space-track.org:443 "POST /ajaxauth/login HTTP/1.1" 200 None
+2026-01-12 18:34:34,367 - DEBUG - https://www.space-track.org:443 "GET /basicspacedata/query/class/tle_latest/NORAD_CAT_ID/66909/orderby/ORDINAL%20asc/format/tle HTTP/1.1" 404 134
+2026-01-12 18:34:34,368 - INFO - 127.0.0.1 - - [12/Jan/2026 18:34:34] "[35m[1mGET /captures/fetch_tle/1 HTTP/1.1[0m" 500 -
+2026-01-12 18:35:44,756 - DEBUG - Starting new HTTPS connection (1): www.space-track.org:443
+2026-01-12 18:35:46,059 - DEBUG - https://www.space-track.org:443 "POST /ajaxauth/login HTTP/1.1" 200 None
+2026-01-12 18:35:46,325 - DEBUG - https://www.space-track.org:443 "GET /basicspacedata/query/class/tle_latest/NORAD_CAT_ID/66909/orderby/ORDINAL%20asc/format/tle HTTP/1.1" 404 134
+2026-01-12 18:35:46,326 - INFO - 127.0.0.1 - - [12/Jan/2026 18:35:46] "[35m[1mGET /captures/fetch_tle/1 HTTP/1.1[0m" 500 -
+2026-01-12 18:35:51,382 - DEBUG - Starting new HTTPS connection (1): www.space-track.org:443
+2026-01-12 18:35:52,463 - DEBUG - https://www.space-track.org:443 "POST /ajaxauth/login HTTP/1.1" 200 None
+2026-01-12 18:35:52,663 - DEBUG - https://www.space-track.org:443 "GET /basicspacedata/query/class/tle_latest/NORAD_CAT_ID/66909/orderby/ORDINAL%20asc/format/tle HTTP/1.1" 404 134
+2026-01-12 18:35:52,664 - INFO - 127.0.0.1 - - [12/Jan/2026 18:35:52] "[35m[1mGET /captures/fetch_tle/1 HTTP/1.1[0m" 500 -
+2026-01-12 18:36:17,378 - INFO - 127.0.0.1 - - [12/Jan/2026 18:36:17] "[35m[1mPOST /captures/preview_orbit HTTP/1.1[0m" 500 -
+2026-01-12 18:36:22,570 - INFO - 127.0.0.1 - - [12/Jan/2026 18:36:22] "[32mPOST /captures/new HTTP/1.1[0m" 302 -
+2026-01-12 18:36:22,588 - INFO - 127.0.0.1 - - [12/Jan/2026 18:36:22] "GET / HTTP/1.1" 200 -
+2026-01-12 18:36:22,775 - INFO - 127.0.0.1 - - [12/Jan/2026 18:36:22] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-01-12 18:46:34,826 - INFO - 127.0.0.1 - - [12/Jan/2026 18:46:34] "GET / HTTP/1.1" 200 -
+2026-01-12 18:51:07,402 - INFO - 127.0.0.1 - - [12/Jan/2026 18:51:07] "GET /captures/captures/2/edit HTTP/1.1" 200 -
+2026-01-12 18:52:29,113 - INFO - 127.0.0.1 - - [12/Jan/2026 18:52:29] "[32mPOST /captures/captures/2/edit HTTP/1.1[0m" 302 -
+2026-01-12 18:52:29,122 - INFO - 127.0.0.1 - - [12/Jan/2026 18:52:29] "GET /captures/ HTTP/1.1" 200 -
+2026-01-12 18:54:44,658 - INFO - 127.0.0.1 - - [12/Jan/2026 18:54:44] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 18:54:49,676 - INFO - 127.0.0.1 - - [12/Jan/2026 18:54:49] "GET /processing/new HTTP/1.1" 200 -
+2026-01-12 18:55:14,427 - INFO - 127.0.0.1 - - [12/Jan/2026 18:55:14] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-12 18:55:14,445 - INFO - 127.0.0.1 - - [12/Jan/2026 18:55:14] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 18:58:26,126 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_4.py', reloading
+2026-01-12 18:58:26,392 - INFO -  * Restarting with stat
+2026-01-12 18:58:27,133 - WARNING -  * Debugger is active!
+2026-01-12 18:58:27,134 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 18:58:31,162 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_2.py', reloading
+2026-01-12 18:58:31,437 - INFO -  * Restarting with stat
+2026-01-12 18:58:32,342 - WARNING -  * Debugger is active!
+2026-01-12 18:58:32,342 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 18:59:32,691 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_1.py', reloading
+2026-01-12 18:59:32,967 - INFO -  * Restarting with stat
+2026-01-12 18:59:33,826 - WARNING -  * Debugger is active!
+2026-01-12 18:59:33,827 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 19:00:24,107 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_1.py', reloading
+2026-01-12 19:00:24,421 - INFO -  * Restarting with stat
+2026-01-12 19:00:25,217 - WARNING -  * Debugger is active!
+2026-01-12 19:00:25,218 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 19:00:40,297 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_0.py', reloading
+2026-01-12 19:00:40,583 - INFO -  * Restarting with stat
+2026-01-12 19:00:41,448 - WARNING -  * Debugger is active!
+2026-01-12 19:00:41,448 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 19:01:34,746 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback.py', reloading
+2026-01-12 19:01:35,024 - INFO -  * Restarting with stat
+2026-01-12 19:01:35,892 - WARNING -  * Debugger is active!
+2026-01-12 19:01:35,892 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 19:03:51,578 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback.py', reloading
+2026-01-12 19:03:51,850 - INFO -  * Restarting with stat
+2026-01-12 19:03:52,635 - WARNING -  * Debugger is active!
+2026-01-12 19:03:52,635 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 19:05:39,245 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_1.py', reloading
+2026-01-12 19:05:39,541 - INFO -  * Restarting with stat
+2026-01-12 19:05:40,437 - WARNING -  * Debugger is active!
+2026-01-12 19:05:40,438 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 19:06:16,627 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_2.py', reloading
+2026-01-12 19:06:16,902 - INFO -  * Restarting with stat
+2026-01-12 19:06:17,746 - WARNING -  * Debugger is active!
+2026-01-12 19:06:17,746 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 19:07:01,970 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_4.py', reloading
+2026-01-12 19:07:02,251 - INFO -  * Restarting with stat
+2026-01-12 19:07:03,101 - WARNING -  * Debugger is active!
+2026-01-12 19:07:03,102 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 19:07:14,163 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_2.py', reloading
+2026-01-12 19:07:14,446 - INFO -  * Restarting with stat
+2026-01-12 19:07:15,379 - WARNING -  * Debugger is active!
+2026-01-12 19:07:15,379 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 19:09:08,002 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_0.py', reloading
+2026-01-12 19:09:08,282 - INFO -  * Restarting with stat
+2026-01-12 19:09:09,258 - WARNING -  * Debugger is active!
+2026-01-12 19:09:09,259 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 19:11:59,173 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback.py', reloading
+2026-01-12 19:11:59,461 - INFO -  * Restarting with stat
+2026-01-12 19:12:00,480 - WARNING -  * Debugger is active!
+2026-01-12 19:12:00,481 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 19:12:38,689 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback.py', reloading
+2026-01-12 19:12:38,972 - INFO -  * Restarting with stat
+2026-01-12 19:12:39,995 - WARNING -  * Debugger is active!
+2026-01-12 19:12:39,995 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 19:13:33,306 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback.py', reloading
+2026-01-12 19:13:33,608 - INFO -  * Restarting with stat
+2026-01-12 19:13:34,538 - WARNING -  * Debugger is active!
+2026-01-12 19:13:34,538 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 19:14:02,681 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_0.py', reloading
+2026-01-12 19:14:02,949 - INFO -  * Restarting with stat
+2026-01-12 19:14:03,964 - WARNING -  * Debugger is active!
+2026-01-12 19:14:03,965 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 19:24:12,401 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_2.py', reloading
+2026-01-12 19:24:12,746 - INFO -  * Restarting with stat
+2026-01-12 19:24:13,586 - WARNING -  * Debugger is active!
+2026-01-12 19:24:13,587 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 19:30:48,635 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_0.py', reloading
+2026-01-12 19:30:48,971 - INFO -  * Restarting with stat
+2026-01-12 19:30:49,866 - WARNING -  * Debugger is active!
+2026-01-12 19:30:49,866 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 19:39:19,787 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_0.py', reloading
+2026-01-12 19:39:20,069 - INFO -  * Restarting with stat
+2026-01-12 19:39:21,008 - WARNING -  * Debugger is active!
+2026-01-12 19:39:21,008 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 19:40:31,362 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_0.py', reloading
+2026-01-12 19:40:31,662 - INFO -  * Restarting with stat
+2026-01-12 19:40:32,576 - WARNING -  * Debugger is active!
+2026-01-12 19:40:32,576 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 19:42:04,089 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback.py', reloading
+2026-01-12 19:42:04,399 - INFO -  * Restarting with stat
+2026-01-12 19:42:05,266 - WARNING -  * Debugger is active!
+2026-01-12 19:42:05,266 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 19:45:50,471 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_2.py', reloading
+2026-01-12 19:45:50,752 - INFO -  * Restarting with stat
+2026-01-12 19:45:51,499 - WARNING -  * Debugger is active!
+2026-01-12 19:45:51,499 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 19:46:18,653 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_0.py', reloading
+2026-01-12 19:46:18,962 - INFO -  * Restarting with stat
+2026-01-12 19:46:19,867 - WARNING -  * Debugger is active!
+2026-01-12 19:46:19,867 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 19:48:34,633 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_1.py', reloading
+2026-01-12 19:48:34,931 - INFO -  * Restarting with stat
+2026-01-12 19:48:35,849 - WARNING -  * Debugger is active!
+2026-01-12 19:48:35,849 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 19:57:30,911 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_1.py', reloading
+2026-01-12 19:57:31,231 - INFO -  * Restarting with stat
+2026-01-12 19:57:32,123 - WARNING -  * Debugger is active!
+2026-01-12 19:57:32,124 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 20:08:11,729 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_2.py', reloading
+2026-01-12 20:08:11,997 - INFO -  * Restarting with stat
+2026-01-12 20:08:12,991 - WARNING -  * Debugger is active!
+2026-01-12 20:08:12,992 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 20:10:30,737 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_1.py', reloading
+2026-01-12 20:10:31,012 - INFO -  * Restarting with stat
+2026-01-12 20:10:31,940 - WARNING -  * Debugger is active!
+2026-01-12 20:10:31,940 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 20:11:10,141 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_0.py', reloading
+2026-01-12 20:11:10,494 - INFO -  * Restarting with stat
+2026-01-12 20:11:11,355 - WARNING -  * Debugger is active!
+2026-01-12 20:11:11,355 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 20:20:28,435 - INFO - 127.0.0.1 - - [12/Jan/2026 20:20:28] "GET /processing/new HTTP/1.1" 200 -
+2026-01-12 20:20:59,195 - INFO - 127.0.0.1 - - [12/Jan/2026 20:20:59] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-12 20:20:59,230 - INFO - 127.0.0.1 - - [12/Jan/2026 20:20:59] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 20:21:28,357 - INFO - 127.0.0.1 - - [12/Jan/2026 20:21:28] "GET /processing/new HTTP/1.1" 200 -
+2026-01-12 20:21:52,972 - INFO - 127.0.0.1 - - [12/Jan/2026 20:21:52] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-12 20:21:53,003 - INFO - 127.0.0.1 - - [12/Jan/2026 20:21:53] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 20:22:06,850 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_2.py', reloading
+2026-01-12 20:22:07,069 - INFO -  * Restarting with stat
+2026-01-12 20:22:07,812 - WARNING -  * Debugger is active!
+2026-01-12 20:22:07,812 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 20:23:04,133 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_4.py', reloading
+2026-01-12 20:23:04,374 - INFO -  * Restarting with stat
+2026-01-12 20:23:05,129 - WARNING -  * Debugger is active!
+2026-01-12 20:23:05,130 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 20:23:16,473 - INFO - 127.0.0.1 - - [12/Jan/2026 20:23:16] "GET /processing/new HTTP/1.1" 200 -
+2026-01-12 20:25:49,844 - INFO - 127.0.0.1 - - [12/Jan/2026 20:25:49] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-12 20:25:49,878 - INFO - 127.0.0.1 - - [12/Jan/2026 20:25:49] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 20:32:15,616 - INFO - 127.0.0.1 - - [12/Jan/2026 20:32:15] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 20:33:15,299 - INFO - 127.0.0.1 - - [12/Jan/2026 20:33:15] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 20:33:20,866 - INFO - 127.0.0.1 - - [12/Jan/2026 20:33:20] "GET /processing/new HTTP/1.1" 200 -
+2026-01-12 20:33:44,398 - INFO - 127.0.0.1 - - [12/Jan/2026 20:33:44] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-12 20:33:44,419 - INFO - 127.0.0.1 - - [12/Jan/2026 20:33:44] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 20:34:35,495 - INFO - 127.0.0.1 - - [12/Jan/2026 20:34:35] "GET /captures/ HTTP/1.1" 200 -
+2026-01-12 20:34:37,061 - INFO - 127.0.0.1 - - [12/Jan/2026 20:34:37] "GET /captures/new HTTP/1.1" 200 -
+2026-01-12 20:34:38,865 - DEBUG - Starting new HTTPS connection (1): www.space-track.org:443
+2026-01-12 20:34:40,178 - DEBUG - https://www.space-track.org:443 "POST /ajaxauth/login HTTP/1.1" 200 None
+2026-01-12 20:34:40,355 - DEBUG - https://www.space-track.org:443 "GET /basicspacedata/query/class/tle_latest/NORAD_CAT_ID/66909/orderby/ORDINAL%20asc/format/tle HTTP/1.1" 404 134
+2026-01-12 20:34:40,356 - INFO - 127.0.0.1 - - [12/Jan/2026 20:34:40] "[35m[1mGET /captures/fetch_tle/1 HTTP/1.1[0m" 500 -
+2026-01-12 20:36:02,199 - INFO - 127.0.0.1 - - [12/Jan/2026 20:36:02] "GET /captures/ HTTP/1.1" 200 -
+2026-01-12 20:36:03,887 - INFO - 127.0.0.1 - - [12/Jan/2026 20:36:03] "GET / HTTP/1.1" 200 -
+2026-01-12 20:38:22,301 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-01-12 20:38:22,301 - INFO - [33mPress CTRL+C to quit[0m
+2026-01-12 20:38:22,301 - INFO -  * Restarting with stat
+2026-01-12 20:38:23,029 - WARNING -  * Debugger is active!
+2026-01-12 20:38:23,029 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 20:38:33,183 - INFO - 127.0.0.1 - - [12/Jan/2026 20:38:33] "GET /captures/ HTTP/1.1" 200 -
+2026-01-12 20:38:40,499 - INFO - 127.0.0.1 - - [12/Jan/2026 20:38:40] "GET /captures/new HTTP/1.1" 200 -
+2026-01-12 20:38:42,735 - DEBUG - Starting new HTTPS connection (1): www.space-track.org:443
+2026-01-12 20:38:44,287 - DEBUG - https://www.space-track.org:443 "POST /ajaxauth/login HTTP/1.1" 200 None
+2026-01-12 20:38:44,658 - DEBUG - https://www.space-track.org:443 "GET /basicspacedata/query/class/tle_latest/NORAD_CAT_ID/66909/orderby/ORDINAL%20asc/format/tle HTTP/1.1" 404 134
+2026-01-12 20:38:44,659 - INFO - 127.0.0.1 - - [12/Jan/2026 20:38:44] "[35m[1mGET /captures/fetch_tle/1 HTTP/1.1[0m" 500 -
+2026-01-12 20:38:49,928 - INFO - 127.0.0.1 - - [12/Jan/2026 20:38:49] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 20:38:50,029 - INFO - 127.0.0.1 - - [12/Jan/2026 20:38:50] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-01-12 20:38:52,006 - INFO - 127.0.0.1 - - [12/Jan/2026 20:38:52] "GET /processing/new HTTP/1.1" 200 -
+2026-01-12 20:39:03,876 - INFO - 127.0.0.1 - - [12/Jan/2026 20:39:03] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-12 20:39:03,897 - INFO - 127.0.0.1 - - [12/Jan/2026 20:39:03] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 20:50:59,729 - INFO - 127.0.0.1 - - [12/Jan/2026 20:50:59] "GET /processing/new HTTP/1.1" 200 -
+2026-01-12 20:51:12,067 - INFO - 127.0.0.1 - - [12/Jan/2026 20:51:12] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-12 20:51:12,087 - INFO - 127.0.0.1 - - [12/Jan/2026 20:51:12] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 21:01:33,992 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-01-12 21:01:33,992 - INFO - [33mPress CTRL+C to quit[0m
+2026-01-12 21:01:33,992 - INFO -  * Restarting with stat
+2026-01-12 21:01:34,693 - WARNING -  * Debugger is active!
+2026-01-12 21:01:34,693 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 21:01:44,284 - INFO - 127.0.0.1 - - [12/Jan/2026 21:01:44] "GET /processing/new HTTP/1.1" 200 -
+2026-01-12 21:01:52,017 - INFO - 127.0.0.1 - - [12/Jan/2026 21:01:52] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-12 21:01:52,041 - INFO - 127.0.0.1 - - [12/Jan/2026 21:01:52] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 21:03:33,378 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_2.py', reloading
+2026-01-12 21:03:33,615 - INFO -  * Restarting with stat
+2026-01-12 21:03:34,352 - WARNING -  * Debugger is active!
+2026-01-12 21:03:34,352 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 21:03:37,376 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_4.py', reloading
+2026-01-12 21:03:37,623 - INFO -  * Restarting with stat
+2026-01-12 21:03:38,364 - WARNING -  * Debugger is active!
+2026-01-12 21:03:38,364 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 21:06:46,422 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_0.py', reloading
+2026-01-12 21:06:46,658 - INFO -  * Restarting with stat
+2026-01-12 21:06:47,419 - WARNING -  * Debugger is active!
+2026-01-12 21:06:47,419 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 21:07:00,562 - INFO - 127.0.0.1 - - [12/Jan/2026 21:07:00] "GET /processing/new HTTP/1.1" 200 -
+2026-01-12 21:07:09,284 - INFO - 127.0.0.1 - - [12/Jan/2026 21:07:09] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-12 21:07:09,311 - INFO - 127.0.0.1 - - [12/Jan/2026 21:07:09] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 21:08:52,137 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_1.py', reloading
+2026-01-12 21:08:52,367 - INFO -  * Restarting with stat
+2026-01-12 21:08:53,100 - WARNING -  * Debugger is active!
+2026-01-12 21:08:53,100 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 21:09:05,463 - INFO - 127.0.0.1 - - [12/Jan/2026 21:09:05] "GET /processing/new HTTP/1.1" 200 -
+2026-01-12 21:09:14,242 - INFO - 127.0.0.1 - - [12/Jan/2026 21:09:14] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-12 21:09:14,273 - INFO - 127.0.0.1 - - [12/Jan/2026 21:09:14] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 21:13:54,866 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_2.py', reloading
+2026-01-12 21:13:55,130 - INFO -  * Restarting with stat
+2026-01-12 21:13:55,933 - WARNING -  * Debugger is active!
+2026-01-12 21:13:55,933 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 21:14:13,934 - INFO - 127.0.0.1 - - [12/Jan/2026 21:14:13] "GET /processing/new HTTP/1.1" 200 -
+2026-01-12 21:14:21,566 - INFO - 127.0.0.1 - - [12/Jan/2026 21:14:21] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-12 21:14:21,611 - INFO - 127.0.0.1 - - [12/Jan/2026 21:14:21] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 21:25:06,747 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback.py', reloading
+2026-01-12 21:25:07,011 - INFO -  * Restarting with stat
+2026-01-12 21:25:07,811 - WARNING -  * Debugger is active!
+2026-01-12 21:25:07,812 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 21:25:14,085 - INFO - 127.0.0.1 - - [12/Jan/2026 21:25:14] "GET /processing/new HTTP/1.1" 200 -
+2026-01-12 21:25:24,664 - INFO - 127.0.0.1 - - [12/Jan/2026 21:25:24] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-12 21:25:24,688 - INFO - 127.0.0.1 - - [12/Jan/2026 21:25:24] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 21:27:15,556 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_1.py', reloading
+2026-01-12 21:27:15,867 - INFO -  * Restarting with stat
+2026-01-12 21:27:16,806 - WARNING -  * Debugger is active!
+2026-01-12 21:27:16,806 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 21:27:29,710 - INFO - 127.0.0.1 - - [12/Jan/2026 21:27:29] "GET /processing/new HTTP/1.1" 200 -
+2026-01-12 21:27:36,361 - INFO - 127.0.0.1 - - [12/Jan/2026 21:27:36] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-12 21:27:36,385 - INFO - 127.0.0.1 - - [12/Jan/2026 21:27:36] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 21:30:01,720 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_1.py', reloading
+2026-01-12 21:30:01,958 - INFO -  * Restarting with stat
+2026-01-12 21:30:02,842 - WARNING -  * Debugger is active!
+2026-01-12 21:30:02,842 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 21:30:10,015 - INFO - 127.0.0.1 - - [12/Jan/2026 21:30:10] "GET /processing/new HTTP/1.1" 200 -
+2026-01-12 21:30:18,599 - INFO - 127.0.0.1 - - [12/Jan/2026 21:30:18] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-12 21:30:18,627 - INFO - 127.0.0.1 - - [12/Jan/2026 21:30:18] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 21:32:20,604 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_4.py', reloading
+2026-01-12 21:32:20,843 - INFO -  * Restarting with stat
+2026-01-12 21:32:21,600 - WARNING -  * Debugger is active!
+2026-01-12 21:32:21,600 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 21:32:22,614 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_0.py', reloading
+2026-01-12 21:32:22,836 - INFO -  * Restarting with stat
+2026-01-12 21:32:23,553 - WARNING -  * Debugger is active!
+2026-01-12 21:32:23,553 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 21:32:34,752 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-01-12 21:32:34,752 - INFO - [33mPress CTRL+C to quit[0m
+2026-01-12 21:32:34,753 - INFO -  * Restarting with stat
+2026-01-12 21:32:35,469 - WARNING -  * Debugger is active!
+2026-01-12 21:32:35,469 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 21:32:46,664 - INFO - 127.0.0.1 - - [12/Jan/2026 21:32:46] "GET /processing/new HTTP/1.1" 200 -
+2026-01-12 21:32:50,956 - INFO - 127.0.0.1 - - [12/Jan/2026 21:32:50] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-12 21:32:50,980 - INFO - 127.0.0.1 - - [12/Jan/2026 21:32:50] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 21:33:34,694 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-01-12 21:33:34,695 - INFO - [33mPress CTRL+C to quit[0m
+2026-01-12 21:33:34,695 - INFO -  * Restarting with stat
+2026-01-12 21:33:35,425 - WARNING -  * Debugger is active!
+2026-01-12 21:33:35,426 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 21:39:05,304 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_0.py', reloading
+2026-01-12 21:39:05,633 - INFO -  * Restarting with stat
+2026-01-12 21:39:06,403 - WARNING -  * Debugger is active!
+2026-01-12 21:39:06,403 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 21:39:16,289 - INFO - 127.0.0.1 - - [12/Jan/2026 21:39:16] "GET /processing/new HTTP/1.1" 200 -
+2026-01-12 21:39:22,058 - INFO - 127.0.0.1 - - [12/Jan/2026 21:39:22] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-12 21:39:22,089 - INFO - 127.0.0.1 - - [12/Jan/2026 21:39:22] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 21:41:33,389 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-01-12 21:41:33,389 - INFO - [33mPress CTRL+C to quit[0m
+2026-01-12 21:41:33,389 - INFO -  * Restarting with stat
+2026-01-12 21:41:34,091 - WARNING -  * Debugger is active!
+2026-01-12 21:41:34,092 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 21:41:38,287 - INFO - 127.0.0.1 - - [12/Jan/2026 21:41:38] "GET /processing/new HTTP/1.1" 200 -
+2026-01-12 21:41:46,333 - INFO - 127.0.0.1 - - [12/Jan/2026 21:41:46] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-12 21:41:46,376 - INFO - 127.0.0.1 - - [12/Jan/2026 21:41:46] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 21:42:40,446 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback.py', reloading
+2026-01-12 21:42:40,687 - INFO -  * Restarting with stat
+2026-01-12 21:42:41,423 - WARNING -  * Debugger is active!
+2026-01-12 21:42:41,423 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 21:51:30,342 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-01-12 21:51:30,342 - INFO - [33mPress CTRL+C to quit[0m
+2026-01-12 21:51:30,342 - INFO -  * Restarting with stat
+2026-01-12 21:51:31,042 - WARNING -  * Debugger is active!
+2026-01-12 21:51:31,042 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 21:51:59,051 - INFO - 127.0.0.1 - - [12/Jan/2026 21:51:59] "GET / HTTP/1.1" 200 -
+2026-01-12 21:51:59,235 - INFO - 127.0.0.1 - - [12/Jan/2026 21:51:59] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-01-12 21:52:06,963 - INFO - 127.0.0.1 - - [12/Jan/2026 21:52:06] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 21:52:08,286 - INFO - 127.0.0.1 - - [12/Jan/2026 21:52:08] "GET /processing/new HTTP/1.1" 200 -
+2026-01-12 21:52:12,798 - INFO - 127.0.0.1 - - [12/Jan/2026 21:52:12] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-12 21:52:12,817 - INFO - 127.0.0.1 - - [12/Jan/2026 21:52:12] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 22:02:37,902 - INFO - 127.0.0.1 - - [12/Jan/2026 22:02:37] "GET /processing/20 HTTP/1.1" 200 -
+2026-01-12 22:02:51,994 - INFO - 127.0.0.1 - - [12/Jan/2026 22:02:51] "GET /processing/new HTTP/1.1" 200 -
+2026-01-12 22:02:57,264 - INFO - 127.0.0.1 - - [12/Jan/2026 22:02:57] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-12 22:02:57,284 - INFO - 127.0.0.1 - - [12/Jan/2026 22:02:57] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 22:07:45,564 - INFO - 127.0.0.1 - - [12/Jan/2026 22:07:45] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 22:18:14,535 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_1.py', reloading
+2026-01-12 22:18:14,818 - INFO -  * Restarting with stat
+2026-01-12 22:18:15,609 - WARNING -  * Debugger is active!
+2026-01-12 22:18:15,610 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 22:18:24,436 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-01-12 22:18:24,436 - INFO - [33mPress CTRL+C to quit[0m
+2026-01-12 22:18:24,437 - INFO -  * Restarting with stat
+2026-01-12 22:18:25,157 - WARNING -  * Debugger is active!
+2026-01-12 22:18:25,157 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 22:18:37,304 - INFO - 127.0.0.1 - - [12/Jan/2026 22:18:37] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 22:18:41,353 - INFO - 127.0.0.1 - - [12/Jan/2026 22:18:41] "GET /processing/new HTTP/1.1" 200 -
+2026-01-12 22:19:00,534 - INFO - 127.0.0.1 - - [12/Jan/2026 22:19:00] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-12 22:19:00,550 - INFO - 127.0.0.1 - - [12/Jan/2026 22:19:00] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 22:19:00,653 - INFO - 127.0.0.1 - - [12/Jan/2026 22:19:00] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-01-12 22:20:21,823 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_4.py', reloading
+2026-01-12 22:20:22,085 - INFO -  * Restarting with stat
+2026-01-12 22:20:22,878 - WARNING -  * Debugger is active!
+2026-01-12 22:20:22,879 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 22:20:30,033 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-01-12 22:20:30,033 - INFO - [33mPress CTRL+C to quit[0m
+2026-01-12 22:20:30,034 - INFO -  * Restarting with stat
+2026-01-12 22:20:30,736 - WARNING -  * Debugger is active!
+2026-01-12 22:20:30,737 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 22:20:35,101 - INFO - 127.0.0.1 - - [12/Jan/2026 22:20:35] "GET /processing/new HTTP/1.1" 200 -
+2026-01-12 22:20:42,293 - INFO - 127.0.0.1 - - [12/Jan/2026 22:20:42] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-12 22:20:42,315 - INFO - 127.0.0.1 - - [12/Jan/2026 22:20:42] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 22:20:42,431 - INFO - 127.0.0.1 - - [12/Jan/2026 22:20:42] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-01-12 22:31:48,670 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_4.py', reloading
+2026-01-12 22:31:48,943 - INFO -  * Restarting with stat
+2026-01-12 22:31:49,671 - WARNING -  * Debugger is active!
+2026-01-12 22:31:49,671 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 22:32:01,048 - INFO - 127.0.0.1 - - [12/Jan/2026 22:32:01] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 22:32:18,874 - INFO - 127.0.0.1 - - [12/Jan/2026 22:32:18] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 22:33:27,775 - INFO - 127.0.0.1 - - [12/Jan/2026 22:33:27] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 22:33:30,578 - INFO - 127.0.0.1 - - [12/Jan/2026 22:33:30] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 22:33:33,001 - INFO - 127.0.0.1 - - [12/Jan/2026 22:33:33] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 22:34:24,624 - INFO - 127.0.0.1 - - [12/Jan/2026 22:34:24] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 22:34:59,000 - INFO - 127.0.0.1 - - [12/Jan/2026 22:34:59] "GET /processing/new HTTP/1.1" 200 -
+2026-01-12 22:35:11,350 - INFO - 127.0.0.1 - - [12/Jan/2026 22:35:11] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-12 22:35:11,363 - INFO - 127.0.0.1 - - [12/Jan/2026 22:35:11] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 22:41:39,022 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_1.py', reloading
+2026-01-12 22:41:39,299 - INFO -  * Restarting with stat
+2026-01-12 22:41:40,264 - WARNING -  * Debugger is active!
+2026-01-12 22:41:40,264 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 22:41:52,363 - INFO - 127.0.0.1 - - [12/Jan/2026 22:41:52] "GET /processing/new HTTP/1.1" 200 -
+2026-01-12 22:42:01,330 - INFO - 127.0.0.1 - - [12/Jan/2026 22:42:01] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-12 22:42:01,353 - INFO - 127.0.0.1 - - [12/Jan/2026 22:42:01] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 22:43:41,978 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_0.py', reloading
+2026-01-12 22:43:42,284 - INFO -  * Restarting with stat
+2026-01-12 22:43:43,212 - WARNING -  * Debugger is active!
+2026-01-12 22:43:43,213 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 22:43:49,811 - INFO - 127.0.0.1 - - [12/Jan/2026 22:43:49] "GET /processing/new HTTP/1.1" 200 -
+2026-01-12 22:44:01,133 - INFO - 127.0.0.1 - - [12/Jan/2026 22:44:01] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-12 22:44:01,164 - INFO - 127.0.0.1 - - [12/Jan/2026 22:44:01] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 22:54:20,162 - INFO - 127.0.0.1 - - [12/Jan/2026 22:54:20] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 22:54:30,021 - INFO - 127.0.0.1 - - [12/Jan/2026 22:54:30] "GET /processing/new HTTP/1.1" 200 -
+2026-01-12 22:55:09,226 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_1.py', reloading
+2026-01-12 22:55:09,490 - INFO -  * Restarting with stat
+2026-01-12 22:55:10,221 - WARNING -  * Debugger is active!
+2026-01-12 22:55:10,221 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 22:55:29,186 - INFO - 127.0.0.1 - - [12/Jan/2026 22:55:29] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-12 22:55:29,223 - INFO - 127.0.0.1 - - [12/Jan/2026 22:55:29] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 22:56:21,635 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_0.py', reloading
+2026-01-12 22:56:21,938 - INFO -  * Restarting with stat
+2026-01-12 22:56:23,002 - WARNING -  * Debugger is active!
+2026-01-12 22:56:23,002 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 22:56:30,673 - INFO - 127.0.0.1 - - [12/Jan/2026 22:56:30] "GET /processing/new HTTP/1.1" 200 -
+2026-01-12 22:56:40,606 - INFO - 127.0.0.1 - - [12/Jan/2026 22:56:40] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-12 22:56:40,633 - INFO - 127.0.0.1 - - [12/Jan/2026 22:56:40] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 22:58:26,704 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_1.py', reloading
+2026-01-12 22:58:26,941 - INFO -  * Restarting with stat
+2026-01-12 22:58:27,718 - WARNING -  * Debugger is active!
+2026-01-12 22:58:27,718 - INFO -  * Debugger PIN: 720-709-699
+2026-01-12 22:58:34,184 - INFO - 127.0.0.1 - - [12/Jan/2026 22:58:34] "GET /processing/new HTTP/1.1" 200 -
+2026-01-12 22:58:44,006 - INFO - 127.0.0.1 - - [12/Jan/2026 22:58:44] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-12 22:58:44,036 - INFO - 127.0.0.1 - - [12/Jan/2026 22:58:44] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 23:52:02,342 - INFO - 127.0.0.1 - - [12/Jan/2026 23:52:02] "GET /processing/ HTTP/1.1" 200 -
+2026-01-12 23:54:09,949 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/rtlsdr_iq_capture.py', reloading
+2026-01-12 23:54:10,196 - INFO -  * Restarting with stat
+2026-01-12 23:54:10,938 - WARNING -  * Debugger is active!
+2026-01-12 23:54:10,938 - INFO -  * Debugger PIN: 720-709-699
+2026-01-13 20:09:53,237 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-01-13 20:09:53,238 - INFO - [33mPress CTRL+C to quit[0m
+2026-01-13 20:09:53,241 - INFO -  * Restarting with stat
+2026-01-13 20:09:53,935 - WARNING -  * Debugger is active!
+2026-01-13 20:09:53,935 - INFO -  * Debugger PIN: 720-709-699
+2026-01-13 20:10:07,111 - INFO - 127.0.0.1 - - [13/Jan/2026 20:10:07] "GET / HTTP/1.1" 200 -
+2026-01-13 20:10:07,616 - INFO - 127.0.0.1 - - [13/Jan/2026 20:10:07] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-01-13 20:10:10,222 - INFO - 127.0.0.1 - - [13/Jan/2026 20:10:10] "GET /processing/ HTTP/1.1" 200 -
+2026-01-13 20:10:12,812 - INFO - 127.0.0.1 - - [13/Jan/2026 20:10:12] "GET /processing/29 HTTP/1.1" 200 -
+2026-01-13 20:10:22,575 - INFO - 127.0.0.1 - - [13/Jan/2026 20:10:22] "GET /processing/ HTTP/1.1" 200 -
+2026-01-13 20:10:24,629 - INFO - 127.0.0.1 - - [13/Jan/2026 20:10:24] "GET /processing/new HTTP/1.1" 200 -
+2026-01-13 20:10:44,491 - INFO - 127.0.0.1 - - [13/Jan/2026 20:10:44] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-13 20:10:44,515 - INFO - 127.0.0.1 - - [13/Jan/2026 20:10:44] "GET /processing/ HTTP/1.1" 200 -
+2026-01-13 20:12:58,612 - INFO - 127.0.0.1 - - [13/Jan/2026 20:12:58] "GET /processing/new HTTP/1.1" 200 -
+2026-01-13 20:13:05,411 - INFO - 127.0.0.1 - - [13/Jan/2026 20:13:05] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-13 20:13:05,424 - INFO - 127.0.0.1 - - [13/Jan/2026 20:13:05] "GET /processing/ HTTP/1.1" 200 -
+2026-01-13 20:14:47,928 - INFO - 127.0.0.1 - - [13/Jan/2026 20:14:47] "GET /processing/new HTTP/1.1" 200 -
+2026-01-13 20:14:50,749 - INFO - 127.0.0.1 - - [13/Jan/2026 20:14:50] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-13 20:14:50,766 - INFO - 127.0.0.1 - - [13/Jan/2026 20:14:50] "GET /processing/ HTTP/1.1" 200 -
+2026-01-13 20:18:06,721 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_0.py', reloading
+2026-01-13 20:18:06,974 - INFO -  * Restarting with stat
+2026-01-13 20:18:07,849 - WARNING -  * Debugger is active!
+2026-01-13 20:18:07,850 - INFO -  * Debugger PIN: 720-709-699
+2026-01-13 20:18:10,138 - INFO - 127.0.0.1 - - [13/Jan/2026 20:18:10] "GET /processing/new HTTP/1.1" 200 -
+2026-01-13 20:18:12,537 - INFO - 127.0.0.1 - - [13/Jan/2026 20:18:12] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-13 20:18:12,559 - INFO - 127.0.0.1 - - [13/Jan/2026 20:18:12] "GET /processing/ HTTP/1.1" 200 -
+2026-01-13 20:25:25,188 - INFO - 127.0.0.1 - - [13/Jan/2026 20:25:25] "GET /processing/new HTTP/1.1" 200 -
+2026-01-13 20:25:26,960 - INFO - 127.0.0.1 - - [13/Jan/2026 20:25:26] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-13 20:25:26,981 - INFO - 127.0.0.1 - - [13/Jan/2026 20:25:26] "GET /processing/ HTTP/1.1" 200 -
+2026-01-13 20:25:51,485 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_1.py', reloading
+2026-01-13 20:25:51,798 - INFO -  * Restarting with stat
+2026-01-13 20:25:52,526 - WARNING -  * Debugger is active!
+2026-01-13 20:25:52,527 - INFO -  * Debugger PIN: 720-709-699
+2026-01-13 20:25:53,056 - INFO - 127.0.0.1 - - [13/Jan/2026 20:25:53] "GET /processing/new HTTP/1.1" 200 -
+2026-01-13 20:25:59,776 - INFO - 127.0.0.1 - - [13/Jan/2026 20:25:59] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-13 20:25:59,804 - INFO - 127.0.0.1 - - [13/Jan/2026 20:25:59] "GET /processing/ HTTP/1.1" 200 -
+2026-01-13 20:28:03,282 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_4.py', reloading
+2026-01-13 20:28:03,564 - INFO -  * Restarting with stat
+2026-01-13 20:28:04,399 - WARNING -  * Debugger is active!
+2026-01-13 20:28:04,399 - INFO -  * Debugger PIN: 720-709-699
+2026-01-13 20:28:05,962 - INFO - 127.0.0.1 - - [13/Jan/2026 20:28:05] "GET /processing/new HTTP/1.1" 200 -
+2026-01-13 20:28:07,358 - INFO - 127.0.0.1 - - [13/Jan/2026 20:28:07] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-13 20:28:07,376 - INFO - 127.0.0.1 - - [13/Jan/2026 20:28:07] "GET /processing/ HTTP/1.1" 200 -
+2026-01-13 20:29:24,860 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_4.py', reloading
+2026-01-13 20:29:25,140 - INFO -  * Restarting with stat
+2026-01-13 20:29:25,981 - WARNING -  * Debugger is active!
+2026-01-13 20:29:25,981 - INFO -  * Debugger PIN: 720-709-699
+2026-01-13 20:29:29,309 - INFO - 127.0.0.1 - - [13/Jan/2026 20:29:29] "GET /processing/new HTTP/1.1" 200 -
+2026-01-13 20:29:30,881 - INFO - 127.0.0.1 - - [13/Jan/2026 20:29:30] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-13 20:29:30,904 - INFO - 127.0.0.1 - - [13/Jan/2026 20:29:30] "GET /processing/ HTTP/1.1" 200 -
+2026-01-13 20:35:43,361 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-01-13 20:35:43,361 - INFO - [33mPress CTRL+C to quit[0m
+2026-01-13 20:35:43,362 - INFO -  * Restarting with stat
+2026-01-13 20:35:44,066 - WARNING -  * Debugger is active!
+2026-01-13 20:35:44,067 - INFO -  * Debugger PIN: 720-709-699
+2026-01-13 20:35:45,783 - INFO - 127.0.0.1 - - [13/Jan/2026 20:35:45] "GET /processing/new HTTP/1.1" 200 -
+2026-01-13 20:35:47,623 - INFO - 127.0.0.1 - - [13/Jan/2026 20:35:47] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-13 20:35:47,648 - INFO - 127.0.0.1 - - [13/Jan/2026 20:35:47] "GET /processing/ HTTP/1.1" 200 -
+2026-01-13 20:42:13,321 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_1.py', reloading
+2026-01-13 20:42:13,620 - INFO -  * Restarting with stat
+2026-01-13 20:42:14,480 - WARNING -  * Debugger is active!
+2026-01-13 20:42:14,480 - INFO -  * Debugger PIN: 720-709-699
+2026-01-13 20:42:19,455 - INFO - 127.0.0.1 - - [13/Jan/2026 20:42:19] "GET /processing/new HTTP/1.1" 200 -
+2026-01-13 20:42:22,468 - INFO - 127.0.0.1 - - [13/Jan/2026 20:42:22] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-13 20:42:22,501 - INFO - 127.0.0.1 - - [13/Jan/2026 20:42:22] "GET /processing/ HTTP/1.1" 200 -
+2026-01-13 20:49:32,953 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_4.py', reloading
+2026-01-13 20:49:33,206 - INFO -  * Restarting with stat
+2026-01-13 20:49:33,978 - WARNING -  * Debugger is active!
+2026-01-13 20:49:33,978 - INFO -  * Debugger PIN: 720-709-699
+2026-01-13 20:49:42,624 - INFO - 127.0.0.1 - - [13/Jan/2026 20:49:42] "GET /processing/new HTTP/1.1" 200 -
+2026-01-13 20:49:45,263 - INFO - 127.0.0.1 - - [13/Jan/2026 20:49:45] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-13 20:49:45,284 - INFO - 127.0.0.1 - - [13/Jan/2026 20:49:45] "GET /processing/ HTTP/1.1" 200 -
+2026-01-13 20:52:07,873 - INFO -  * Detected change in '/home/tom/silversat_packets/gnuradio/passdata_playback_epy_block_2.py', reloading
+2026-01-13 20:52:08,150 - INFO -  * Restarting with stat
+2026-01-13 20:52:09,083 - WARNING -  * Debugger is active!
+2026-01-13 20:52:09,084 - INFO -  * Debugger PIN: 720-709-699
+2026-01-13 20:52:24,696 - INFO - 127.0.0.1 - - [13/Jan/2026 20:52:24] "GET /processing/new HTTP/1.1" 200 -
+2026-01-13 20:52:24,789 - INFO - 127.0.0.1 - - [13/Jan/2026 20:52:24] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-01-13 20:52:26,408 - INFO - 127.0.0.1 - - [13/Jan/2026 20:52:26] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-13 20:52:26,428 - INFO - 127.0.0.1 - - [13/Jan/2026 20:52:26] "GET /processing/ HTTP/1.1" 200 -
+2026-01-13 20:52:46,087 - INFO - 127.0.0.1 - - [13/Jan/2026 20:52:46] "GET /processing/new HTTP/1.1" 200 -
+2026-01-13 20:53:06,492 - INFO - 127.0.0.1 - - [13/Jan/2026 20:53:06] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-13 20:53:06,513 - INFO - 127.0.0.1 - - [13/Jan/2026 20:53:06] "GET /processing/ HTTP/1.1" 200 -
+2026-01-13 20:53:06,632 - INFO - 127.0.0.1 - - [13/Jan/2026 20:53:06] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-01-13 21:03:23,397 - INFO - 127.0.0.1 - - [13/Jan/2026 21:03:23] "GET /processing/ HTTP/1.1" 200 -
+2026-01-13 21:03:27,538 - INFO - 127.0.0.1 - - [13/Jan/2026 21:03:27] "GET /processing/new HTTP/1.1" 200 -
+2026-01-13 21:03:39,372 - INFO - 127.0.0.1 - - [13/Jan/2026 21:03:39] "[32mPOST /processing/new HTTP/1.1[0m" 302 -
+2026-01-13 21:03:39,394 - INFO - 127.0.0.1 - - [13/Jan/2026 21:03:39] "GET /processing/ HTTP/1.1" 200 -
+2026-01-13 21:13:57,930 - INFO - 127.0.0.1 - - [13/Jan/2026 21:13:57] "GET /processing/ HTTP/1.1" 200 -
+2026-01-13 21:14:01,670 - INFO - 127.0.0.1 - - [13/Jan/2026 21:14:01] "GET /processing/43 HTTP/1.1" 200 -
+2026-01-13 21:14:05,866 - INFO - 127.0.0.1 - - [13/Jan/2026 21:14:05] "GET /processing/42 HTTP/1.1" 200 -

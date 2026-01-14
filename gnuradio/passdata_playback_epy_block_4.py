@@ -8,27 +8,12 @@ from dataclasses import dataclass
 import sqlite3 
 
 
-# Determine a reliable project root even when __file__ is not defined
-def _here():
-    try:
-        return os.path.dirname(os.path.abspath(__file__))
-    except NameError:
-        try:
-            src = inspect.getsourcefile(sys.modules[__name__]) or inspect.getfile(sys.modules[__name__])
-            return os.path.dirname(os.path.abspath(src))
-        except Exception:
-            return os.getcwd()
-
-PROJECT_ROOT = os.path.abspath(os.path.join(_here(), '..'))
+PROJECT_ROOT = os.getenv('SILVERSAT_ROOT')
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
-# Safe import of project utils (utils.get_app_root handles absence of Flask app)
-from utils import resolve_storage_path, get_app_root, app_path
-
-# Database path (will use Flask app root when available, otherwise project root)
 DB_PATH = os.path.join(PROJECT_ROOT, "observations.db")
-print(f"[packet_logger] DB PATH: {DB_PATH}") 
+print(f"[packet_logger] DB PATH: {DB_PATH}")
 
 
 # this is the generic set of information you would need to construct/deconstruct an IL2P or an AX.25 packet
@@ -125,7 +110,7 @@ class il2p_decoder(gr.basic_block):
         flowgraph_dir = os.path.join(PROJECT_ROOT, "gnuradio")
         output_dir = os.path.join(PROJECT_ROOT, "received_packets")
 
-        DB_PATH = os.path.join(PROJECT_ROOT, "observations.db")
+        # DB_PATH = os.path.join(PROJECT_ROOT, "observations.db")
 
         gr.basic_block.__init__(
             self,
@@ -211,6 +196,7 @@ class il2p_decoder(gr.basic_block):
 
         return bytes(out_bytes)
 
+
     # ------------------------------------------------------------
     # Scrambler state validator
     # ------------------------------------------------------------
@@ -245,6 +231,7 @@ class il2p_decoder(gr.basic_block):
 
         return True
 
+
     # ------------------------------------------------------------
     # Decode 10-bit payload length from header
     # ------------------------------------------------------------
@@ -254,6 +241,7 @@ class il2p_decoder(gr.basic_block):
             bit = (header_plain[i] >> 7) & 1
             val = (val << 1) | bit
         return val
+
 
     # ------------------------------------------------------------
     # CRC-16/X.25 (AX.25 FCS)
@@ -268,6 +256,7 @@ class il2p_decoder(gr.basic_block):
                 else:
                     crc >>= 1
         return crc ^ 0xFFFF
+
 
     # ------------------------------------------------------------
     # Main PDU handler
@@ -424,6 +413,7 @@ class il2p_decoder(gr.basic_block):
 
         out_pdu = pmt.cons(md, pmt.init_u8vector(len(data), list(data)))
         self.message_port_pub(pmt.intern("out"), out_pdu)
+
 
     def __del__(self):
         # Best-effort close of the output file

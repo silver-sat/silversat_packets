@@ -42,7 +42,7 @@ import threading
 
 class passdata_playback(gr.top_block, Qt.QWidget):
 
-    def __init__(self, access_threshold=3, capture_session_id=0, doppler_en=0, frequency_offset=0, output_path='received_files/', processing_run_id=8, source_file='captures/20260109_195743.076401.wav', store_packets=0):
+    def __init__(self, access_threshold=3, capture_session_id=0, doppler_en=0, frequency_offset=0, output_path='received_files/', processing_run_id=0, source_file=os.path.join(os.getenv('SILVERSAT_ROOT'), "captures/20260112_233622.557094.wav"), store_packets=0):
         gr.top_block.__init__(self, "Silversat Packet Receiver", catch_exceptions=True)
         Qt.QWidget.__init__(self)
         self.setWindowTitle("Silversat Packet Receiver")
@@ -90,9 +90,9 @@ class passdata_playback(gr.top_block, Qt.QWidget):
         ##################################################
         self.symbol_rate = symbol_rate = 9600
         self.samples_per_symbol = samples_per_symbol = 16
-        self.project_root = project_root = os.getcwd()
+        self.project_root = project_root = os.getenv('SILVERSAT_ROOT')
         self.transition = transition = 1000
-        self.tle_file = tle_file = os.path.join(project_root, "default.tle")
+        self.tle_file = tle_file = os.path.join(project_root, 'default.tle')
         self.symbol_sample_rate = symbol_sample_rate = symbol_rate*samples_per_symbol
         self.squelch = squelch = -60
         self.samp_rate = samp_rate = symbol_rate*16
@@ -163,7 +163,7 @@ class passdata_playback(gr.top_block, Qt.QWidget):
             self.qtgui_waterfall_sink_x_0.set_color_map(i, colors[i])
             self.qtgui_waterfall_sink_x_0.set_line_alpha(i, alphas[i])
 
-        self.qtgui_waterfall_sink_x_0.set_intensity_range(-140, 10)
+        self.qtgui_waterfall_sink_x_0.set_intensity_range(-140, 20)
 
         self._qtgui_waterfall_sink_x_0_win = sip.wrapinstance(self.qtgui_waterfall_sink_x_0.qwidget(), Qt.QWidget)
 
@@ -277,6 +277,58 @@ class passdata_playback(gr.top_block, Qt.QWidget):
         for r in range(3, 4):
             self.tab0_grid_layout_0.setRowStretch(r, 1)
         for c in range(0, 1):
+            self.tab0_grid_layout_0.setColumnStretch(c, 1)
+        self.qtgui_time_sink_x_0_1 = qtgui.time_sink_f(
+            10240, #size
+            samp_rate/100, #samp_rate
+            "", #name
+            1, #number of inputs
+            None # parent
+        )
+        self.qtgui_time_sink_x_0_1.set_update_time(0.10)
+        self.qtgui_time_sink_x_0_1.set_y_axis(-1, 1)
+
+        self.qtgui_time_sink_x_0_1.set_y_label('Amplitude', "")
+
+        self.qtgui_time_sink_x_0_1.enable_tags(True)
+        self.qtgui_time_sink_x_0_1.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.01, 0, 0, 'squelch_sob')
+        self.qtgui_time_sink_x_0_1.enable_autoscale(True)
+        self.qtgui_time_sink_x_0_1.enable_grid(True)
+        self.qtgui_time_sink_x_0_1.enable_axis_labels(True)
+        self.qtgui_time_sink_x_0_1.enable_control_panel(False)
+        self.qtgui_time_sink_x_0_1.enable_stem_plot(False)
+
+
+        labels = ['Signal 1', 'Signal 2', 'Signal 3', 'Signal 4', 'Signal 5',
+            'Signal 6', 'Signal 7', 'Signal 8', 'Signal 9', 'Signal 10']
+        widths = [1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1]
+        colors = ['blue', 'red', 'green', 'black', 'cyan',
+            'magenta', 'yellow', 'dark red', 'dark green', 'dark blue']
+        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
+            1.0, 1.0, 1.0, 1.0, 1.0]
+        styles = [1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1]
+        markers = [-1, -1, -1, -1, -1,
+            -1, -1, -1, -1, -1]
+
+
+        for i in range(1):
+            if len(labels[i]) == 0:
+                self.qtgui_time_sink_x_0_1.set_line_label(i, "Data {0}".format(i))
+            else:
+                self.qtgui_time_sink_x_0_1.set_line_label(i, labels[i])
+            self.qtgui_time_sink_x_0_1.set_line_width(i, widths[i])
+            self.qtgui_time_sink_x_0_1.set_line_color(i, colors[i])
+            self.qtgui_time_sink_x_0_1.set_line_style(i, styles[i])
+            self.qtgui_time_sink_x_0_1.set_line_marker(i, markers[i])
+            self.qtgui_time_sink_x_0_1.set_line_alpha(i, alphas[i])
+
+        self._qtgui_time_sink_x_0_1_win = sip.wrapinstance(self.qtgui_time_sink_x_0_1.qwidget(), Qt.QWidget)
+        self.tab0_grid_layout_0.addWidget(self._qtgui_time_sink_x_0_1_win, 2, 3, 1, 1)
+        for r in range(2, 3):
+            self.tab0_grid_layout_0.setRowStretch(r, 1)
+        for c in range(3, 4):
             self.tab0_grid_layout_0.setColumnStretch(c, 1)
         self.qtgui_time_sink_x_0_0 = qtgui.time_sink_f(
             (256*8), #size
@@ -486,9 +538,11 @@ class passdata_playback(gr.top_block, Qt.QWidget):
         self.freq_xlating_fir_filter_xxx_0 = filter.freq_xlating_fir_filter_ccc(1, firdes.low_pass(1.0, samp_rate, chan_bw/2, transition, window.WIN_HAMMING), center_diff, samp_rate)
         self.fir_filter_xxx_1 = filter.fir_filter_fff(1, firdes.gaussian(1.0, samp_rate/symbol_rate, 0.5, 4*samples_per_symbol))
         self.fir_filter_xxx_1.declare_sample_delay(0)
-        self.epy_block_4 = epy_block_4.il2p_decoder(lfsr_seed=0x1F0, output_dir=os.path.join(project_root, "silversat_packets", "received_packets"), processing_run_id=processing_run_id, store_packets=store_packets)
+        self.fir_filter_xxx_0 = filter.fir_filter_fff(100, firdes.low_pass(1.0, samp_rate, samp_rate/4, transition, window.WIN_HAMMING))
+        self.fir_filter_xxx_0.declare_sample_delay(0)
+        self.epy_block_4 = epy_block_4.il2p_decoder(lfsr_seed=0x1F0, output_dir="", processing_run_id=processing_run_id, store_packets=store_packets)
         self.epy_block_1 = epy_block_1.blk(sync_tag="sync", code_len_bits=32)
-        self.epy_block_0 = epy_block_0.blk(wav_file=source_file, tle_file=tle_file, catalog_number=66909, sat_freq_hz=freq, center_freq_hz=freq, lat=38.9830, lon=-76.4830, elev=2, capture_session_id=0, timezone='America/NewYork', debug=True)
+        self.epy_block_0 = epy_block_0.blk(wav_file=source_file, tle_file=tle_file, catalog_number='66909U', sat_freq_hz=freq, center_freq_hz=freq, lat=38.9830, lon=-76.4830, elev=2, capture_session_id=capture_session_id, timezone='America/NewYork', debug=True)
         self.digital_symbol_sync_xx_1 = digital.symbol_sync_ff(
             digital.TED_EARLY_LATE,
             16,
@@ -515,6 +569,7 @@ class passdata_playback(gr.top_block, Qt.QWidget):
         self.blocks_message_debug_0_0_0 = blocks.message_debug(True, gr.log_levels.trace)
         self.blocks_freqshift_cc_0 = blocks.rotator_cc(2.0*math.pi*frequency_offset/samp_rate)
         self.blocks_float_to_complex_0 = blocks.float_to_complex(1)
+        self.blocks_complex_to_mag_0 = blocks.complex_to_mag(1)
         self.blocks_char_to_float_0 = blocks.char_to_float(1, 1)
         self.analog_quadrature_demod_cf_0 = analog.quadrature_demod_cf((samp_rate/decimation/(2*pi*fsk_deviation_hz)))
         self.analog_pwr_squelch_xx_0 = analog.pwr_squelch_cc(squelch, (1e-4), 0, True)
@@ -531,10 +586,12 @@ class passdata_playback(gr.top_block, Qt.QWidget):
         self.connect((self.analog_quadrature_demod_cf_0, 0), (self.fir_filter_xxx_1, 0))
         self.connect((self.analog_quadrature_demod_cf_0, 0), (self.qtgui_time_sink_x_0, 0))
         self.connect((self.blocks_char_to_float_0, 0), (self.qtgui_time_sink_x_1_0_0_0, 0))
+        self.connect((self.blocks_complex_to_mag_0, 0), (self.fir_filter_xxx_0, 0))
         self.connect((self.blocks_float_to_complex_0, 0), (self.blocks_selector_0_0, 0))
         self.connect((self.blocks_freqshift_cc_0, 0), (self.freq_xlating_fir_filter_xxx_0, 0))
         self.connect((self.blocks_freqshift_cc_0, 0), (self.freq_xlating_fir_filter_xxx_0_0, 0))
         self.connect((self.blocks_selector_0, 0), (self.analog_pwr_squelch_xx_0, 0))
+        self.connect((self.blocks_selector_0, 0), (self.blocks_complex_to_mag_0, 0))
         self.connect((self.blocks_selector_0, 0), (self.qtgui_freq_sink_x_0_0, 0))
         self.connect((self.blocks_selector_0, 0), (self.qtgui_waterfall_sink_x_0, 0))
         self.connect((self.blocks_selector_0_0, 0), (self.blocks_throttle2_0, 0))
@@ -550,6 +607,7 @@ class passdata_playback(gr.top_block, Qt.QWidget):
         self.connect((self.digital_symbol_sync_xx_1, 0), (self.qtgui_time_sink_x_1_0_0, 0))
         self.connect((self.digital_symbol_sync_xx_1, 1), (self.qtgui_time_sink_x_1_0_0, 1))
         self.connect((self.epy_block_0, 0), (self.blocks_selector_0_0, 1))
+        self.connect((self.fir_filter_xxx_0, 0), (self.qtgui_time_sink_x_0_1, 0))
         self.connect((self.fir_filter_xxx_1, 0), (self.digital_symbol_sync_xx_1, 0))
         self.connect((self.fir_filter_xxx_1, 0), (self.qtgui_time_sink_x_0_0, 0))
         self.connect((self.freq_xlating_fir_filter_xxx_0, 0), (self.blocks_selector_0, 1))
@@ -576,6 +634,7 @@ class passdata_playback(gr.top_block, Qt.QWidget):
 
     def set_capture_session_id(self, capture_session_id):
         self.capture_session_id = capture_session_id
+        self.epy_block_0.capture_session_id = self.capture_session_id
 
     def get_doppler_en(self):
         return self.doppler_en
@@ -645,14 +704,14 @@ class passdata_playback(gr.top_block, Qt.QWidget):
 
     def set_project_root(self, project_root):
         self.project_root = project_root
-        self.set_tle_file(os.path.join(self.project_root, "default.tle"))
-        self.epy_block_4.output_dir = os.path.join(self.project_root, "silversat_packets", "received_packets")
+        self.set_tle_file(os.path.join(self.project_root, 'default.tle'))
 
     def get_transition(self):
         return self.transition
 
     def set_transition(self, transition):
         self.transition = transition
+        self.fir_filter_xxx_0.set_taps(firdes.low_pass(1.0, self.samp_rate, self.samp_rate/4, self.transition, window.WIN_HAMMING))
         self.freq_xlating_fir_filter_xxx_0.set_taps(firdes.low_pass(1.0, self.samp_rate, self.chan_bw/2, self.transition, window.WIN_HAMMING))
         self.freq_xlating_fir_filter_xxx_0_0.set_taps(firdes.low_pass(1.0, self.samp_rate, self.chan_bw/2, self.transition, window.WIN_HAMMING))
 
@@ -687,10 +746,12 @@ class passdata_playback(gr.top_block, Qt.QWidget):
         self.analog_quadrature_demod_cf_0.set_gain((self.samp_rate/self.decimation/(2*pi*self.fsk_deviation_hz)))
         self.blocks_freqshift_cc_0.set_phase_inc(2.0*math.pi*self.frequency_offset/self.samp_rate)
         self.blocks_throttle2_0.set_sample_rate(self.samp_rate)
+        self.fir_filter_xxx_0.set_taps(firdes.low_pass(1.0, self.samp_rate, self.samp_rate/4, self.transition, window.WIN_HAMMING))
         self.fir_filter_xxx_1.set_taps(firdes.gaussian(1.0, self.samp_rate/self.symbol_rate, 0.5, 4*self.samples_per_symbol))
         self.freq_xlating_fir_filter_xxx_0.set_taps(firdes.low_pass(1.0, self.samp_rate, self.chan_bw/2, self.transition, window.WIN_HAMMING))
         self.freq_xlating_fir_filter_xxx_0_0.set_taps(firdes.low_pass(1.0, self.samp_rate, self.chan_bw/2, self.transition, window.WIN_HAMMING))
         self.qtgui_freq_sink_x_0_0.set_frequency_range(self.freq, (self.samp_rate/20))
+        self.qtgui_time_sink_x_0_1.set_samp_rate(self.samp_rate/100)
         self.qtgui_waterfall_sink_x_0.set_frequency_range(0, (self.samp_rate/8))
 
     def get_oversample(self):
@@ -765,10 +826,10 @@ def argument_parser():
         "--output-path", dest="output_path", type=str, default='received_files/',
         help="Set output_path [default=%(default)r]")
     parser.add_argument(
-        "--processing-run-id", dest="processing_run_id", type=intx, default=8,
+        "--processing-run-id", dest="processing_run_id", type=intx, default=0,
         help="Set processing_run_id [default=%(default)r]")
     parser.add_argument(
-        "--source-file", dest="source_file", type=str, default='captures/20260109_195743.076401.wav',
+        "--source-file", dest="source_file", type=str, default=os.path.join(os.getenv('SILVERSAT_ROOT'), "captures/20260112_233622.557094.wav"),
         help="Set source_file [default=%(default)r]")
     parser.add_argument(
         "--store-packets", dest="store_packets", type=intx, default=0,

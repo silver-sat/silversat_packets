@@ -1,6 +1,6 @@
 Silversat gnuradio scripts
 
-THESE ARE UNTESTED as of 1/9/2026.
+2 and 6 below are tested and working on TEST DATA as of 1/9/2026.
 I improved the signal processing chain to deal with the DC line.  The signal is converted
 to a 200kHz offset and then downconverted back to 0.  Capture uses a 45 kHz bandwidth to
 accomodate up to +/- 15kHz of doppler offset.  I also added a gaussian filter on output

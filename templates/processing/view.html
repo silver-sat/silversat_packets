@@ -3,7 +3,7 @@
 <h2>Processing Run {{ run['id'] }}</h2>
 <p><strong>Source:</strong> {{ run['source_file'] }}</p>
 <p><strong>Freq Offset:</strong> {{ run['freq_offset_hz'] }} Hz</p>
-<p><strong>Doppler:</strong> {{ 'Yes' if run['doppler_enabled'] else 'No' }}</p>
+<p><strong>Doppler:</strong> {{ run['doppler_en'] }}</p>
 <p><strong>Access Threshold:</strong> {{ run['access_threshold'] }}</p>
 
 {% if run['is_ssdv'] %}

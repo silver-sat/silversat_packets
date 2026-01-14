@@ -504,7 +504,7 @@ blocks:
     comment: "RF gain set to 0 for testing, \nAGC should be OFF"
     dev_args: ''
     freq_correction: '0'
-    gain: '6'
+    gain: '10'
     maxoutbuf: '0'
     minoutbuf: '0'
     samp_rate: samp_rate

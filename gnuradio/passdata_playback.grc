@@ -125,7 +125,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: os.getcwd()
+    value: os.getenv('SILVERSAT_ROOT')
   states:
     bus_sink: false
     bus_source: false
@@ -206,7 +206,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: os.path.join(project_root, "default.tle")
+    value: os.path.join(project_root, 'default.tle')
   states:
     bus_sink: false
     bus_source: false
@@ -296,6 +296,22 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [1488, 772.0]
+    rotation: 0
+    state: enabled
+- name: blocks_complex_to_mag_0
+  id: blocks_complex_to_mag
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1656, 592.0]
     rotation: 0
     state: enabled
 - name: blocks_float_to_complex_0
@@ -607,153 +623,178 @@ blocks:
       which is a table in the database that holds the setup parameters\n\"\"\"\n\n\
       import numpy as np\nimport ephem\nimport datetime\nimport wave\nimport re\n\
       import pmt\nfrom gnuradio import gr\nimport zoneinfo   # Python 3.9+\nimport\
-      \ sqlite3\nimport sys\nimport os\n\n# Ensure project root is on sys.path so\
-      \ we can import `db.py` located notionally at\n# /home/pi/silversat_packets.\
-      \ Adjust this path if your project is elsewhere.\n_PROJECT_ROOT = os.path.join(os.getcwd(),\
-      \ \"silversat_packets\")\nif _PROJECT_ROOT not in sys.path:\n    sys.path.insert(0,\
-      \ _PROJECT_ROOT)\n\ntry:\n    import db\n    get_db = db.get_db\n    DB_PATH\
-      \ = os.path.join(_PROJECT_ROOT, \"observations.db\")\nexcept Exception:\n  \
-      \  db = None\n    get_db = None\n\n\n\nC = 299792458.0  # speed of light in\
-      \ m/s\n\nclass blk(gr.sync_block):\n    \"\"\"\n    Doppler IQ Playback Block\
-      \ (Complex Output)\n\n    This block plays back a stereo WAV file containing\
-      \ IQ samples and computes\n    the Doppler-shifted satellite frequency relative\
-      \ to the SDR center frequency.\n    It publishes the difference in sync with\
-      \ the playback once per second via a \n    message port.\n\n    Output:\n  \
-      \      One complex64 stream (I + jQ)\n        \n    Message Ports:\n       \
-      \ \"freq\" \u2192 publishes center frequency difference (Hz)\n    \"\"\"\n\n\
-      \    def __init__(self,\n                 wav_file=\"\",\n                 tle_file=\"\
-      \",\n                 catalog_number=0,\n                 sat_freq_hz=0.0,\n\
-      \                 center_freq_hz=0.0,\n                 lat=\"\", lon=\"\",\
-      \ elev=0,\n                 capture_session_id=0,\n                 timezone=\"\
-      America/NewYork\",\n                 debug=True\n                 ):\n     \
-      \   \"\"\"\n        Initialize the Doppler IQ Playback block.\n\n        Opens\
-      \ the stereo WAV file if provided, sets up the observer location,\n        loads\
-      \ the satellite TLE by catalog number, and parses the start time\n        from\
-      \ the filename (local \u2192 UTC).\n\n        Args:\n            wav_file (str):\
-      \ Path to stereo WAV file containing IQ samples.\n            tle_file (str):\
-      \ Path to TLE file containing satellite orbital elements.\n            catalog_number\
-      \ (int): Satellite catalog number (e.g., 66909).\n            sat_freq_hz (float):\
-      \ Satellite nominal frequency in Hz.\n            center_freq_hz (float): SDR\
-      \ spectrum center frequency in Hz.\n            lat (str): Observer latitude.\n\
-      \            lon (str): Observer longitude.\n            elev (float): Observer\
-      \ elevation in meters.\n            timezone (str): Local timezone for filename\
-      \ timestamps.\n            debug (bool): Enable debug prints.\n        \"\"\"\
-      \n        gr.sync_block.__init__(\n            self,\n            name='Doppler\
-      \ IQ Playback',\n            in_sig=None,\n            out_sig=[np.complex64]\
-      \  # single complex output stream\n        )\n        \n\n        # Register\
-      \ message output port\n        self.message_port_register_out(pmt.intern(\"\
-      freq\"))\n        \n        self.capture_session_id = capture_session_id\n \
-      \       self.start_time_utc = 0\n        \n        if capture_session_id:\n\
-      \            try: \n                db = get_db()\n                conn = sqlite3.connect(DB_PATH)\
-      \ \n                cur = conn.cursor()\n                \n                capture_setup\
-      \ = db.execute(\"SELECT * FROM capture_session WHERE id = ?\", (capture_session_id,)).fetchone()\n\
-      \                location_info = db.execute(\"SELECT * FROM location WHERE id\
-      \ = ?\", (capture_setup[\"location_id\"],)).fetchone()\n                satellite_info\
-      \ = db.execute(\"SELECT * FROM satellite WHERE id = ?\", (capture_setup[\"satellite_id\"\
-      ],)).fetchone()\n                self.wav_file = capture_setup[\"lat_deg\"]\n\
-      \                \n                # i'm not storing tle's in a file, so I can\
-      \ jump ahead to assigning them to variables\n                line1 = capture_setup[\"\
-      tle_line_1\"]\n                line2 = capture_setup[\"tle_line_2\"]\n     \
-      \           self.catalog_number = satellite_info[\"catalog_number\"]\n     \
-      \           self.sat_freq_hz = satellite_info[\"nominal_freq_hz\"]\n       \
-      \         self.center_freq_hz = capture_setup[\"center_freq_hz\"]\n        \
-      \        self.lat = location_info[\"lat_deg\"]\n                self.lon = location_info[\"\
-      lon_deg\"]\n                self.elev = location_info[\"elev_m\"]\n        \
-      \        self.timezone = capture_setup[\"observer_timezone\"]\n            \
-      \    self.start_time_utc = capture_setup[\"start_time_utc\"]\n             \
-      \   self.debug = debug\n                conn.close()\n                \n   \
-      \             parts = line1.split()\n                if len(parts) > 1:\n  \
+      \ sqlite3\nimport sys\nimport os\n\n\n_PROJECT_ROOT = os.getcwd()\n#_PROJECT_ROOT\
+      \ = os.path.abspath(os.path.join(_THIS_DIR, \"..\"))\nDB_PATH = os.path.join(_PROJECT_ROOT,\
+      \ \"observations.db\")\n\ntry:\n    conn = sqlite3.connect(DB_PATH) \n    conn.row_factory\
+      \ = sqlite3.Row \n    cur = conn.cursor()\n    \nexcept Exception as e:\n  \
+      \  cur = None\n    print(\"[DB] database access error:\", e)\n\n\nC = 299792458.0\
+      \  # speed of light in m/s\n\nclass blk(gr.sync_block):\n    \"\"\"\n    Doppler\
+      \ IQ Playback Block (Complex Output)\n\n    This block plays back a stereo WAV\
+      \ file containing IQ samples and computes\n    the Doppler-shifted satellite\
+      \ frequency relative to the SDR center frequency.\n    It publishes the difference\
+      \ in sync with the playback once per second via a \n    message port.\n\n  \
+      \  Output:\n        One complex64 stream (I + jQ)\n        \n    Message Ports:\n\
+      \        \"freq\" \u2192 publishes center frequency difference (Hz)\n    \"\"\
+      \"\n    try:\n        def __init__(self,\n                     wav_file=\"\"\
+      ,\n                     tle_file=\"\",\n                     catalog_number=0,\n\
+      \                     sat_freq_hz=0.0,\n                     center_freq_hz=0.0,\n\
+      \                     lat=\"\", lon=\"\", elev=0,\n                     capture_session_id=0,\n\
+      \                     timezone=\"America/NewYork\",\n                     debug=True\n\
+      \                     ):\n            \"\"\"\n            Initialize the Doppler\
+      \ IQ Playback block.\n\n            Opens the stereo WAV file if provided, sets\
+      \ up the observer location,\n            loads the satellite TLE by catalog\
+      \ number, and parses the start time\n            from the filename (local \u2192\
+      \ UTC).\n\n            Args:\n                wav_file (str): Path to stereo\
+      \ WAV file containing IQ samples.\n                tle_file (str): Path to TLE\
+      \ file containing satellite orbital elements.\n                catalog_number\
+      \ (int): Satellite catalog number (e.g., 66909).\n                sat_freq_hz\
+      \ (float): Satellite nominal frequency in Hz.\n                center_freq_hz\
+      \ (float): SDR spectrum center frequency in Hz.\n                lat (str):\
+      \ Observer latitude.\n                lon (str): Observer longitude.\n     \
+      \           elev (float): Observer elevation in meters.\n                timezone\
+      \ (str): Local timezone for filename timestamps.\n                debug (bool):\
+      \ Enable debug prints.\n            \"\"\"\n            gr.sync_block.__init__(\n\
+      \                self,\n                name='Doppler IQ Playback',\n      \
+      \          in_sig=None,\n                out_sig=[np.complex64]  # single complex\
+      \ output stream\n            )\n            \n\n            # Register message\
+      \ output port\n            self.message_port_register_out(pmt.intern(\"freq\"\
+      ))\n            \n            \n            self.wav_file=wav_file\n       \
+      \     self.capture_session_id = capture_session_id\n            self.start_time_utc\
+      \ = 0\n            self.debug = debug\n            self.lat = lat\n        \
+      \    self.lon = lon\n            self.elev = elev\n            self.sat_freq_hz\
+      \ = sat_freq_hz\n            self.center_freq_hz = center_freq_hz\n        \
+      \    self.sat = None\n            \n            if capture_session_id:\n   \
+      \             try: \n                    # conn = sqlite3.connect(DB_PATH) \n\
+      \                    #cur = conn.cursor()\n                    \n          \
+      \          capture_info = cur.execute(\"SELECT * FROM capture_session WHERE\
+      \ id = ?\", (capture_session_id,)).fetchone()\n                    location_info\
+      \ = cur.execute(\"SELECT * FROM location WHERE id = ?\", (capture_info[\"location_id\"\
+      ],)).fetchone()\n                    satellite_info = cur.execute(\"SELECT *\
+      \ FROM satellite WHERE id = ?\", (capture_info[\"satellite_id\"],)).fetchone()\n\
+      \                    self.wav_file = capture_info[\"wav_path\"]\n          \
+      \          \n                    # i'm not storing tle's in a file, so I can\
+      \ jump ahead to assigning them to variables\n                    line1 = capture_info[\"\
+      tle_line1\"]\n                    line2 = capture_info[\"tle_line2\"]\n    \
+      \                self.catalog_number = satellite_info[\"catalog_number\"]\n\
+      \                    self.sat_freq_hz = satellite_info[\"nominal_freq_hz\"]\n\
+      \                    self.center_freq_hz = capture_info[\"center_freq_hz\"]\n\
+      \                    self.lat = location_info[\"lat_deg\"]\n               \
+      \     self.lon = location_info[\"lon_deg\"]\n                    self.elev =\
+      \ location_info[\"elev_m\"]\n                    self.timezone = capture_info[\"\
+      observer_timezone\"]\n                    self.start_time_utc = capture_info[\"\
+      start_time_utc\"]\n                    \n                    conn.close()\n\
+      \                    \n                    if self.debug:\n                \
+      \        print(f'capture session id = {capture_session_id}')\n             \
+      \           print(f'tle line 1 = {line1}')\n                        print(f'tle\
+      \ line2 = {line2}')\n                        print (f'catalog number = {self.catalog_number}')\n\
+      \                        print(f'sat_frequency = {self.sat_freq_hz}')\n    \
+      \                    print(f'lat = {self.lat}')\n                        print(f'lon\
+      \ = {self.lon}')\n                        print(f'elev = {self.elev}')\n   \
+      \                     print(f'timezone = {self.timezone}')\n               \
+      \         print(f'start time = {self.start_time_utc}')\n                   \
+      \ \n                    parts = line1.split()\n                    if self.debug:\
+      \ print(\"parts: \", parts)\n                    if len(parts) > 1:\n      \
       \                  catnum = parts[1]  # e.g. \"66909U\"\n                  \
-      \  catnum_digits = ''.join(ch for ch in catnum if ch.isdigit())\n\n        \
-      \            if catnum_digits == self.catalog_number:\n                    \
-      \    self.sat = ephem.readtle(name, line1, line2)\n                        if\
-      \ self.debug:\n                            print(f\"[DEBUG] Loaded satellite\
-      \ {name} with catalog {catnum_digits}\")\n                            print(\"\
-      [DEBUG] Line1:\", line1)\n                            print(\"[DEBUG] Line2:\"\
-      , line2)\n\n                if self.sat is None and self.debug:\n          \
-      \          print(f\"[DEBUG] Catalog number {self.catalog_number} not found in\
-      \ file\")\n                \n            except Exception as e: \n         \
-      \       print(f\"[doppler] DB error: {e}\")\n        else:\n            # Parameters\n\
-      \            self.wav_file = wav_file\n            self.tle_file = tle_file\n\
-      \            self.catalog_number = str(catalog_number)\n            self.sat_freq_hz\
-      \ = float(sat_freq_hz)\n            self.center_freq_hz = float(center_freq_hz)\n\
-      \            self.lat = str(lat)\n            self.lon = str(lon)\n        \
-      \    self.elev = float(elev)\n            self.timezone = timezone\n       \
-      \     self.debug = debug\n\n        # Open WAV (only if provided)\n        self.wav\
-      \ = None\n        self.channels = 1\n        self.sample_rate = 1\n        if\
-      \ self.wav_file:\n            self.wav = wave.open(self.wav_file, 'rb')\n  \
-      \          self.channels = self.wav.getnchannels()\n            self.sample_rate\
-      \ = self.wav.getframerate()\n            print(f'wav file framerate: {self.wav.getframerate()}')\n\
-      \n            # Require stereo WAV file\n            if self.channels != 2:\n\
-      \                raise ValueError(\n                    f\"WAV file {self.wav_file}\
-      \ must be stereo (2 channels), \"\n                    f\"but has {self.channels}\
-      \ channel(s).\"\n                )\n\n            if self.debug:\n         \
-      \       print(f\"[DEBUG] Opened WAV file: {self.wav_file}, \"\n            \
-      \          f\"Channels: {self.channels}, SampleRate: {self.sample_rate}\")\n\
-      \n        # Observer setup\n        self.observer = ephem.Observer()\n     \
-      \   self.observer.lat = self.lat if self.lat else \"0\"\n        self.observer.lon\
-      \ = self.lon if self.lon else \"0\"\n        self.observer.elevation = self.elev\n\
-      \n        # Load TLE by catalog number\n        if capture_session_id == 0:\n\
-      \            self.sat = None\n            if self.tle_file:\n              \
-      \  with open(self.tle_file, 'r') as f:\n                    lines = [ln.strip()\
-      \ for ln in f if ln.strip()]\n                total_sats = len(lines) // 3\n\
-      \                if self.debug:\n                    print(f\"[DEBUG] TLE file\
-      \ has {total_sats} satellites\")\n\n                for i in range(total_sats):\n\
-      \                    name  = lines[i*3]\n                    line1 = lines[i*3\
-      \ + 1]\n                    line2 = lines[i*3 + 2]\n\n                    parts\
-      \ = line1.split()\n                    if len(parts) > 1:\n                \
-      \        catnum = parts[1]  # e.g. \"66909U\"\n                        catnum_digits\
-      \ = ''.join(ch for ch in catnum if ch.isdigit())\n\n                       \
-      \ if catnum_digits == self.catalog_number:\n                            self.sat\
-      \ = ephem.readtle(name, line1, line2)\n                            if self.debug:\n\
-      \                                print(f\"[DEBUG] Loaded satellite {name} with\
-      \ catalog {catnum_digits}\")\n                                print(\"[DEBUG]\
-      \ Line1:\", line1)\n                                print(\"[DEBUG] Line2:\"\
-      , line2)\n                            break\n\n                if self.sat is\
-      \ None and self.debug:\n                    print(f\"[DEBUG] Catalog number\
-      \ {self.catalog_number} not found in file\")\n\n        if self.start_time_utc:\n\
-      \            self.start_time = self.start_time_utc\n        else:\n        \
-      \    # Parse date/time from filename (local \u2192 UTC)\n            self.start_play\
-      \ = datetime.datetime.utcnow()  # fallback\n            match = re.search(r'_(\\\
-      d{2}-\\d{2}-\\d{2})_(\\d{2}-\\d{2}-\\d{4})', self.wav_file)\n            if\
-      \ match:\n                timestr, datestr = match.groups()\n              \
-      \  try:\n                    local_dt = datetime.datetime.strptime(\n      \
-      \                  timestr + \"_\" + datestr, \"%H-%M-%S_%d-%m-%Y\"\n      \
-      \              )\n                    local_dt = local_dt.replace(tzinfo=zoneinfo.ZoneInfo(self.timezone))\n\
-      \                    self.start_play = local_dt.astimezone(zoneinfo.ZoneInfo(\"\
-      UTC\"))\n                    if self.debug:\n                        print(\"\
-      [DEBUG] Parsed local time:\", local_dt)\n                        print(\"[DEBUG]\
-      \ Converted to UTC:\", self.start_play)\n                except ValueError:\n\
-      \                    if self.debug:\n                        print(\"[DEBUG]\
-      \ Failed to parse start time, using UTC fallback\")\n\n        # Local variables\n\
-      \        self.sample_counter = 0\n        self.next_update = 0\n\n    def work(self,\
-      \ input_items, output_items):\n        \"\"\"\n        Process audio samples\
-      \ and compute frequency difference.\n\n        Reads frames from the stereo\
-      \ WAV file, outputs complex IQ stream,\n        and once per second computes\
-      \ the Doppler-shifted satellite frequency\n        relative to the SDR center\
-      \ frequency. Publishes the difference via\n        the \"freq\" message port.\n\
-      \n        Args:\n            input_items (list): Input streams (unused).\n \
-      \           output_items (list): Output stream (complex IQ samples).\n\n   \
-      \     Returns:\n            int: Number of output items produced, or -1 if end\
-      \ of file.\n        \"\"\"\n        out = output_items[0]\n        n = len(out)\n\
-      \n        # Audio playback\n        if self.wav is not None:\n            frames\
-      \ = self.wav.readframes(n)\n            \n            if not frames:\n     \
-      \           out[:] = 0.0 + 0.0j\n                return -1\n            data\
-      \ = np.frombuffer(frames, dtype=np.float32) #.astype(np.float32)\n\n       \
-      \     # Stereo IQ required\n            stereo = data.reshape(-1, 2)\n     \
-      \       # i_data = stereo[:, 0] / 2147483648.0\n            # q_data = stereo[:,\
-      \ 1] / 2147483648.0\n            i_data = stereo[:, 0]\n            q_data =\
-      \ stereo[:, 1]\n            \n            iq = i_data[:n] + 1j * q_data[:n]\n\
+      \      name = catnum\n\n                        catnum_digits = ''.join(ch for\
+      \ ch in catnum if ch.isdigit())\n                        if self.debug: \n \
+      \                           print(\"catnum: \", catnum)\n                  \
+      \          print(\"catnum_digits: \", catnum_digits)\n\n                   \
+      \     if int(catnum_digits) == int(self.catalog_number):\n                 \
+      \           self.sat = ephem.readtle(name, line1, line2)\n                 \
+      \           if self.debug:\n                                print(f\"[DEBUG]\
+      \ Loaded satellite {name} with catalog {catnum_digits}\")\n                \
+      \                print(\"[DEBUG] Line1:\", line1)\n                        \
+      \        print(\"[DEBUG] Line2:\", line2)\n\n                    if self.sat\
+      \ is None and self.debug:\n                        print(f\"[DEBUG] Catalog\
+      \ number {self.catalog_number} not found in file\")\n                    \n\
+      \                except Exception as e: \n                    print(f\"[doppler]\
+      \ DB error: {e}\")\n            else:\n                # Parameters\n      \
+      \          self.wav_file = wav_file\n                self.tle_file = tle_file\n\
+      \                self.catalog_number = str(catalog_number)\n               \
+      \ self.sat_freq_hz = float(sat_freq_hz)\n                self.center_freq_hz\
+      \ = float(center_freq_hz)\n                self.lat = str(lat)\n           \
+      \     self.lon = str(lon)\n                self.elev = float(elev)\n       \
+      \         self.timezone = timezone\n                self.debug = debug\n\n \
+      \           # Open WAV (only if provided)\n            self.wav = None\n   \
+      \         self.channels = 1\n            self.sample_rate = 1\n            if\
+      \ self.wav_file:\n                self.wav = wave.open(self.wav_file, 'rb')\n\
+      \                self.channels = self.wav.getnchannels()\n                self.sample_rate\
+      \ = self.wav.getframerate()\n                print(f'wav file framerate: {self.wav.getframerate()}')\n\
+      \n                # Require stereo WAV file\n                if self.channels\
+      \ != 2:\n                    raise ValueError(\n                        f\"\
+      WAV file {self.wav_file} must be stereo (2 channels), \"\n                 \
+      \       f\"but has {self.channels} channel(s).\"\n                    )\n\n\
+      \                if self.debug:\n                    print(f\"[DEBUG] Opened\
+      \ WAV file: {self.wav_file}, \"\n                          f\"Channels: {self.channels},\
+      \ SampleRate: {self.sample_rate}\")\n\n            # Observer setup\n      \
+      \      self.observer = ephem.Observer()\n            self.observer.lat = self.lat\
+      \ if self.lat else \"0\"\n            self.observer.lon = self.lon if self.lon\
+      \ else \"0\"\n            self.observer.elevation = self.elev\n\n          \
+      \  # Load TLE by catalog number\n            if capture_session_id == 0:\n \
+      \               self.sat = None\n                if self.tle_file:\n       \
+      \             with open(self.tle_file, 'r') as f:\n                        lines\
+      \ = [ln.strip() for ln in f if ln.strip()]\n                    total_sats =\
+      \ len(lines) // 3\n                    if self.debug:\n                    \
+      \    print(f\"[DEBUG] TLE file has {total_sats} satellites\")\n\n          \
+      \          for i in range(total_sats):\n                        name  = lines[i*3]\n\
+      \                        line1 = lines[i*3 + 1]\n                        line2\
+      \ = lines[i*3 + 2]\n\n                        parts = line1.split()\n      \
+      \                  if len(parts) > 1:\n                            catnum =\
+      \ parts[1]  # e.g. \"66909U\"\n                            catnum_digits = ''.join(ch\
+      \ for ch in catnum if ch.isdigit())\n\n                            if catnum_digits\
+      \ == self.catalog_number:\n                                self.sat = ephem.readtle(name,\
+      \ line1, line2)\n                                if self.debug:\n          \
+      \                          print(f\"[DEBUG] Loaded satellite {name} with catalog\
+      \ {catnum_digits}\")\n                                    print(\"[DEBUG] Line1:\"\
+      , line1)\n                                    print(\"[DEBUG] Line2:\", line2)\n\
+      \                                break\n\n                    if self.sat is\
+      \ None and self.debug:\n                        print(f\"[DEBUG] Catalog number\
+      \ {self.catalog_number} not found in file\")\n\n            if self.start_time_utc:\n\
+      \                self.start_play = datetime.datetime.fromisoformat(self.start_time_utc)\n\
+      \            else:\n                # Parse date/time from filename (local \u2192\
+      \ UTC)\n                self.start_play = datetime.datetime.utcnow()  # fallback\n\
+      \                match = re.search(r'_(\\d{2}-\\d{2}-\\d{2})_(\\d{2}-\\d{2}-\\\
+      d{4})', self.wav_file)\n                if match:\n                    timestr,\
+      \ datestr = match.groups()\n                    try:\n                     \
+      \   local_dt = datetime.datetime.strptime(\n                            timestr\
+      \ + \"_\" + datestr, \"%H-%M-%S_%d-%m-%Y\"\n                        )\n    \
+      \                    local_dt = local_dt.replace(tzinfo=zoneinfo.ZoneInfo(self.timezone))\n\
+      \                        self.start_play = local_dt.astimezone(zoneinfo.ZoneInfo(\"\
+      UTC\"))\n                        if self.debug:\n                          \
+      \  print(\"[DEBUG] Parsed local time:\", local_dt)\n                       \
+      \     print(\"[DEBUG] Converted to UTC:\", self.start_play)\n              \
+      \      except ValueError:\n                        if self.debug:\n        \
+      \                    print(\"[DEBUG] Failed to parse start time, using UTC fallback\"\
+      )\n\n            # Local variables\n            self.sample_counter = 0\n  \
+      \          self.next_update = 0\n    except Exception as e:\n        print('[DEBUG]\
+      \ Init Exception:', e)\n        raise\n\n    def work(self, input_items, output_items):\n\
+      \        \"\"\"\n        Process audio samples and compute frequency difference.\n\
+      \n        Reads frames from the stereo WAV file, outputs complex IQ stream,\n\
+      \        and once per second computes the Doppler-shifted satellite frequency\n\
+      \        relative to the SDR center frequency. Publishes the difference via\n\
+      \        the \"freq\" message port.\n\n        Args:\n            input_items\
+      \ (list): Input streams (unused).\n            output_items (list): Output stream\
+      \ (complex IQ samples).\n\n        Returns:\n            int: Number of output\
+      \ items produced, or -1 if end of file.\n        \"\"\"\n        out = output_items[0]\n\
+      \        n = len(out)\n\n        # Audio playback\n        if self.wav is not\
+      \ None:\n            frames = self.wav.readframes(n)\n            \n       \
+      \     if not frames:\n                out[:] = 0.0 + 0.0j\n                return\
+      \ -1\n            data = np.frombuffer(frames, dtype=np.int32) #.astype(np.float32)\n\
+      \n            # Stereo IQ required\n            stereo = data.reshape(-1, 2)\n\
+      \            i_data = stereo[:, 0] / 2147483648.0\n            q_data = stereo[:,\
+      \ 1] / 2147483648.0\n            #i_data = stereo[:, 0]\n            #q_data\
+      \ = stereo[:, 1]\n            \n            iq = i_data[:n] + 1j * q_data[:n]\n\
       \            if len(iq) < n:\n                iq = np.pad(iq, (0, n - len(iq)),\
       \ constant_values=0)\n            out[:] = iq\n        else:\n            out[:]\
-      \ = 0.0 + 0.0j\n        \n        \n        # Advance sample counter\n     \
-      \   self.sample_counter += n\n\n        # Center difference calculation once\
-      \ per second\n        if self.sat is not None and self.sat_freq_hz > 0.0 and\
-      \ self.center_freq_hz > 0.0:\n            if self.sample_counter >= self.next_update:\n\
-      \                current_dt = self.start_play + datetime.timedelta(\n      \
-      \              seconds=self.sample_counter / self.sample_rate\n            \
-      \    )\n                self.observer.date = current_dt\n                self.sat.compute(self.observer)\n\
-      \                rel_vel = self.sat.range_velocity\n\n                # Doppler-shifted\
+      \ = 0.0 + 0.0j\n            print(\"out error\")\n        \n        \n     \
+      \   # Advance sample counter\n        self.sample_counter += n\n\n        #\
+      \ Center difference calculation once per second\n        if self.sat is not\
+      \ None and self.sat_freq_hz > 0.0 and self.center_freq_hz > 0.0:\n         \
+      \   if self.sample_counter >= self.next_update:\n                current_dt\
+      \ = self.start_play + datetime.timedelta(\n                    seconds=self.sample_counter\
+      \ / self.sample_rate\n                )\n                self.observer.date\
+      \ = current_dt\n                self.sat.compute(self.observer)\n          \
+      \      rel_vel = self.sat.range_velocity\n\n                # Doppler-shifted\
       \ satellite frequency\n                sat_doppler_freq = self.sat_freq_hz *\
       \ (1 - rel_vel / C)\n\n                # Difference to SDR center\n        \
       \        center_diff = sat_doppler_freq - self.center_freq_hz\n\n          \
@@ -768,8 +809,8 @@ blocks:
       \ += self.sample_rate\n\n        return n\n\n"
     affinity: ''
     alias: ''
-    capture_session_id: '0'
-    catalog_number: '66909'
+    capture_session_id: capture_session_id
+    catalog_number: '''66909U'''
     center_freq_hz: freq
     comment: "When a Capture_Session_Id is provided, \nthis block will now read the\
       \ block\nparameters from the SQLite database \n(observations.db)."
@@ -976,18 +1017,10 @@ blocks:
   parameters:
     _source_code: "import os, sys\nfrom datetime import datetime\nimport numpy as\
       \ np\nfrom gnuradio import gr\nimport pmt\nimport reedsolo\nfrom dataclasses\
-      \ import dataclass\nimport sqlite3 \n\n\n# Determine a reliable project root\
-      \ even when __file__ is not defined\ndef _here():\n    try:\n        return\
-      \ os.path.dirname(os.path.abspath(__file__))\n    except NameError:\n      \
-      \  try:\n            src = inspect.getsourcefile(sys.modules[__name__]) or inspect.getfile(sys.modules[__name__])\n\
-      \            return os.path.dirname(os.path.abspath(src))\n        except Exception:\n\
-      \            return os.getcwd()\n\nPROJECT_ROOT = os.path.abspath(os.path.join(_here(),\
-      \ '..'))\nif PROJECT_ROOT not in sys.path:\n    sys.path.insert(0, PROJECT_ROOT)\n\
-      \n# Safe import of project utils (utils.get_app_root handles absence of Flask\
-      \ app)\nfrom utils import resolve_storage_path, get_app_root, app_path\n\n#\
-      \ Database path (will use Flask app root when available, otherwise project root)\n\
-      DB_PATH = os.path.join(PROJECT_ROOT, \"observations.db\")\nprint(f\"[packet_logger]\
-      \ DB PATH: {DB_PATH}\") \n\n\n# this is the generic set of information you would\
+      \ import dataclass\nimport sqlite3 \n\n\nPROJECT_ROOT = os.getenv('SILVERSAT_ROOT')\n\
+      if PROJECT_ROOT not in sys.path:\n    sys.path.insert(0, PROJECT_ROOT)\n\nDB_PATH\
+      \ = os.path.join(PROJECT_ROOT, \"observations.db\")\nprint(f\"[packet_logger]\
+      \ DB PATH: {DB_PATH}\")\n\n\n# this is the generic set of information you would\
       \ need to construct/deconstruct an IL2P or an AX.25 packet\n@dataclass\nclass\
       \ Il2pPacket:\n    packet_error_type: list\n    processing_run_id: int = 0\n\
       \    header: bytearray = b''\n    header_parity: bytearray = b''  # two bytes\n\
@@ -1032,24 +1065,24 @@ blocks:
       \ unique identifier for this processing run\n        store_packets: 1 = store\
       \ packets to the database, 0 = do not store\n        \"\"\"\n        \n    \
       \    flowgraph_dir = os.path.join(PROJECT_ROOT, \"gnuradio\")\n        output_dir\
-      \ = os.path.join(PROJECT_ROOT, \"received_packets\")\n\n        DB_PATH = os.path.join(PROJECT_ROOT,\
-      \ \"observations.db\")\n\n        gr.basic_block.__init__(\n            self,\n\
-      \            name=\"il2p_rs_and_descramble_crc\",\n            in_sig=[],\n\
-      \            out_sig=[]\n        )\n\n        # Scrambler state\n        self.lfsr_seed\
-      \ = lfsr_seed & 0x1FF\n\n        # RS codecs\n        self.rs_header = reedsolo.RSCodec(2)\n\
-      \        self.rs_payload = reedsolo.RSCodec(16)\n\n        # AX.25 header (fixed)\n\
-      \        self.ax25_header = bytes([\n            0xAE,0xA0,0x64,0xB0,0x8E,0xAE,0x00,0xAE,\n\
-      \            0xA0,0x64,0xB0,0x8E,0xAE,0x01,0x03,0xF0\n        ])\n\n       \
-      \ # Output file setup\n        self.output_dir = output_dir\n        try:\n\
-      \            os.makedirs(self.output_dir, exist_ok=True)\n        except Exception\
-      \ as e:\n            print(f\"[IL2P] Warning: could not create output_dir '{self.output_dir}':\
-      \ {e}\")\n\n        ts = datetime.now().strftime(\"%Y%m%d_%H%M%S\")\n      \
-      \  self.output_path = os.path.join(self.output_dir, f\"il2p_payloads_{ts}.bin\"\
-      )\n        try:\n            # Unbuffered append-binary; one file per run\n\
-      \            self.outfile = open(self.output_path, \"ab\", buffering=0)\n  \
-      \          print(f\"[IL2P] Writing raw payloads to: {self.output_path}\")\n\
-      \        except Exception as e:\n            self.outfile = None\n         \
-      \   print(f\"[IL2P] ERROR: could not open output file '{self.output_path}':\
+      \ = os.path.join(PROJECT_ROOT, \"received_packets\")\n\n        # DB_PATH =\
+      \ os.path.join(PROJECT_ROOT, \"observations.db\")\n\n        gr.basic_block.__init__(\n\
+      \            self,\n            name=\"il2p_rs_and_descramble_crc\",\n     \
+      \       in_sig=[],\n            out_sig=[]\n        )\n\n        # Scrambler\
+      \ state\n        self.lfsr_seed = lfsr_seed & 0x1FF\n\n        # RS codecs\n\
+      \        self.rs_header = reedsolo.RSCodec(2)\n        self.rs_payload = reedsolo.RSCodec(16)\n\
+      \n        # AX.25 header (fixed)\n        self.ax25_header = bytes([\n     \
+      \       0xAE,0xA0,0x64,0xB0,0x8E,0xAE,0x00,0xAE,\n            0xA0,0x64,0xB0,0x8E,0xAE,0x01,0x03,0xF0\n\
+      \        ])\n\n        # Output file setup\n        self.output_dir = output_dir\n\
+      \        try:\n            os.makedirs(self.output_dir, exist_ok=True)\n   \
+      \     except Exception as e:\n            print(f\"[IL2P] Warning: could not\
+      \ create output_dir '{self.output_dir}': {e}\")\n\n        ts = datetime.now().strftime(\"\
+      %Y%m%d_%H%M%S\")\n        self.output_path = os.path.join(self.output_dir, f\"\
+      il2p_payloads_{ts}.bin\")\n        try:\n            # Unbuffered append-binary;\
+      \ one file per run\n            self.outfile = open(self.output_path, \"ab\"\
+      , buffering=0)\n            print(f\"[IL2P] Writing raw payloads to: {self.output_path}\"\
+      )\n        except Exception as e:\n            self.outfile = None\n       \
+      \     print(f\"[IL2P] ERROR: could not open output file '{self.output_path}':\
       \ {e}\")\n            \n        try:\n            conn = sqlite3.connect(DB_PATH)\
       \ \n            cur = conn.cursor()\n            cur.execute(\n            \"\
       UPDATE processing_run SET output_file = ? WHERE id = ?\", (self.output_path,\
@@ -1071,7 +1104,7 @@ blocks:
       \  state = (state >> 1)\n                state ^= (in_bit << 8)\n          \
       \      state ^= (in_bit << 3)\n                state &= 0x1FF\n\n          \
       \      if out_bit:\n                    out_byte |= mask\n\n            out_bytes[b]\
-      \ = out_byte\n\n        return bytes(out_bytes)\n\n    # ------------------------------------------------------------\n\
+      \ = out_byte\n\n        return bytes(out_bytes)\n\n\n    # ------------------------------------------------------------\n\
       \    # Scrambler state validator\n    # ------------------------------------------------------------\n\
       \    def _validate_scrambler(self, scrambled, descrambled):\n        \"\"\"\n\
       \        Re-scramble descrambled bytes and compare to original scrambled bytes.\n\
@@ -1087,16 +1120,16 @@ blocks:
       \                    out_byte |= mask\n\n            if out_byte != scrambled[b]:\n\
       \                print(f\"[IL2P] SCR mismatch at byte {b}: exp={scrambled[b]:02X},\
       \ got={out_byte:02X}\")\n                return False\n\n        return True\n\
-      \n    # ------------------------------------------------------------\n    #\
-      \ Decode 10-bit payload length from header\n    # ------------------------------------------------------------\n\
+      \n\n    # ------------------------------------------------------------\n   \
+      \ # Decode 10-bit payload length from header\n    # ------------------------------------------------------------\n\
       \    def _decode_len_from_header(self, header_plain):\n        val = 0\n   \
       \     for i in range(2, 12):\n            bit = (header_plain[i] >> 7) & 1\n\
-      \            val = (val << 1) | bit\n        return val\n\n    # ------------------------------------------------------------\n\
+      \            val = (val << 1) | bit\n        return val\n\n\n    # ------------------------------------------------------------\n\
       \    # CRC-16/X.25 (AX.25 FCS)\n    # ------------------------------------------------------------\n\
       \    def _crc16_x25(self, data):\n        crc = 0xFFFF\n        for b in data:\n\
       \            crc ^= b\n            for _ in range(8):\n                if crc\
       \ & 1:\n                    crc = (crc >> 1) ^ 0x8408\n                else:\n\
-      \                    crc >>= 1\n        return crc ^ 0xFFFF\n\n    # ------------------------------------------------------------\n\
+      \                    crc >>= 1\n        return crc ^ 0xFFFF\n\n\n    # ------------------------------------------------------------\n\
       \    # Main PDU handler\n    # ------------------------------------------------------------\n\
       \    def handle_pdu(self, msg): \n        vec = pmt.cdr(msg)\n        data =\
       \ bytes(pmt.u8vector_elements(vec))\n        total_len = len(data)\n       \
@@ -1170,7 +1203,7 @@ blocks:
       \        md = pmt.dict_add(md, pmt.intern(\"PAYLOAD\"),\n                  \
       \        pmt.init_u8vector(len(payload_plain), list(payload_plain)))\n\n   \
       \     out_pdu = pmt.cons(md, pmt.init_u8vector(len(data), list(data)))\n   \
-      \     self.message_port_pub(pmt.intern(\"out\"), out_pdu)\n\n    def __del__(self):\n\
+      \     self.message_port_pub(pmt.intern(\"out\"), out_pdu)\n\n\n    def __del__(self):\n\
       \        # Best-effort close of the output file\n        try:\n            if\
       \ hasattr(self, \"outfile\") and self.outfile is not None:\n               \
       \ self.outfile.close()\n        except Exception:\n            pass\n\n"
@@ -1180,7 +1213,7 @@ blocks:
     lfsr_seed: '0x1F0'
     maxoutbuf: '0'
     minoutbuf: '0'
-    output_dir: os.path.join(project_root, "silversat_packets", "received_packets")
+    output_dir: '""'
     processing_run_id: processing_run_id
     store_packets: store_packets
   states:
@@ -1195,6 +1228,25 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [1112, 1300.0]
+    rotation: 0
+    state: enabled
+- name: fir_filter_xxx_0
+  id: fir_filter_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '100'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_delay: '0'
+    taps: firdes.low_pass(1.0, samp_rate, samp_rate/4, transition, window.WIN_HAMMING)
+    type: fff
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1848, 580.0]
     rotation: 0
     state: enabled
 - name: fir_filter_xxx_1
@@ -1365,7 +1417,7 @@ blocks:
     label: processing_run_id
     short_id: ''
     type: intx
-    value: '8'
+    value: '0'
   states:
     bus_sink: false
     bus_source: false
@@ -1744,6 +1796,103 @@ blocks:
     coordinate: [776, 1060.0]
     rotation: 0
     state: enabled
+- name: qtgui_time_sink_x_0_1
+  id: qtgui_time_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    autoscale: 'True'
+    axislabels: 'True'
+    color1: blue
+    color10: dark blue
+    color2: red
+    color3: green
+    color4: black
+    color5: cyan
+    color6: magenta
+    color7: yellow
+    color8: dark red
+    color9: dark green
+    comment: ''
+    ctrlpanel: 'False'
+    entags: 'True'
+    grid: 'True'
+    gui_hint: tab0@0:2,3,1,1
+    label1: Signal 1
+    label10: Signal 10
+    label2: Signal 2
+    label3: Signal 3
+    label4: Signal 4
+    label5: Signal 5
+    label6: Signal 6
+    label7: Signal 7
+    label8: Signal 8
+    label9: Signal 9
+    legend: 'True'
+    marker1: '-1'
+    marker10: '-1'
+    marker2: '-1'
+    marker3: '-1'
+    marker4: '-1'
+    marker5: '-1'
+    marker6: '-1'
+    marker7: '-1'
+    marker8: '-1'
+    marker9: '-1'
+    name: '""'
+    nconnections: '1'
+    size: '10240'
+    srate: samp_rate/100
+    stemplot: 'False'
+    style1: '1'
+    style10: '1'
+    style2: '1'
+    style3: '1'
+    style4: '1'
+    style5: '1'
+    style6: '1'
+    style7: '1'
+    style8: '1'
+    style9: '1'
+    tr_chan: '0'
+    tr_delay: '0'
+    tr_level: '0.01'
+    tr_mode: qtgui.TRIG_MODE_FREE
+    tr_slope: qtgui.TRIG_SLOPE_POS
+    tr_tag: squelch_sob
+    type: float
+    update_time: '0.10'
+    width1: '1'
+    width10: '1'
+    width2: '1'
+    width3: '1'
+    width4: '1'
+    width5: '1'
+    width6: '1'
+    width7: '1'
+    width8: '1'
+    width9: '1'
+    ylabel: Amplitude
+    ymax: '1'
+    ymin: '-1'
+    yunit: '""'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [2064, 572.0]
+    rotation: 0
+    state: enabled
 - name: qtgui_time_sink_x_1_0_0
   id: qtgui_time_sink_x
   parameters:
@@ -1971,7 +2120,7 @@ blocks:
     freqhalf: 'True'
     grid: 'False'
     gui_hint: 'tab0@0: 1, 1, 1,1'
-    int_max: '10'
+    int_max: '20'
     int_min: '-140'
     label1: ''
     label10: ''
@@ -2008,7 +2157,7 @@ blocks:
     label: ''
     short_id: ''
     type: str
-    value: captures/20260109_195743.076401.wav
+    value: os.path.join(os.getenv('SILVERSAT_ROOT'), "captures/20260112_233622.557094.wav")
   states:
     bus_sink: false
     bus_source: false
@@ -2040,7 +2189,7 @@ blocks:
     comment: ''
     gui_hint: ''
     label0: '0'
-    label1: Tab 1
+    label1: '1'
     label10: Tab 10
     label11: Tab 11
     label12: Tab 12
@@ -2151,10 +2300,12 @@ connections:
 - [analog_quadrature_demod_cf_0, '0', fir_filter_xxx_1, '0']
 - [analog_quadrature_demod_cf_0, '0', qtgui_time_sink_x_0, '0']
 - [blocks_char_to_float_0, '0', qtgui_time_sink_x_1_0_0_0, '0']
+- [blocks_complex_to_mag_0, '0', fir_filter_xxx_0, '0']
 - [blocks_float_to_complex_0, '0', blocks_selector_0_0, '0']
 - [blocks_freqshift_cc_0, '0', freq_xlating_fir_filter_xxx_0, '0']
 - [blocks_freqshift_cc_0, '0', freq_xlating_fir_filter_xxx_0_0, '0']
 - [blocks_selector_0, '0', analog_pwr_squelch_xx_0, '0']
+- [blocks_selector_0, '0', blocks_complex_to_mag_0, '0']
 - [blocks_selector_0, '0', qtgui_freq_sink_x_0_0, '0']
 - [blocks_selector_0, '0', qtgui_waterfall_sink_x_0, '0']
 - [blocks_selector_0_0, '0', blocks_throttle2_0, '0']
@@ -2177,6 +2328,7 @@ connections:
 - [epy_block_1, pdus, epy_block_4, pdus]
 - [epy_block_2, '0', epy_block_1, '0']
 - [epy_block_4, out, blocks_message_debug_0_0_0, log]
+- [fir_filter_xxx_0, '0', qtgui_time_sink_x_0_1, '0']
 - [fir_filter_xxx_1, '0', digital_symbol_sync_xx_1, '0']
 - [fir_filter_xxx_1, '0', qtgui_time_sink_x_0_0, '0']
 - [freq_xlating_fir_filter_xxx_0, '0', blocks_selector_0, '1']
