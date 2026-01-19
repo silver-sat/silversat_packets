@@ -234,8 +234,8 @@ class rtlsdr_iq_capture(gr.top_block, Qt.QWidget):
         ##################################################
         self.connect((self.analog_sig_source_x_0, 0), (self.blocks_multiply_xx_0, 1))
         self.connect((self.band_pass_filter_0, 0), (self.blocks_multiply_xx_0, 0))
-        self.connect((self.blocks_complex_to_float_0, 0), (self.blocks_float_to_complex_0, 0))
         self.connect((self.blocks_complex_to_float_0, 1), (self.blocks_float_to_complex_0, 1))
+        self.connect((self.blocks_complex_to_float_0, 0), (self.blocks_float_to_complex_0, 0))
         self.connect((self.blocks_complex_to_float_0, 1), (self.blocks_wavfile_sink_0, 1))
         self.connect((self.blocks_complex_to_float_0, 0), (self.blocks_wavfile_sink_0, 0))
         self.connect((self.blocks_float_to_complex_0, 0), (self.qtgui_freq_sink_x_0, 0))
