@@ -226,7 +226,7 @@ class rtlsdr_iq_capture(gr.top_block, Qt.QWidget):
                 transition,
                 window.WIN_HAMMING,
                 6.76))
-        self.analog_sig_source_x_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, if_freq, 1, 0, 0)
+        self.analog_sig_source_x_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, (-if_freq), 1, 0, 0)
 
 
         ##################################################
@@ -234,8 +234,8 @@ class rtlsdr_iq_capture(gr.top_block, Qt.QWidget):
         ##################################################
         self.connect((self.analog_sig_source_x_0, 0), (self.blocks_multiply_xx_0, 1))
         self.connect((self.band_pass_filter_0, 0), (self.blocks_multiply_xx_0, 0))
-        self.connect((self.blocks_complex_to_float_0, 1), (self.blocks_float_to_complex_0, 1))
         self.connect((self.blocks_complex_to_float_0, 0), (self.blocks_float_to_complex_0, 0))
+        self.connect((self.blocks_complex_to_float_0, 1), (self.blocks_float_to_complex_0, 1))
         self.connect((self.blocks_complex_to_float_0, 1), (self.blocks_wavfile_sink_0, 1))
         self.connect((self.blocks_complex_to_float_0, 0), (self.blocks_wavfile_sink_0, 0))
         self.connect((self.blocks_float_to_complex_0, 0), (self.qtgui_freq_sink_x_0, 0))
@@ -306,7 +306,7 @@ class rtlsdr_iq_capture(gr.top_block, Qt.QWidget):
 
     def set_if_freq(self, if_freq):
         self.if_freq = if_freq
-        self.analog_sig_source_x_0.set_frequency(self.if_freq)
+        self.analog_sig_source_x_0.set_frequency((-self.if_freq))
         self.band_pass_filter_0.set_taps(firdes.band_pass(1, self.samp_rate, (self.if_freq - self.chan_bw/2), (self.if_freq + self.chan_bw/2), self.transition, window.WIN_HAMMING, 6.76))
         self.soapy_rtlsdr_source_0.set_frequency(0, (self.freq-self.if_freq))
 

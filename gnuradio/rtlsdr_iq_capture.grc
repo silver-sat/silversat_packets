@@ -124,7 +124,7 @@ blocks:
     alias: ''
     amp: '1'
     comment: ''
-    freq: if_freq
+    freq: -if_freq
     maxoutbuf: '0'
     minoutbuf: '0'
     offset: '0'
