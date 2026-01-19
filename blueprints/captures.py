@@ -7,8 +7,12 @@ from datetime import datetime
 import subprocess
 import os
 from utils import app_path, resolve_storage_path
+import logging
 
 bp = Blueprint("captures", __name__, url_prefix="/captures")
+
+logging.basicConfig(filename='app.log', level=logging.DEBUG,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
 
 @bp.route("/")
 def index():
@@ -87,14 +91,20 @@ def fetch_tle(sat_id):
     catnum = sat["catalog_number"]
     user = current_app.config["SPACETRACK_USER"]
     pw = current_app.config["SPACETRACK_PASS"]
+    
+    #logging.debug("catalog number: ", catnum)
+    #logging.debug("username: ", user)
+    #logging.debug("pwd: ", pw)
 
     session = requests.Session()
     login_url = "https://www.space-track.org/ajaxauth/login"
-    query_url = f"https://www.space-track.org/basicspacedata/query/class/tle_latest/NORAD_CAT_ID/{catnum}/orderby/ORDINAL asc/format/tle"
-
+    #query_url = f"https://www.space-track.org/basicspacedata/query/class/tle_latest/NORAD_CAT_ID/{catnum}/orderby/ORDINAL asc/format/tle"
+    query_url="https://www.space-track.org/basicspacedata/query/class/gp/NORAD_CAT_ID/66909/orderby/TLE_LINE1%20ASC/format/tle"
+    
     try:
         session.post(login_url, data={"identity": user, "password": pw})
         resp = session.get(query_url)
+        logging.debug("login response: ", resp)
         if resp.ok:
             lines = resp.text.strip().splitlines()
             if len(lines) >= 2:
