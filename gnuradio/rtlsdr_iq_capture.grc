@@ -137,30 +137,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [120, 316.0]
-    rotation: 0
-    state: enabled
-- name: analog_sig_source_x_0_0
-  id: analog_sig_source_x
-  parameters:
-    affinity: ''
-    alias: tone_down
-    amp: '1'
-    comment: ''
-    freq: -if_freq
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    offset: '0'
-    phase: '0'
-    samp_rate: samp_rate
-    showports: 'False'
-    type: complex
-    waveform: analog.GR_COS_WAVE
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [512, 340.0]
+    coordinate: [504, 356.0]
     rotation: 0
     state: enabled
 - name: band_pass_filter_0
@@ -185,7 +162,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [520, 188.0]
+    coordinate: [480, 188.0]
     rotation: 0
     state: enabled
 - name: blocks_complex_to_float_0
@@ -235,25 +212,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [384, 224.0]
-    rotation: 0
-    state: enabled
-- name: blocks_multiply_xx_0_0
-  id: blocks_multiply_xx
-  parameters:
-    affinity: ''
-    alias: mix_down
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    num_inputs: '2'
-    type: complex
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [768, 240.0]
+    coordinate: [760, 240.0]
     rotation: 0
     state: enabled
 - name: blocks_wavfile_sink_0
@@ -500,7 +459,7 @@ blocks:
     alias: ''
     bias: 'True'
     bufflen: '16384'
-    center_freq: freq
+    center_freq: freq-if_freq
     comment: "RF gain set to 0 for testing, \nAGC should be OFF"
     dev_args: ''
     freq_correction: '0'
@@ -513,24 +472,22 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [112, 212.0]
+    coordinate: [176, 228.0]
     rotation: 0
     state: enabled
 
 connections:
 - [analog_sig_source_x_0, '0', blocks_multiply_xx_0, '1']
-- [analog_sig_source_x_0_0, '0', blocks_multiply_xx_0_0, '1']
-- [band_pass_filter_0, '0', blocks_multiply_xx_0_0, '0']
+- [band_pass_filter_0, '0', blocks_multiply_xx_0, '0']
 - [blocks_complex_to_float_0, '0', blocks_float_to_complex_0, '0']
 - [blocks_complex_to_float_0, '0', blocks_wavfile_sink_0, '0']
 - [blocks_complex_to_float_0, '1', blocks_float_to_complex_0, '1']
 - [blocks_complex_to_float_0, '1', blocks_wavfile_sink_0, '1']
 - [blocks_float_to_complex_0, '0', qtgui_freq_sink_x_0, '0']
 - [blocks_float_to_complex_0, '0', qtgui_waterfall_sink_x_0, '0']
-- [blocks_multiply_xx_0, '0', band_pass_filter_0, '0']
-- [blocks_multiply_xx_0_0, '0', low_pass_filter_0, '0']
+- [blocks_multiply_xx_0, '0', low_pass_filter_0, '0']
 - [low_pass_filter_0, '0', blocks_complex_to_float_0, '0']
-- [soapy_rtlsdr_source_0, '0', blocks_multiply_xx_0, '0']
+- [soapy_rtlsdr_source_0, '0', band_pass_filter_0, '0']
 
 metadata:
   file_format: 1

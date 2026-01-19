@@ -4,7 +4,7 @@
 <a href="{{ url_for('processing.new') }}">Start New Processing Run</a><br><br>
 <table>
   <tr>
-    <th>ID</th><th>Capture Session ID</th><th>Source File</th><th>Freq Offset</th><th>Store Packets?</th><th>Doppler</th><th>Threshold</th><th>Start Time</th><th>Packets</th><th>Good</th><th>View</th>
+    <th>ID</th><th>Capture ID</th><th>Source File</th><th>Offset</th><th>Store Packets?</th><th>Doppler</th><th>Threshold</th><th>Start Time</th><th>Packets</th><th>Good</th><th>View</th>
   </tr>
   {% for run in runs %}
     <tr>
