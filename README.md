@@ -9,8 +9,11 @@ massive capture files (don't be surprised with a 1GB file).
 
 My implementation also includes a UPS to make the system portable.
 
-In order to install the system you should (after cloning the repo)
+In order to install the system you should (after cloning the repo):
+
 1. Create a virtual environment in the /silversat_packets directory
+
+   https://letmegooglethat.com/?q=how+to+create+a+virtual+environment+in+python
    
 2. Install using pip:
   pip install pytz matplotlib flask requests ephem reedsolo
@@ -19,9 +22,9 @@ In order to install the system you should (after cloning the repo)
    sudo apt update && upgrade
    sudo apt install python3-skyfield sqlite3 gnuradio
 
-4. clone gr-satnogs and follow install instructions
+4. clone gr-satnogs (in your home directory) and follow install instructions
 
-5. clone ssdv from https://github.com/fsphil/ssdv and follow install instructions
+5. clone ssdv (also in your home directory) from https://github.com/fsphil/ssdv and follow install instructions
 
 I have not tested these steps from scratch, so there may be more depending on
 your current system config.

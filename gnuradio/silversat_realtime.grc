@@ -6,14 +6,12 @@ options:
     cmake_opt: ''
     comment: ''
     copyright: ''
-    description: This flowgraph uses the downlink frequency from Gpredict to adjust
-      the received signal in real time.  It is stored to a WAV file I/Q data (stereo)
-      as 32 bit floats.
+    description: This flowgraph captures and processes Silversat packets in real time.
     gen_cmake: 'On'
     gen_linking: dynamic
     generate_options: qt_gui
     hier_block_src_path: '.:'
-    id: rtlsdr_iq_capture
+    id: silversat_realtime
     max_nouts: '0'
     output_language: python
     placement: (0,0)
@@ -24,7 +22,7 @@ options:
     run_options: prompt
     sizing_mode: fixed
     thread_safe_setters: ''
-    title: Silversat RTL-SDR Capture Script
+    title: Silversat RTL-SDR Real-time packet processing
     window_size: (1000,1000)
   states:
     bus_sink: false
@@ -44,7 +42,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [896, 612.0]
+    coordinate: [912, 740.0]
     rotation: 0
     state: enabled
 - name: chan_bw
@@ -56,7 +54,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [744, 116.0]
+    coordinate: [456, 196.0]
     rotation: 0
     state: enabled
 - name: decimation
@@ -68,7 +66,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1128, 140.0]
+    coordinate: [888, 220.0]
     rotation: 0
     state: enabled
 - name: doppler_freq
@@ -76,15 +74,15 @@ blocks:
   parameters:
     comment: ''
     formatter: None
-    gui_hint: ''
-    label: ''
+    gui_hint: 'tab0@0: 2, 1, 1, 2'
+    label: 'Doppler Frequency:  '
     type: int
     value: '0'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1808, 388.0]
+    coordinate: [520, 612.0]
     rotation: 0
     state: enabled
 - name: filter_transition_width
@@ -96,7 +94,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1752, 164.0]
+    coordinate: [1568, 196.0]
     rotation: 0
     state: enabled
 - name: fsk_deviation_hz
@@ -108,7 +106,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [312, 676.0]
+    coordinate: [328, 804.0]
     rotation: 0
     state: enabled
 - name: if_freq
@@ -120,7 +118,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [424, 308.0]
+    coordinate: [296, 236.0]
     rotation: 0
     state: enabled
 - name: oversample
@@ -144,7 +142,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [328, 156.0]
+    coordinate: [360, 12.0]
     rotation: 0
     state: enabled
 - name: samples_per_symbol
@@ -156,7 +154,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1024, 612.0]
+    coordinate: [1040, 740.0]
     rotation: 0
     state: enabled
 - name: signal_bw
@@ -168,14 +166,14 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1656, 164.0]
+    coordinate: [1472, 196.0]
     rotation: 0
     state: enabled
 - name: squelch
   id: variable_qtgui_range
   parameters:
     comment: ''
-    gui_hint: 'tab0@0: 0, 3, 2, 1'
+    gui_hint: 'tab0@0: 2, 0, 1, 1'
     label: ''
     min_len: '100'
     orient: QtCore.Qt.Horizontal
@@ -183,13 +181,13 @@ blocks:
     start: '-100'
     step: '1'
     stop: '-20'
-    value: '-60'
+    value: '-77'
     widget: counter
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1992, 372.0]
+    coordinate: [1808, 404.0]
     rotation: 0
     state: enabled
 - name: symbol_rate
@@ -225,7 +223,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [824, 116.0]
+    coordinate: [536, 196.0]
     rotation: 0
     state: enabled
 - name: access_threshold
@@ -242,7 +240,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [440, 1092.0]
+    coordinate: [360, 1260.0]
     rotation: 0
     state: enabled
 - name: analog_pwr_squelch_xx_0
@@ -264,7 +262,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1984, 268.0]
+    coordinate: [1808, 308.0]
     rotation: 0
     state: enabled
 - name: analog_quadrature_demod_cf_0
@@ -280,7 +278,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [304, 748.0]
+    coordinate: [320, 876.0]
     rotation: 0
     state: enabled
 - name: analog_sig_source_x_0_0
@@ -290,7 +288,7 @@ blocks:
     alias: tone_down
     amp: '1'
     comment: ''
-    freq: -if_freq
+    freq: -if_freq-(doppler_freq-freq)
     maxoutbuf: '0'
     minoutbuf: '0'
     offset: '0'
@@ -303,7 +301,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [736, 340.0]
+    coordinate: [448, 420.0]
     rotation: 0
     state: enabled
 - name: band_pass_filter_0
@@ -328,7 +326,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [744, 188.0]
+    coordinate: [456, 268.0]
     rotation: 0
     state: enabled
 - name: blocks_char_to_float_0
@@ -345,7 +343,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1544, 588.0]
+    coordinate: [1560, 716.0]
     rotation: 0
     state: enabled
 - name: blocks_freqshift_cc_0
@@ -366,7 +364,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1384, 244.0]
+    coordinate: [1152, 324.0]
     rotation: 0
     state: enabled
 - name: blocks_message_debug_0_0_0
@@ -381,7 +379,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1496, 1136.0]
+    coordinate: [1416, 1304.0]
     rotation: 0
     state: enabled
 - name: blocks_multiply_xx_0_0
@@ -399,7 +397,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [992, 240.0]
+    coordinate: [704, 320.0]
     rotation: 0
     state: enabled
 - name: blocks_tag_debug_0_1_0
@@ -418,7 +416,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [712, 1100.0]
+    coordinate: [632, 1268.0]
     rotation: 0
     state: disabled
 - name: digital_binary_slicer_fb_0
@@ -433,7 +431,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1328, 704.0]
+    coordinate: [1344, 832.0]
     rotation: 0
     state: enabled
 - name: digital_correlate_access_code_tag_xx_0_0
@@ -452,7 +450,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [424, 1196.0]
+    coordinate: [344, 1364.0]
     rotation: 0
     state: enabled
 - name: digital_symbol_sync_xx_1
@@ -479,7 +477,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [896, 692.0]
+    coordinate: [912, 820.0]
     rotation: 0
     state: enabled
 - name: epy_block_1
@@ -574,7 +572,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [936, 1204.0]
+    coordinate: [856, 1372.0]
     rotation: 0
     state: enabled
 - name: epy_block_2
@@ -612,7 +610,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [712, 1204.0]
+    coordinate: [632, 1372.0]
     rotation: 0
     state: bypassed
 - name: epy_block_3
@@ -648,7 +646,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1168, 1292.0]
+    coordinate: [1088, 1460.0]
     rotation: 0
     state: disabled
 - name: epy_block_4
@@ -856,7 +854,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1168, 1108.0]
+    coordinate: [1088, 1276.0]
     rotation: 0
     state: enabled
 - name: fir_filter_xxx_1
@@ -875,7 +873,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [568, 740.0]
+    coordinate: [584, 868.0]
     rotation: 0
     state: enabled
 - name: freq
@@ -892,28 +890,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [312, 308.0]
-    rotation: 0
-    state: enabled
-- name: freq_xlating_fir_filter_xxx_0
-  id: freq_xlating_fir_filter_xxx
-  parameters:
-    affinity: ''
-    alias: ''
-    center_freq: '0'
-    comment: doppler_freq - freq
-    decim: '1'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    samp_rate: symbol_sample_rate
-    taps: firdes.low_pass(1.0, symbol_sample_rate, signal_bw/2, filter_transition_width,
-      window.WIN_HAMMING)
-    type: ccc
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1648, 244.0]
+    coordinate: [184, 204.0]
     rotation: 0
     state: enabled
 - name: frequency_offset
@@ -930,7 +907,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1384, 148.0]
+    coordinate: [1152, 228.0]
     rotation: 0
     state: enabled
 - name: gpredict_MsgPairToVar_0
@@ -944,7 +921,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1624, 396.0]
+    coordinate: [520, 564.0]
     rotation: 0
     state: enabled
 - name: gpredict_doppler_0
@@ -962,7 +939,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1296, 400.0]
+    coordinate: [208, 568.0]
     rotation: 0
     state: enabled
 - name: import_0
@@ -1012,7 +989,31 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1128, 212.0]
+    coordinate: [864, 292.0]
+    rotation: 0
+    state: enabled
+- name: low_pass_filter_0_0
+  id: low_pass_filter
+  parameters:
+    affinity: ''
+    alias: ''
+    beta: '6.76'
+    comment: ''
+    cutoff_freq: signal_bw/2
+    decim: '1'
+    gain: '1'
+    interp: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: symbol_sample_rate
+    type: fir_filter_ccf
+    width: filter_transition_width
+    win: window.WIN_HAMMING
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1488, 292.0]
     rotation: 0
     state: enabled
 - name: note_0
@@ -1025,7 +1026,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1376, 100.0]
+    coordinate: [1296, 268.0]
     rotation: 0
     state: enabled
 - name: processing_run_id
@@ -1042,7 +1043,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1296, 996.0]
+    coordinate: [1216, 1164.0]
     rotation: 0
     state: enabled
 - name: qtgui_eye_sink_x_0
@@ -1138,9 +1139,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1304, 580.0]
+    coordinate: [1320, 708.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: qtgui_freq_sink_x_0
   id: qtgui_freq_sink_x
   parameters:
@@ -1159,7 +1160,7 @@ blocks:
     autoscale: 'False'
     average: '1.0'
     axislabels: 'True'
-    bw: samp_rate
+    bw: samp_rate/decimation
     color1: '"blue"'
     color10: '"dark blue"'
     color2: '"red"'
@@ -1176,7 +1177,7 @@ blocks:
     fftsize: '1024'
     freqhalf: 'True'
     grid: 'False'
-    gui_hint: ''
+    gui_hint: 'tab0@0: 0, 0, 2, 1'
     label: Relative Gain
     label1: ''
     label10: ''''''
@@ -1219,7 +1220,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1336, 308.0]
+    coordinate: [1152, 148.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_0
@@ -1253,7 +1254,7 @@ blocks:
     ctrlpanel: 'False'
     entags: 'True'
     grid: 'True'
-    gui_hint: 'tab0@0: 2, 0, 1,1'
+    gui_hint: 'tab0@0: 3, 0, 1,1'
     label1: Signal 1
     label10: Signal 10
     label2: Signal 2
@@ -1316,7 +1317,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [560, 868.0]
+    coordinate: [576, 996.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_0_0
@@ -1413,9 +1414,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [832, 868.0]
+    coordinate: [848, 996.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: qtgui_time_sink_x_1_0_0
   id: qtgui_time_sink_x
   parameters:
@@ -1447,7 +1448,7 @@ blocks:
     ctrlpanel: 'False'
     entags: 'False'
     grid: 'False'
-    gui_hint: 'tab0@0: 3, 0, 1,1'
+    gui_hint: 'tab0@0: 3, 1, 1,1'
     label1: clock
     label10: Signal 10
     label2: symbol sync
@@ -1510,7 +1511,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1304, 756.0]
+    coordinate: [1320, 884.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_1_0_0_0
@@ -1544,7 +1545,7 @@ blocks:
     ctrlpanel: 'False'
     entags: 'False'
     grid: 'True'
-    gui_hint: 'tab0@0: 2, 1, 1,1'
+    gui_hint: 'tab0@0: 3, 2, 1,1'
     label1: clock
     label10: Signal 10
     label2: symbol sync
@@ -1607,7 +1608,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1704, 564.0]
+    coordinate: [1720, 692.0]
     rotation: 0
     state: enabled
 - name: qtgui_waterfall_sink_x_0
@@ -1642,7 +1643,7 @@ blocks:
     fftsize: '1024'
     freqhalf: 'True'
     grid: 'False'
-    gui_hint: ''
+    gui_hint: 'tab0@0: 0, 1, 2, 1'
     int_max: '10'
     int_min: '-140'
     label1: ''
@@ -1668,7 +1669,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1344, 20.0]
+    coordinate: [1152, 388.0]
     rotation: 0
     state: enabled
 - name: qtgui_waterfall_sink_x_0_0
@@ -1703,7 +1704,7 @@ blocks:
     fftsize: '1024'
     freqhalf: 'True'
     grid: 'False'
-    gui_hint: ''
+    gui_hint: 'tab0@0: 0, 2, 2, 1'
     int_max: '10'
     int_min: '-140'
     label1: ''
@@ -1729,7 +1730,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1960, 172.0]
+    coordinate: [1808, 228.0]
     rotation: 0
     state: enabled
 - name: soapy_rtlsdr_source_0
@@ -1738,10 +1739,10 @@ blocks:
     affinity: ''
     agc: 'False'
     alias: ''
-    bias: 'True'
+    bias: 'False'
     bufflen: '16384'
     center_freq: freq-if_freq
-    comment: "RF gain set to 0 for testing, \nAGC should be OFF"
+    comment: AGC should be OFF
     dev_args: ''
     freq_correction: '0'
     gain: '6'
@@ -1753,7 +1754,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [328, 228.0]
+    coordinate: [184, 308.0]
     rotation: 0
     state: enabled
 - name: store_packets
@@ -1770,7 +1771,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1160, 996.0]
+    coordinate: [1080, 1164.0]
     rotation: 0
     state: enabled
 - name: tab0
@@ -1817,7 +1818,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1568, 700.0]
+    coordinate: [1560, 828.0]
     rotation: 0
     state: enabled
 - name: virtual_sink_0_0_0
@@ -1830,7 +1831,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2240, 292.0]
+    coordinate: [2008, 332.0]
     rotation: 0
     state: enabled
 - name: virtual_source_0
@@ -1843,7 +1844,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [144, 748.0]
+    coordinate: [160, 876.0]
     rotation: 0
     state: enabled
 - name: virtual_source_0_0
@@ -1856,7 +1857,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [240, 1212.0]
+    coordinate: [160, 1380.0]
     rotation: 0
     state: enabled
 
@@ -1867,7 +1868,7 @@ connections:
 - [analog_sig_source_x_0_0, '0', blocks_multiply_xx_0_0, '1']
 - [band_pass_filter_0, '0', blocks_multiply_xx_0_0, '0']
 - [blocks_char_to_float_0, '0', qtgui_time_sink_x_1_0_0_0, '0']
-- [blocks_freqshift_cc_0, '0', freq_xlating_fir_filter_xxx_0, '0']
+- [blocks_freqshift_cc_0, '0', low_pass_filter_0_0, '0']
 - [blocks_multiply_xx_0_0, '0', low_pass_filter_0, '0']
 - [digital_binary_slicer_fb_0, '0', blocks_char_to_float_0, '0']
 - [digital_binary_slicer_fb_0, '0', virtual_sink_0_0, '0']
@@ -1883,13 +1884,12 @@ connections:
 - [epy_block_4, out, blocks_message_debug_0_0_0, log]
 - [fir_filter_xxx_1, '0', digital_symbol_sync_xx_1, '0']
 - [fir_filter_xxx_1, '0', qtgui_time_sink_x_0_0, '0']
-- [freq_xlating_fir_filter_xxx_0, '0', analog_pwr_squelch_xx_0, '0']
-- [freq_xlating_fir_filter_xxx_0, '0', qtgui_waterfall_sink_x_0_0, '0']
-- [gpredict_doppler_0, freq, freq_xlating_fir_filter_xxx_0, freq]
 - [gpredict_doppler_0, freq, gpredict_MsgPairToVar_0, inpair]
 - [low_pass_filter_0, '0', blocks_freqshift_cc_0, '0']
 - [low_pass_filter_0, '0', qtgui_freq_sink_x_0, '0']
 - [low_pass_filter_0, '0', qtgui_waterfall_sink_x_0, '0']
+- [low_pass_filter_0_0, '0', analog_pwr_squelch_xx_0, '0']
+- [low_pass_filter_0_0, '0', qtgui_waterfall_sink_x_0_0, '0']
 - [soapy_rtlsdr_source_0, '0', band_pass_filter_0, '0']
 - [virtual_source_0, '0', analog_quadrature_demod_cf_0, '0']
 - [virtual_source_0_0, '0', digital_correlate_access_code_tag_xx_0_0, '0']

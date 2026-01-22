@@ -8,6 +8,8 @@ of the demodulator.  The GMSK gnuradio block may do the entire thing, but I coul
 find much documentation (that I wanted to read ;) on setting the parameters.  It's in the 
 processing chain (but disabled) if you want to try it.
 
+make sure you have a SILVERSAT_ROOT environment variable defined.  Set it for the root folder of the silversat_packets folder.  (e.g. /home/pi/silversat_packets)
+
 1. cw_rx.grc is a basic viewer.  It plays back the magnitude of the received signal
 2. passdata_playback.grc will take a .wav file and look for and recover packets using
    Silversat's radio packet format.  Our format is very close to AX.25/IL2P, but includes
@@ -21,3 +23,8 @@ processing chain (but disabled) if you want to try it.
 7. silversat_realtime.grc captures the received signal with realtime dopper correction,
    and demodulates and recovers the received packets and stores them to the output file.
    I haven't tried this at all, but conceptually it's close.
+
+Both realtime flows require GPredict, and you need to set up your 
+Ground Station (under General), and radio (under Interfaces).  
+For the radio I called it 'test'.  Make sure Host=localhost, port=4532, 
+and the rest leave the defaults.

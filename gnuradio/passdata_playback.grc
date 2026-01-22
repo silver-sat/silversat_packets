@@ -121,18 +121,6 @@ blocks:
     coordinate: [696, 12.0]
     rotation: 0
     state: enabled
-- name: project_root
-  id: variable
-  parameters:
-    comment: ''
-    value: os.getenv('SILVERSAT_ROOT')
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [496, 76.0]
-    rotation: 0
-    state: enabled
 - name: samp_rate
   id: variable
   parameters:
@@ -206,7 +194,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: os.path.join(project_root, 'default.tle')
+    value: os.path.join(os.getenv('SILVERSAT_ROOT'), 'default.tle')
   states:
     bus_sink: false
     bus_source: false

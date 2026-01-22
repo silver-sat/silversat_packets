@@ -8,12 +8,12 @@ options:
     copyright: ''
     description: This flowgraph uses the downlink frequency from Gpredict to adjust
       the received signal in real time.  It is stored to a WAV file I/Q data (stereo)
-      as 32 bit floats.
+      as 32 bit floats using frequency updates from GPredict..
     gen_cmake: 'On'
     gen_linking: dynamic
     generate_options: qt_gui
     hier_block_src_path: '.:'
-    id: rtlsdr_iq_capture
+    id: rtlsdr_iq_capture_realtime
     max_nouts: '0'
     output_language: python
     placement: (0,0)
@@ -44,7 +44,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [728, 12.0]
+    coordinate: [856, 12.0]
     rotation: 0
     state: enabled
 - name: decimation
@@ -56,7 +56,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [528, 12.0]
+    coordinate: [656, 12.0]
     rotation: 0
     state: enabled
 - name: doppler_freq
@@ -64,15 +64,27 @@ blocks:
   parameters:
     comment: ''
     formatter: None
-    gui_hint: ''
-    label: ''
+    gui_hint: 'tab0@0: 2, 0, 1, 1'
+    label: 'Doppler Frequency:  '
     type: int
     value: '0'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [312, 84.0]
+    coordinate: [504, 788.0]
+    rotation: 0
+    state: enabled
+- name: filter_transition_width
+  id: variable
+  parameters:
+    comment: ''
+    value: '1000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1432, 380.0]
     rotation: 0
     state: enabled
 - name: if_freq
@@ -84,7 +96,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [632, 12.0]
+    coordinate: [760, 12.0]
     rotation: 0
     state: enabled
 - name: oversample
@@ -96,7 +108,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [424, 12.0]
+    coordinate: [552, 12.0]
     rotation: 0
     state: enabled
 - name: samp_rate
@@ -108,7 +120,31 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [200, 12]
+    coordinate: [328, 12.0]
+    rotation: 0
+    state: enabled
+- name: samples_per_symbol
+  id: variable
+  parameters:
+    comment: ''
+    value: '16'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [728, 84.0]
+    rotation: 0
+    state: enabled
+- name: signal_bw
+  id: variable
+  parameters:
+    comment: ''
+    value: (1+0.5)*symbol_rate
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1344, 380.0]
     rotation: 0
     state: enabled
 - name: symbol_rate
@@ -120,7 +156,19 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [312, 12.0]
+    coordinate: [440, 12.0]
+    rotation: 0
+    state: enabled
+- name: symbol_sample_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: symbol_rate*samples_per_symbol
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [576, 84.0]
     rotation: 0
     state: enabled
 - name: transition
@@ -132,30 +180,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [208, 76.0]
-    rotation: 0
-    state: enabled
-- name: analog_sig_source_x_0
-  id: analog_sig_source_x
-  parameters:
-    affinity: ''
-    alias: ''
-    amp: '1'
-    comment: ''
-    freq: if_freq
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    offset: '0'
-    phase: '0'
-    samp_rate: samp_rate
-    showports: 'False'
-    type: complex
-    waveform: analog.GR_COS_WAVE
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [328, 316.0]
+    coordinate: [336, 76.0]
     rotation: 0
     state: enabled
 - name: analog_sig_source_x_0_0
@@ -165,7 +190,7 @@ blocks:
     alias: tone_down
     amp: '1'
     comment: ''
-    freq: -if_freq
+    freq: -if_freq-(doppler_freq-freq)
     maxoutbuf: '0'
     minoutbuf: '0'
     offset: '0'
@@ -178,7 +203,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [736, 340.0]
+    coordinate: [344, 572.0]
     rotation: 0
     state: enabled
 - name: band_pass_filter_0
@@ -203,7 +228,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [744, 188.0]
+    coordinate: [352, 420.0]
     rotation: 0
     state: enabled
 - name: blocks_complex_to_float_0
@@ -219,41 +244,28 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1336, 240.0]
+    coordinate: [1672, 472.0]
     rotation: 0
     state: enabled
-- name: blocks_float_to_complex_0
-  id: blocks_float_to_complex
+- name: blocks_freqshift_cc_0
+  id: blocks_freqshift_cc
   parameters:
     affinity: ''
     alias: ''
-    comment: ''
+    comment: "This is the static frequency offset between\nboth ends, if they were\
+      \ stationary.\nNote: 1ppm @ 437MHz = 437 Hz.\nAnd it could be off on both ends.\n\
+      Could also be initial calibration tolerance.\nRemember TCXO means stable  over\
+      \ temp, not accurate.\nSet this on test data with no doppler and leave it.\n\
+      For the satellite offset, \n\tit might be a matter of trial and error."
+    freq: '0'
     maxoutbuf: '0'
     minoutbuf: '0'
-    vlen: '1'
+    sample_rate: symbol_sample_rate
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1600, 352.0]
-    rotation: 0
-    state: enabled
-- name: blocks_multiply_xx_0
-  id: blocks_multiply_xx
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    num_inputs: '2'
-    type: complex
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [592, 224.0]
+    coordinate: [1000, 476.0]
     rotation: 0
     state: enabled
 - name: blocks_multiply_xx_0_0
@@ -271,7 +283,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [992, 240.0]
+    coordinate: [600, 472.0]
     rotation: 0
     state: enabled
 - name: blocks_wavfile_sink_0
@@ -293,7 +305,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1600, 220.0]
+    coordinate: [1896, 452.0]
     rotation: 0
     state: enabled
 - name: freq
@@ -310,30 +322,27 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [888, 12.0]
+    coordinate: [1016, 12.0]
     rotation: 0
     state: enabled
-- name: freq_xlating_fir_filter_xxx_0
-  id: freq_xlating_fir_filter_xxx
+- name: frequency_offset
+  id: parameter
   parameters:
-    affinity: ''
     alias: ''
-    center_freq: doppler_freq-freq
     comment: ''
-    decim: '1'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    samp_rate: samp_rate
-    taps: firdes.low_pass(1.0, samp_rate, chan_bw/2, transition, window.WIN_HAMMING)
-    type: ccc
+    hide: none
+    label: frequency_offset
+    short_id: ''
+    type: eng_float
+    value: '0'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [328, 196.0]
+    coordinate: [1000, 380.0]
     rotation: 0
     state: enabled
-- name: gpredict_MsgPairToVar_0
+- name: gpredict_MsgPairToVar_0_0
   id: gpredict_MsgPairToVar
   parameters:
     affinity: ''
@@ -344,25 +353,25 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [400, 492.0]
+    coordinate: [496, 732.0]
     rotation: 0
     state: enabled
-- name: gpredict_doppler_0
+- name: gpredict_doppler_0_0
   id: gpredict_doppler
   parameters:
     affinity: ''
     alias: ''
     comment: ''
     gpredict_host: 127.0.0.1
-    gpredict_port: '7356'
+    gpredict_port: '4532'
     maxoutbuf: '0'
     minoutbuf: '0'
-    verbose: 'False'
+    verbose: 'True'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [112, 496.0]
+    coordinate: [192, 736.0]
     rotation: 0
     state: enabled
 - name: import_0
@@ -378,6 +387,19 @@ blocks:
     coordinate: [8, 124.0]
     rotation: 0
     state: enabled
+- name: import_0_0_0_0_0
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: import os
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 172.0]
+    rotation: 0
+    state: true
 - name: low_pass_filter_0
   id: low_pass_filter
   parameters:
@@ -399,28 +421,65 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1128, 212.0]
+    coordinate: [752, 444.0]
+    rotation: 0
+    state: enabled
+- name: low_pass_filter_0_0
+  id: low_pass_filter
+  parameters:
+    affinity: ''
+    alias: ''
+    beta: '6.76'
+    comment: ''
+    cutoff_freq: signal_bw/2
+    decim: '1'
+    gain: '1'
+    interp: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: symbol_sample_rate
+    type: fir_filter_ccf
+    width: filter_transition_width
+    win: window.WIN_HAMMING
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1352, 444.0]
+    rotation: 0
+    state: enabled
+- name: note_0
+  id: note
+  parameters:
+    alias: ''
+    comment: ''
+    note: Use this offset for fixed offset between sender and receiver
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1144, 420.0]
     rotation: 0
     state: enabled
 - name: outfile
   id: parameter
   parameters:
     alias: ''
-    comment: ''
+    comment: os.path.join(os.getenv('SILVERSAT_ROOT'), "captures/20260112_233622.557094.wav")
     hide: none
-    label: output
+    label: ''
     short_id: ''
     type: str
-    value: '''~/silversat_packets/captures/'' + str(datetime.datetime.now().strftime("%Y%m%d_%H%M%S"))
-      +''.wav'''
+    value: os.path.join(os.getenv('SILVERSAT_ROOT'), 'captures/', str(datetime.datetime.now().strftime("%Y%m%d_%H%M%S"))
+      +'.wav')
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1008, 12.0]
+    coordinate: [1136, 12.0]
     rotation: 0
     state: enabled
-- name: qtgui_freq_sink_x_0
+- name: qtgui_freq_sink_x_0_0
   id: qtgui_freq_sink_x
   parameters:
     affinity: ''
@@ -438,7 +497,7 @@ blocks:
     autoscale: 'False'
     average: '1.0'
     axislabels: 'True'
-    bw: samp_rate
+    bw: samp_rate/decimation
     color1: '"blue"'
     color10: '"dark blue"'
     color2: '"red"'
@@ -455,7 +514,7 @@ blocks:
     fftsize: '1024'
     freqhalf: 'True'
     grid: 'False'
-    gui_hint: ''
+    gui_hint: 'tab0@0: 0, 0, 2, 1'
     label: Relative Gain
     label1: ''
     label10: ''''''
@@ -498,10 +557,10 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1800, 444.0]
+    coordinate: [1000, 300.0]
     rotation: 0
     state: enabled
-- name: qtgui_waterfall_sink_x_0
+- name: qtgui_waterfall_sink_x_0_0
   id: qtgui_waterfall_sink_x
   parameters:
     affinity: ''
@@ -533,7 +592,7 @@ blocks:
     fftsize: '1024'
     freqhalf: 'True'
     grid: 'False'
-    gui_hint: ''
+    gui_hint: 'tab0@0: 0, 2, 2, 1'
     int_max: '10'
     int_min: '-140'
     label1: ''
@@ -559,7 +618,68 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1800, 348.0]
+    coordinate: [1664, 372.0]
+    rotation: 0
+    state: enabled
+- name: qtgui_waterfall_sink_x_0_1
+  id: qtgui_waterfall_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    axislabels: 'True'
+    bw: int(samp_rate/decimation)
+    color1: '0'
+    color10: '0'
+    color2: '0'
+    color3: '0'
+    color4: '0'
+    color5: '0'
+    color6: '0'
+    color7: '0'
+    color8: '0'
+    color9: '0'
+    comment: ''
+    fc: '0'
+    fftsize: '1024'
+    freqhalf: 'True'
+    grid: 'False'
+    gui_hint: 'tab0@0: 0, 1, 2, 1'
+    int_max: '10'
+    int_min: '-140'
+    label1: ''
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    legend: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: '""'
+    nconnections: '1'
+    showports: 'False'
+    type: complex
+    update_time: '0.10'
+    wintype: window.WIN_BLACKMAN_hARRIS
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1000, 548.0]
     rotation: 0
     state: enabled
 - name: soapy_rtlsdr_source_0
@@ -570,7 +690,7 @@ blocks:
     alias: ''
     bias: 'True'
     bufflen: '16384'
-    center_freq: freq
+    center_freq: freq-if_freq
     comment: "RF gain set to 0 for testing, \nAGC should be OFF"
     dev_args: ''
     freq_correction: '0'
@@ -583,26 +703,58 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [96, 196.0]
+    coordinate: [64, 460.0]
+    rotation: 0
+    state: enabled
+- name: tab0
+  id: qtgui_tab_widget
+  parameters:
+    alias: ''
+    comment: ''
+    gui_hint: ''
+    label0: '0'
+    label1: Tab 1
+    label10: Tab 10
+    label11: Tab 11
+    label12: Tab 12
+    label13: Tab 13
+    label14: Tab 14
+    label15: Tab 15
+    label16: Tab 16
+    label17: Tab 17
+    label18: Tab 18
+    label19: Tab 19
+    label2: Tab 2
+    label3: Tab 3
+    label4: Tab 4
+    label5: Tab 5
+    label6: Tab 6
+    label7: Tab 7
+    label8: Tab 8
+    label9: Tab 9
+    num_tabs: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [184, 12.0]
     rotation: 0
     state: enabled
 
 connections:
-- [analog_sig_source_x_0, '0', blocks_multiply_xx_0, '1']
 - [analog_sig_source_x_0_0, '0', blocks_multiply_xx_0_0, '1']
 - [band_pass_filter_0, '0', blocks_multiply_xx_0_0, '0']
-- [blocks_complex_to_float_0, '0', blocks_float_to_complex_0, '0']
 - [blocks_complex_to_float_0, '0', blocks_wavfile_sink_0, '0']
-- [blocks_complex_to_float_0, '1', blocks_float_to_complex_0, '1']
 - [blocks_complex_to_float_0, '1', blocks_wavfile_sink_0, '1']
-- [blocks_float_to_complex_0, '0', qtgui_freq_sink_x_0, '0']
-- [blocks_float_to_complex_0, '0', qtgui_waterfall_sink_x_0, '0']
-- [blocks_multiply_xx_0, '0', band_pass_filter_0, '0']
+- [blocks_freqshift_cc_0, '0', low_pass_filter_0_0, '0']
 - [blocks_multiply_xx_0_0, '0', low_pass_filter_0, '0']
-- [freq_xlating_fir_filter_xxx_0, '0', blocks_multiply_xx_0, '0']
-- [gpredict_doppler_0, freq, gpredict_MsgPairToVar_0, inpair]
-- [low_pass_filter_0, '0', blocks_complex_to_float_0, '0']
-- [soapy_rtlsdr_source_0, '0', freq_xlating_fir_filter_xxx_0, '0']
+- [gpredict_doppler_0_0, freq, gpredict_MsgPairToVar_0_0, inpair]
+- [low_pass_filter_0, '0', blocks_freqshift_cc_0, '0']
+- [low_pass_filter_0, '0', qtgui_freq_sink_x_0_0, '0']
+- [low_pass_filter_0, '0', qtgui_waterfall_sink_x_0_1, '0']
+- [low_pass_filter_0_0, '0', blocks_complex_to_float_0, '0']
+- [low_pass_filter_0_0, '0', qtgui_waterfall_sink_x_0_0, '0']
+- [soapy_rtlsdr_source_0, '0', band_pass_filter_0, '0']
 
 metadata:
   file_format: 1

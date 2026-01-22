@@ -90,9 +90,8 @@ class passdata_playback(gr.top_block, Qt.QWidget):
         ##################################################
         self.symbol_rate = symbol_rate = 9600
         self.samples_per_symbol = samples_per_symbol = 16
-        self.project_root = project_root = os.getenv('SILVERSAT_ROOT')
         self.transition = transition = 1000
-        self.tle_file = tle_file = os.path.join(project_root, 'default.tle')
+        self.tle_file = tle_file = os.path.join(os.getenv('SILVERSAT_ROOT'), 'default.tle')
         self.symbol_sample_rate = symbol_sample_rate = symbol_rate*samples_per_symbol
         self.squelch = squelch = -60
         self.samp_rate = samp_rate = symbol_rate*16
@@ -601,8 +600,8 @@ class passdata_playback(gr.top_block, Qt.QWidget):
         self.connect((self.digital_correlate_access_code_tag_xx_0_0, 0), (self.epy_block_1, 0))
         self.connect((self.digital_symbol_sync_xx_1, 0), (self.digital_binary_slicer_fb_0, 0))
         self.connect((self.digital_symbol_sync_xx_1, 0), (self.qtgui_eye_sink_x_0, 0))
-        self.connect((self.digital_symbol_sync_xx_1, 1), (self.qtgui_time_sink_x_1_0_0, 1))
         self.connect((self.digital_symbol_sync_xx_1, 0), (self.qtgui_time_sink_x_1_0_0, 0))
+        self.connect((self.digital_symbol_sync_xx_1, 1), (self.qtgui_time_sink_x_1_0_0, 1))
         self.connect((self.epy_block_0, 0), (self.blocks_selector_0_0, 1))
         self.connect((self.fir_filter_xxx_0, 0), (self.qtgui_time_sink_x_0_1, 0))
         self.connect((self.fir_filter_xxx_1, 0), (self.digital_symbol_sync_xx_1, 0))
@@ -695,13 +694,6 @@ class passdata_playback(gr.top_block, Qt.QWidget):
         self.samples_per_symbol = samples_per_symbol
         self.set_symbol_sample_rate(self.symbol_rate*self.samples_per_symbol)
         self.fir_filter_xxx_1.set_taps(firdes.gaussian(1.0, self.samp_rate/self.symbol_rate, 0.5, 4*self.samples_per_symbol))
-
-    def get_project_root(self):
-        return self.project_root
-
-    def set_project_root(self, project_root):
-        self.project_root = project_root
-        self.set_tle_file(os.path.join(self.project_root, 'default.tle'))
 
     def get_transition(self):
         return self.transition
